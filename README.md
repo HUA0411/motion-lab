@@ -6,6 +6,14 @@
 一个**零构建、零依赖、零框架**的静态多页面站点：14 个页面、137 个真实可交互 demo，
 全部手写原生 CSS 与 JavaScript。**双击 `index.html` 即可运行**，不需要 npm、不需要本地服务。
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-e8894a.svg)](LICENSE)
+[![No dependencies](https://img.shields.io/badge/dependencies-0-e8894a.svg)](#)
+[![Pages](https://img.shields.io/badge/pages-14-e8894a.svg)](#站点地图14-页)
+[![Demos](https://img.shields.io/badge/interactive%20demos-137-e8894a.svg)](#站点地图14-页)
+[![A11y](https://img.shields.io/badge/contrast-WCAG%20AA-e8894a.svg)](#验证证据audit)
+
+> 如果这个项目对你有帮助，欢迎点一个 ⭐ Star。
+
 ---
 
 ## 30 秒上手
@@ -176,3 +184,22 @@ node audit/lead-contrast.mjs --theme light
 - [CONTRACT.md](CONTRACT.md) — 外壳 DOM 结构、`window.ML` API、`ML.UI` 组件工厂、图标集、页面骨架契约。
 
 原则：**页面只写结构与文案，颜色/时长/缓动一律引用 token；禁止裸 hex、禁止自定义缓动、禁止 emoji 图标。**
+
+---
+
+## 许可证
+
+[MIT](LICENSE) © 张国华 (HUA0411)
+
+你可以自由地用于个人与商业项目、修改、分发；唯一要求是保留版权声明与许可证文本。
+项目中的设计 token、弹簧参数、动效规格与无障碍清单均取自本项目自身的实测数据，
+欢迎直接复制到你的设计系统里使用。
+
+## 相关文档
+
+| 文档 | 说明 |
+|---|---|
+| [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) | 设计系统与工程契约：token 表（含实测对比度）、排版、弹簧参数、质量门槛 |
+| [CONTRACT.md](CONTRACT.md) | 外壳 DOM 结构、window.ML API、ML.UI 组件工厂、图标集、页面骨架 |
+| [audit/REPORT.md](audit/REPORT.md) | 独立验证报告：静态扫描 / 运行时 / 降级 / 主题 / 交互抽样 |
+| [audit/shots/](audit/shots/) | 14 页 × {1440, 375} × {正常, reduced, 亮色} 验收截图 |
