@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-motion="on" data-theme="dark" data-page="states-feedback">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>状态与反馈 · MOTION LAB</title>
+  <meta name="description" content="展厅 B · 状态与反馈：12 个真实可交互 demo —— 骨架屏形状匹配、确定与不确定进度、空状态引导、错误恢复、超时、离线队列、乐观更新自动回滚、指数退避重试、禁用态、只读与禁用对比、无权限态、两版本冲突合并。每个 demo 都能通过按钮触发到各个状态。">
+  <meta name="theme-color" content="#0A0B0D">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/pages/states-feedback.css">
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/pages/states-feedback.inline.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主内容</a>
+<div id="site-header"></div>
+
+<main id="main" class="page">
+
+  <header class="page-head shell">
+    <p class="eyebrow">展厅 B · STATES &amp; FEEDBACK</p>
+    <h1 class="h1">状态与反馈</h1>
+    <p class="lede">界面只有四种结局：还没好、好了、坏了、不许。这一厅把每种结局都做成可触发、可恢复、能播报的状态。</p>
+    <ul class="meta-chips">
+      <li class="chip">12 个可交互 demo</li>
+      <li class="chip">全部含规格标注</li>
+      <li class="chip">每个状态可按钮触发</li>
+      <li class="chip">错误均带恢复路径</li>
+    </ul>
+    <nav class="sf-toc" aria-label="本页目录">
+      <a class="sf-toc__link" href="#sec-loading"><span class="sf-toc__num tnum">01</span>加载中</a>
+      <a class="sf-toc__link" href="#sec-failure"><span class="sf-toc__num tnum">02</span>空、错与超时</a>
+      <a class="sf-toc__link" href="#sec-sync"><span class="sf-toc__num tnum">03</span>连接与同步</a>
+      <a class="sf-toc__link" href="#sec-guard"><span class="sf-toc__num tnum">04</span>受限与冲突</a>
+    </nav>
+  </header>
+
+  <!-- ========== 01 加载中 ========== -->
+  <section class="section shell" id="sec-loading">
+    <div class="section-head">
+      <p class="eyebrow">01</p>
+      <h2 class="h2">加载中</h2>
+      <p class="lede">超过 300ms 的等待必须给指示；能确定进度就给确定进度，给不出就老实说不确定。</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <article class="demo reveal" id="demo-01">
+        <header class="demo__label">
+          <span class="demo__index">01</span>
+          <h3 class="demo__title">骨架屏：形状匹配</h3>
+          <p class="demo__desc">骨架与真实内容共享同一套行高，切换时实测布局位移为 0；可切到反例看跳动量。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sf-demo">
+            <div class="sf-skel" data-sf-skel data-mode="match">
+              <div class="sf-skel__card" data-sf-skel-card>
+                <div class="sf-skel__head">
+                  <span class="sf-skel__avatar skeleton"></span>
+                  <span class="sf-skel__lines">
+                    <span class="sf-skel__line skeleton"></span>
+                    <span class="sf-skel__line sf-skel__line--short skeleton"></span>
+                  </span>
+                </div>
+                <div class="sf-skel__body">
+                  <span class="sf-skel__line skeleton" data-sf-row></span>
+                  <span class="sf-skel__line skeleton" data-sf-row></span>
+                  <span class="sf-skel__line skeleton" data-sf-row></span>
+                  <span class="sf-skel__line sf-skel__line--mid skeleton" data-sf-row></span>
+                  <span class="sf-skel__line sf-skel__line--short skeleton" data-sf-row></span>
+                </div>
+                <div class="sf-skel__chips">
+                  <span class="sf-skel__chip skeleton"></span>
+                  <span class="sf-skel__chip skeleton"></span>
+                </div>
+              </div>
+              <div class="sf-skel__real" data-sf-skel-real hidden>
+                <div class="sf-skel__head">
+                  <span class="sf-avatar" aria-hidden="true">A</span>
+                  <span class="sf-skel__lines">
+                    <span class="sf-real__name">项目 Atlas · 迁移评估</span>
+                    <span class="sf-real__meta mono">操作人：受访者 A · 3 分钟前</span>
+                  </span>
+                </div>
+                <p class="sf-real__p">这次的迁移评估覆盖 4 个服务与 12 张表。结论是先把读取路径切过去，写入保持双跑一周，再决定是否回滚。</p>
+                <div class="sf-skel__chips">
+                  <span class="sf-tag">4 个服务</span>
+                  <span class="sf-tag">12 张表</span>
+                </div>
+              </div>
+            </div>
+            <div class="sf-row">
+              <button class="btn btn--primary" type="button" data-sf-skel-run>重新加载</button>
+              <button class="btn btn--ghost" type="button" data-sf-skel-mode aria-pressed="false">形状错配（反例）</button>
+            </div>
+            <p class="sf-readout mono tnum">骨架高 <span data-sf-skel-h1>—</span> px · 内容高 <span data-sf-skel-h2>—</span> px · 布局位移 <span data-sf-skel-delta>—</span> px</p>
+            <p class="sf-judge" role="status" data-sf-skel-judge>等待测量</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">点击「重新加载」进入骨架态，1600ms 后换真实内容</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">骨架 1600ms；骨架脉冲 var(--dur-slower) 级别的慢呼吸</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">内容进入 var(--ease-out-quint)；骨架呼吸 linear（loader 例外）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">内容层 opacity；骨架 opacity（不动 height/padding，故零布局位移）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：骨架不再呼吸，只保留静态灰块与文字的瞬时切换</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-02">
+        <header class="demo__label">
+          <span class="demo__index">02</span>
+          <h3 class="demo__title">加载进度（确定 + 不确定）</h3>
+          <p class="demo__desc">确定态给百分比、已用时间与预计剩余；不确定态只描述「在做什么」，不假装有数字。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sf-demo">
+            <div class="sf-prog">
+              <p class="label" id="sf-prog-l1">确定进度 · 导出报表</p>
+              <div class="progress sf-progress" role="progressbar" aria-labelledby="sf-prog-l1" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-sf-prog>
+                <i class="progress__bar" data-sf-prog-fill></i>
+              </div>
+              <p class="sf-readout mono tnum">进度 <span data-sf-prog-val>0%</span> · 已用 <span data-sf-prog-el>0.0</span> s · 预计剩余 <span data-sf-prog-eta>—</span> s</p>
+            </div>
+            <ol class="sf-steps" data-sf-steps>
+              <li class="sf-steps__item is-done">收集数据</li>
+              <li class="sf-steps__item is-active">生成表格</li>
+              <li class="sf-steps__item">渲染图表</li>
+              <li class="sf-steps__item">打包下载</li>
+            </ol>
+            <div class="sf-prog">
+              <p class="label" id="sf-prog-l2">不确定进度 · 正在查找可用服务器</p>
+              <div class="progress sf-progress progress--indeterminate" data-sf-indet aria-hidden="true">
+                <i class="progress__bar"></i>
+              </div>
+            </div>
+            <div class="sf-row">
+              <button class="btn btn--primary" type="button" data-sf-prog-start>开始导出</button>
+              <button class="btn btn--ghost" type="button" data-sf-prog-pause disabled>暂停</button>
+              <button class="btn btn--ghost" type="button" data-sf-prog-reset>重置</button>
+              <button class="btn btn--ghost" type="button" data-sf-prog-indet aria-pressed="true">不确定态</button>
+            </div>
+            <p class="sf-readout mono tnum">步骤 <span data-sf-prog-step>2 / 4</span> · 状态 <span data-sf-prog-state>idle</span></p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮点击；进度由 ML.raf 逐帧推进，暂停/重置按钮切换状态机</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">全程 3200ms；不确定态扫光 1200ms/循环</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">linear —— 进度类的唯一允许场景（避免百分比出现加速错觉）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">变量 --sf-pct → transform: scaleX()（改宽会掉帧，故用缩放）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：确定态照常推进（状态必需）；不确定态停止扫光，显示静态条纹 + 文字</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ========== 02 空、错与超时 ========== -->
+  <section class="section shell" id="sec-failure">
+    <div class="section-head">
+      <p class="eyebrow">02</p>
+      <h2 class="h2">空、错与超时</h2>
+      <p class="lede">空白和报错都不可怕，可怕的是没有下一步。三个 demo 都坚持：状态文案 + 明确的恢复动作。</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <article class="demo reveal" id="demo-03">
+        <header class="demo__label">
+          <span class="demo__index">03</span>
+          <h3 class="demo__title">空状态（含引导动作）</h3>
+          <p class="demo__desc">不是「暂无数据」，而是说明这是什么、为什么空、下一步点哪里。创建后列表真的会出现内容。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sf-demo">
+            <div class="sf-panel">
+              <div class="sf-empty" data-sf-empty>
+                <span class="sf-empty__art" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3.5 13.5 6 5.5h12l2.5 8v5h-17z"/><path d="M3.5 13.5H9l1.2 2.4h3.6L15 13.5h5.5"/></svg>
+                </span>
+                <p class="sf-empty__title">还没有任何环境</p>
+                <p class="sf-empty__desc">环境用来隔离预览与生产数据。创建第一个环境只需要一个名字，之后随时可以改。</p>
+                <div class="sf-row">
+                  <button class="btn btn--primary" type="button" data-sf-empty-create>创建环境</button>
+                  <button class="btn btn--ghost" type="button" data-sf-empty-help>看看别人怎么用</button>
+                </div>
+                <p class="sf-empty__alt">也可以从 <a class="sf-link" href="forms.html">CSV 导入</a> 已有配置。</p>
+              </div>
+              <ul class="sf-list" data-sf-empty-list hidden></ul>
+            </div>
+            <div class="sf-row">
+              <button class="btn btn--ghost" type="button" data-sf-empty-more>再创建 1 个</button>
+              <button class="btn btn--ghost" type="button" data-sf-empty-clear>清空列表（回到空状态）</button>
+            </div>
+            <p class="sf-readout mono tnum">条目 <span data-sf-empty-count>0</span> · 空状态可见 <span data-sf-empty-flag>是</span></p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">创建 / 清空按钮切换 empty ↔ list 两个真实状态</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">条目进入 var(--dur-base) 240ms，逐条错开 45ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-quint)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">条目 opacity + transform: translate3d(0, 8px, 0)</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：条目直接出现，只有颜色与不透明度变化；空状态本身不依赖动效</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-04">
+        <header class="demo__label">
+          <span class="demo__index">04</span>
+          <h3 class="demo__title">错误态（含恢复路径）</h3>
+          <p class="demo__desc">顶部 role=alert 播报整体失败，字段级错误紧贴输入框；重试第一次仍失败，第二次成功。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sf-demo">
+            <div class="sf-panel">
+              <div class="sf-alert sf-alert--danger" role="alert" data-sf-err-alert>
+                <span class="sf-alert__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 4.6 20.6 19.4H3.4z"/><path d="M12 10v4.2M12 16.8v.4"/></svg>
+                </span>
+                <div class="sf-alert__text">
+                  <p class="sf-alert__title" data-sf-err-title>无法连接到保存服务</p>
+                  <p class="sf-alert__body" data-sf-err-body>请求在 12ms 内被拒绝。可能是代理拦截，或服务正在滚动重启。</p>
+                </div>
+              </div>
+              <div class="field field--invalid">
+                <label class="label" for="sf-err-input">工作区名称</label>
+                <input class="input" id="sf-err-input" type="text" value="项目 Atlas 财务" data-sf-err-input>
+                <p class="error" data-sf-err-field>名称只能包含小写字母、数字与连字符，例如 atlas-finance。</p>
+              </div>
+              <div class="sf-row">
+                <button class="btn btn--primary" type="button" data-sf-err-retry>重试保存</button>
+                <button class="btn btn--ghost" type="button" data-sf-err-steps aria-expanded="false" aria-controls="sf-err-steps">排查步骤</button>
+                <button class="btn btn--ghost" type="button" data-sf-err-kind>切换错误类型</button>
+              </div>
+              <div class="sf-disclose" id="sf-err-steps" hidden>
+                <ol class="sf-steps sf-steps--plain">
+                  <li class="sf-steps__item is-done">确认域名在工作区白名单内</li>
+                  <li class="sf-steps__item">在浏览器 Network 面板查看被拒绝的具体请求</li>
+                  <li class="sf-steps__item">如仍失败，把 request-id 提供给值班同学</li>
+                </ol>
+              </div>
+              <p class="sf-readout mono tnum">尝试 <span data-sf-err-attempts>0</span> 次 · 状态 <span data-sf-err-state>error</span> · request-id <span data-sf-err-id>req_7f21</span></p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">点击重试（第 1 次仍失败、第 2 次成功）；「排查步骤」展开恢复路径</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">重试中 var(--dur-base) 240ms；成功态 1800ms 后自动收起</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-quint) 进入；退出 calc(var(--dur-base) * .68) ≈163ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">告警条 opacity + transform: translate3d(0, -4px, 0)；展开区 opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：状态直接切换；role=alert / aria-invalid 播报不受动效档位影响</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-05">
+        <header class="demo__label">
+          <span class="demo__index">05</span>
+          <h3 class="demo__title">超时态</h3>
+          <p class="demo__desc">慢请求 4s，客户端 3s 就放弃：给出「已等待 / 上限」对照，并提供改用快速重试的出口。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sf-demo">
+            <div class="sf-panel">
+              <p class="sf-line">客户端上限 <span class="mono tnum" data-sf-to-cap>3.0</span> s · 本次模拟响应 <span class="mono tnum" data-sf-to-mock>4.0</span> s</p>
+              <div class="progress sf-progress sf-progress--slim">
+                <i class="progress__bar sf-progress__fill--warn" data-sf-to-fill></i>
+              </div>
+              <div class="sf-row">
+                <button class="btn btn--primary" type="button" data-sf-to-run>发起慢请求</button>
+                <button class="btn btn--ghost" type="button" data-sf-to-cancel disabled>取消请求</button>
+                <button class="btn btn--ghost" type="button" data-sf-to-fast>改用快速重试</button>
+              </div>
+              <p class="sf-state" role="status" data-sf-to-state>idle · 尚未发起</p>
+              <p class="sf-readout mono tnum">已等待 <span data-sf-to-el>0.0</span> s · 结果 <span data-sf-to-out>—</span></p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">点击发起；ML.raf 计时到 3000ms 主动 abort 并切到 timeout 状态</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">上限 3000ms（可切 600ms 快速重试）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">进度条 linear；状态块 var(--ease-out-quint)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">进度条 transform: scaleX()；状态块 opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：进度条仍逐帧（时间信息必需），状态块瞬时切换</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ========== 03 连接与同步 ========== -->
+  <section class="section shell" id="sec-sync">
+    <div class="section-head">
+      <p class="eyebrow">03</p>
+      <h2 class="h2">连接与同步</h2>
+      <p class="lede">网络是不可靠的默认值。这一组处理断网、先斩后奏和自动重试——共同前提是：用户永远知道东西在哪儿。</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <article class="demo reveal" id="demo-06">
+        <header class="demo__label">
+          <span class="demo__index">06</span>
+          <h3 class="demo__title">离线态</h3>
+          <p class="demo__desc">同时响应真实 online/offline 事件与手动模拟；离线期间的改动进入待同步队列并计数。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sf-demo">
+            <div class="sf-banner sf-banner--warn" role="status" data-sf-offline-banner hidden>
+              <span class="sf-banner__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 2.5l19 19"/><path d="M8.6 15.2A4.6 4.6 0 0 1 12 7.4a4.6 4.6 0 0 1 4.4 3.1"/><path d="M18.2 17.6H6.6a4 4 0 0 1-.7-7.9"/><path d="M12 20.5v.1"/></svg>
+              </span>
+              <span data-sf-offline-text>离线中：改动会先存在本地，联网后自动同步。</span>
+            </div>
+            <div class="sf-panel">
+              <p class="sf-line">网络状态：<span class="mono" data-sf-offline-mode>在线</span> · 浏览器上报：<span class="mono" data-sf-offline-native>online</span></p>
+              <div class="sf-row">
+                <button class="btn btn--ghost" type="button" data-sf-offline-toggle aria-pressed="false">模拟离线</button>
+                <button class="btn btn--primary" type="button" data-sf-offline-add>新增一条改动</button>
+                <button class="btn btn--ghost" type="button" data-sf-offline-flush>手动同步</button>
+              </div>
+              <ul class="sf-outbox" data-sf-outbox></ul>
+              <p class="sf-readout mono tnum">待同步 <span data-sf-offline-pending>0</span> 条 · 已同步 <span data-sf-offline-synced>0</span> 条</p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">window online/offline 事件 + 手动模拟开关 + 手动同步按钮</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">横幅进入 var(--dur-slow) 360ms；逐条同步每条 220ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-quint)；退出 var(--ease-in-quad)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">横幅 transform: translate3d(0, -8px, 0) + opacity；条目状态色与 opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：横幅与条目直接出现；队列计数与播报完全保留</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-07">
+        <header class="demo__label">
+          <span class="demo__index">07</span>
+          <h3 class="demo__title">乐观更新（失败自动回滚）</h3>
+          <p class="demo__desc">条目先出现再确认；把结果切成「失败」后，条目会淡出回滚，并把草稿原样还回输入框。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sf-demo">
+            <div class="sf-panel">
+              <div class="field">
+                <label class="label" for="sf-opt-input">添加评论</label>
+                <input class="input" id="sf-opt-input" type="text" value="把卡片间距从 16 调到 24，阅读节奏会更好。" data-sf-opt-input>
+              </div>
+              <div class="sf-row">
+                <button class="btn btn--primary" type="button" data-sf-opt-send>发送（乐观）</button>
+                <button class="btn btn--ghost" type="button" data-sf-opt-outcome aria-pressed="false">下一次服务端结果：失败</button>
+              </div>
+              <ul class="sf-feed" data-sf-opt-feed></ul>
+              <p class="sf-readout mono tnum">待确认 <span data-sf-opt-pending>0</span> · 已确认 <span data-sf-opt-ok>0</span> · 已回滚 <span data-sf-opt-rolled>0</span></p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">点击发送 → 立即插入待确认条目；900ms 后按开关决定确认或回滚</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">插入 var(--dur-base) 240ms；回滚退出 calc(var(--dur-base) * .68) ≈163ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">进入 var(--ease-out-quint)，退出 var(--ease-in-quad)（退出快于进入）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">条目 opacity + transform: translate3d(0, 8px, 0)；状态徽标颜色</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：条目直接出现/消失；回滚提示由 ML.UI.toast 与文本徽标承担</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-08">
+        <header class="demo__label">
+          <span class="demo__index">08</span>
+          <h3 class="demo__title">指数退避重试（可视化倒计时）</h3>
+          <p class="demo__desc">延迟 = min(8000, 500×2^(n−1)) × (1±20% 抖动)。倒计时环和日志让等待看得见，也随时能放弃。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sf-demo">
+            <div class="sf-panel">
+              <p class="sf-line mono">delay = min(cap, base × 2^(n−1)) × (1 ± jitter)</p>
+              <p class="sf-readout mono tnum">base <span data-sf-bo-base>500</span> ms · cap <span data-sf-bo-cap>8000</span> ms · jitter <span data-sf-bo-jitter>20</span>%</p>
+              <div class="sf-backoff">
+                <div class="sf-bo__ring" data-sf-bo-ring>
+                  <svg viewBox="0 0 96 96" aria-hidden="true">
+                    <circle class="sf-bo__track" cx="48" cy="48" r="40" fill="none" stroke-width="6"/>
+                    <circle class="sf-bo__bar" cx="48" cy="48" r="40" fill="none" stroke-width="6" stroke-linecap="round" data-sf-bo-bar/>
+                  </svg>
+                  <span class="sf-bo__cd mono tnum" data-sf-bo-cd>—</span>
+                </div>
+                <ol class="sf-bo__log" data-sf-bo-log></ol>
+              </div>
+              <div class="sf-row">
+                <button class="btn btn--primary" type="button" data-sf-bo-run>开始重试</button>
+                <button class="btn btn--ghost" type="button" data-sf-bo-now disabled>立即重试</button>
+                <button class="btn btn--ghost" type="button" data-sf-bo-abort disabled>放弃</button>
+              </div>
+              <p class="sf-readout mono tnum">第 <span data-sf-bo-n>0</span> 次 · 当前等待 <span data-sf-bo-wait>—</span> ms · 状态 <span data-sf-bo-state>idle</span></p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">点击开始；失败后自动排下一次，可「立即重试」跳过等待或「放弃」</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">500 / 1000 / 2000 / 4000 / 8000 ms（cap 8000）共 5 次尝试</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">倒计时环 linear（时间可视化）；日志条目 var(--ease-out-quint)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">环 --sf-bo（变量）→ stroke-dashoffset；日志条目 opacity + translate3d</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：环停止逐帧，改由数字倒计时（每秒刷新）承担；逻辑与时长不变</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ========== 04 受限与冲突 ========== -->
+  <section class="section shell" id="sec-guard">
+    <div class="section-head">
+      <p class="eyebrow">04</p>
+      <h2 class="h2">受限与冲突</h2>
+      <p class="lede">有时界面的答案不是「成功」而是「你不能」或「我们不一致」。这些状态最需要说清原因与出路。</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <article class="demo reveal" id="demo-09">
+        <header class="demo__label">
+          <span class="demo__index">09</span>
+          <h3 class="demo__title">禁用态</h3>
+          <p class="demo__desc">禁用必须给出原因与解禁条件；对比 disabled（不可聚焦）与 aria-disabled（可聚焦、可解释）。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sf-demo">
+            <div class="sf-panel">
+              <label class="sf-check">
+                <input type="checkbox" data-sf-dis-ack>
+                <span>我已阅读并同意数据处理条款</span>
+              </label>
+              <div class="sf-row">
+                <button class="btn btn--primary" type="button" data-sf-dis-submit disabled aria-describedby="sf-dis-why">开始发布</button>
+                <button class="btn btn--ghost" type="button" data-sf-dis-aria aria-disabled="true">保存草稿（aria-disabled）</button>
+              </div>
+              <p class="hint" id="sf-dis-why" data-sf-dis-why>需要先勾选条款。原因写在界面上，而不是只藏在 tooltip 里。</p>
+              <p class="sf-readout mono tnum">主按钮 disabled=<span data-sf-dis-state>true</span> · 可获得焦点=<span data-sf-dis-focus>否</span> · aria-disabled 点击次数 <span data-sf-dis-hits>0</span></p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">勾选条款解除 disabled；点击 aria-disabled 按钮触发解释性 toast</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">按钮颜色 var(--dur-fast) 150ms；无位移动画（禁用不该有"我在响应"的暗示）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-quint)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">仅 color / background-color / border-color / opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">任何动效档位下禁用态外观一致；disabled 与 aria-disabled 语义差异不受影响</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-10">
+        <header class="demo__label">
+          <span class="demo__index">10</span>
+          <h3 class="demo__title">只读 vs 禁用对比</h3>
+          <p class="demo__desc">同为「不能改」，但 readonly 的值会随表单提交、也能选中复制；disabled 的值不会提交。用 FormData 实证。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sf-demo">
+            <form class="sf-formpair" data-sf-ro-form>
+              <div class="field">
+                <label class="label" for="sf-ro-1">只读 readonly · 会随表单提交</label>
+                <input class="input" id="sf-ro-1" name="readonly_sku" type="text" value="SKU-ATH-0042" readonly>
+                <p class="hint">可 Tab 聚焦、可 Ctrl+A 复制、提交时出现在 FormData 里。</p>
+              </div>
+              <div class="field">
+                <label class="label" for="sf-ro-2">禁用 disabled · 不随表单提交</label>
+                <input class="input" id="sf-ro-2" name="disabled_sku" type="text" value="SKU-ATH-0042" disabled>
+                <p class="hint">无法聚焦、无法选中，提交时被浏览器直接丢弃。</p>
+              </div>
+              <div class="sf-row">
+                <button class="btn btn--primary" type="submit">提交并查看收到的字段</button>
+                <button class="btn btn--ghost" type="button" data-sf-ro-copy>用脚本读取两者的 value</button>
+              </div>
+            </form>
+            <pre class="sf-out mono" data-sf-ro-out>（点击提交后，这里显示服务端真实收到的键值）</pre>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">表单 submit（preventDefault + new FormData 实测）与脚本读取按钮</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">结果块 var(--dur-fast) 150ms；无长时间动画</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-quint)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">结果块 opacity；两种输入的背景/描边颜色差异</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：结果瞬时出现；语义差异（可聚焦 / 可提交）与动效无关</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-11">
+        <header class="demo__label">
+          <span class="demo__index">11</span>
+          <h3 class="demo__title">无权限态</h3>
+          <p class="demo__desc">403 不只说「没权限」：说明归属、给出申请入口，申请后进入 pending 并显示预计时间。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sf-demo">
+            <div class="sf-panel sf-panel--locked" data-sf-perm data-level="locked">
+              <span class="sf-perm__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M6.5 10.5V8a5.5 5.5 0 0 1 11 0v2.5"/><rect x="4.5" y="10.5" width="15" height="9.5" rx="2.5"/></svg>
+              </span>
+              <p class="sf-perm__title" data-sf-perm-title>你没有查看「项目 Atlas · 财务报表」的权限</p>
+              <p class="sf-perm__desc" data-sf-perm-desc>这份报表属于「财务」组。你可以申请 24 小时临时权限，或请管理员把项目权限开到你的账号。</p>
+              <div class="field sf-perm__reason">
+                <label class="label" for="sf-perm-reason">申请理由（会写进审批流）</label>
+                <input class="input" id="sf-perm-reason" type="text" value="需要对账 Q3 收入，用于季度复盘" data-sf-perm-reason>
+              </div>
+              <div class="sf-row">
+                <button class="btn btn--primary" type="button" data-sf-perm-apply>申请权限</button>
+                <button class="btn btn--ghost" type="button" data-sf-perm-switch>以管理员身份查看</button>
+              </div>
+              <div class="sf-perm__granted" data-sf-perm-granted hidden>
+                <p class="sf-line">权限已授予 · 可查看 项目 Atlas · 财务报表</p>
+                <p class="sf-readout mono tnum">Q3 营收 ¥1,284,000 · 环比 +12.4% · 数据截至 10-20</p>
+                <button class="btn btn--ghost" type="button" data-sf-perm-back>退回无权限态</button>
+              </div>
+            </div>
+            <p class="sf-readout mono tnum">状态 <span data-sf-perm-state>locked</span> · 申请记录 <span data-sf-perm-log>无</span></p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">申请按钮打开 ML.UI.dialog 填理由并提交；另一个按钮直接切到已授权视图</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">状态切换 var(--dur-base) 240ms；对话框走内核 var(--dur-slow)</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-quint)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">锁定说明 opacity + transform: translate3d(0, -6px, 0)；图标颜色切换</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：两段内容直接切换；对话框焦点锁定与 Esc 关闭由内核保证</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-12">
+        <header class="demo__label">
+          <span class="demo__index">12</span>
+          <h3 class="demo__title">冲突态（两版本差异）</h3>
+          <p class="demo__desc">逐字段对比「我的版本」与「服务端版本」，可整列采用也可单字段选择；一致字段明确标出无需处理。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sf-demo">
+            <div class="sf-conflict">
+              <p class="sf-conflict__title">保存冲突：服务端在你编辑期间也被修改</p>
+              <p class="hint">冲突字段用左侧色条 + 「差异」文字标签双重标注，不单靠颜色区分。</p>
+              <div class="sf-diff" data-sf-diff></div>
+              <div class="sf-row">
+                <button class="btn btn--primary" type="button" data-sf-diff-merge>合并并保存</button>
+                <button class="btn btn--ghost" type="button" data-sf-diff-mine>全部保留我的</button>
+                <button class="btn btn--ghost" type="button" data-sf-diff-theirs>全部采用服务端</button>
+              </div>
+              <p class="sf-readout mono tnum">冲突字段 <span data-sf-diff-count>0</span> · 已解决 <span data-sf-diff-done>0</span> · 状态 <span data-sf-diff-state>conflict</span></p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">点击每个字段的「保留我的 / 采用服务端」；一键整列采用；合并并保存</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">选择态 var(--dur-fast) 150ms；保存完成 var(--dur-base) 240ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-quint)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">选项底色/描边颜色 + 勾选图标 opacity；已解决行 opacity 略降</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：选择即时生效；差异始终有文字标签，颜色弱化也不丢信息</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+    </div>
+  </section>
+
+  <nav class="page-nav shell" aria-label="展厅导航">
+    <a class="page-nav__link" href="micro-interactions.html">
+      <span class="eyebrow">上一站 · 展厅 A</span>
+      <span class="page-nav__title">微交互</span>
+    </a>
+    <a class="page-nav__link page-nav__link--next" href="scroll-motion.html">
+      <span class="eyebrow">下一站 · 展厅 C</span>
+      <span class="page-nav__title">滚动与视差叙事</span>
+    </a>
+  </nav>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="site-overlays"></div>
+
+<script src="assets/js/site.js"></script>
+<script src="assets/js/pages/states-feedback.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+# 依赖（测试工具用，不是站点运行必需的）
+node_modules/
+package-lock.json
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# 临时与调试产物
+*.log
+*.tmp
+.tmp/
+dist/
+.cache/
+
+# 验收截图体积较大：保留（作为交付证据），如需精简可在 push 前删除
+# audit/shots/

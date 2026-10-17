@@ -1,0 +1,13 @@
+PASS  spring(standard) 收敛到目标  帧数=39 末值=120.0000 目标=120
+PASS  spring 句柄收敛后 isRunning=false  isRunning=false
+PASS  首帧位移与积分公式一致  实测=11.333 期望=11.333
+PASS  弹簧中途改目标：新目标生效、峰值不越过 400、且速度连续（首帧位移不为 0）  切换点=392.43 速度=364.9 末值=120.000 峰值=392.43
+PASS  取消一个弹簧不影响另一个  b帧数=68 b末值=200.000 a帧数=6
+PASS  schedule: fn 返回 false 时结束并调用 onDone  ticks=10 onDone=true
+PASS  同帧互相取消不误删  aTicks=8 bTicks=3
+PASS  ease.outQuint 端点与单调性  e(0)=0 e(1)=1.000000 单调=true
+PASS  阻尼比梯度正确：playful < standard < soft，且 snap 最硬  ζ: snap=0.786 playful=0.586 standard=0.759 soft=0.840
+PASS  standard 无过冲 / playful 有 3–10% 过冲  standard=0.33% playful=6.54%
+PASS  data-motion=off 时弹簧瞬时到位  更新次数=1 末值=88
+
+==== 汇总：11/11 PASS ====

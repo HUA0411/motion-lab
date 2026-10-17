@@ -1,0 +1,437 @@
+/* ============================================================================
+   展厅 C · 滚动与视差叙事（scroll-motion）页面样式
+   仅使用 tokens.css 的 var(--token)；只动画 transform / opacity / 颜色 / 变量。
+   所有内部滚动容器都：可聚焦、overscroll-behavior: contain、不产生页面横向滚动。
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   0. 跨文档 View Transitions：方向动画由 motion.css 统一提供，
+      这里只声明本页参与共享元素过渡的唯一名字。
+   -------------------------------------------------------------------------- */
+.page-head .h1 { view-transition-name: pt-title; }
+
+/* ---------------------------------------------------------------------------
+   1. 通用件
+   -------------------------------------------------------------------------- */
+.sm-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.sm-toc__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: var(--hairline);
+  border-radius: var(--r-pill);
+  background-color: var(--ink-800);
+  color: var(--muted);
+  font: 500 var(--fs-sm) / 1 var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+  transform: translate3d(0, 0, 0);
+  transition: color var(--dur-fast) var(--ease-out-quint),
+              border-color var(--dur-fast) var(--ease-out-quint),
+              transform var(--dur-fast) var(--ease-out-quint);
+}
+.sm-toc__link:hover { color: var(--paper); border-color: var(--accent); transform: translate3d(0, -2px, 0); }
+.sm-toc__link:active { transform: translate3d(0, 0, 0); }
+.sm-toc__link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.sm-toc__num { font: 500 var(--fs-label) / 1 var(--font-mono); letter-spacing: 0.18em; color: var(--accent-ink); }
+
+.sm-demo { display: grid; gap: var(--space-3); min-width: 0; }
+.sm-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.sm-readout {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  line-height: 1.6;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.sm-readout span { color: var(--paper); }
+
+.sm-notes {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding-left: 1.1em;
+  list-style: disc;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+}
+.sm-notes b { color: var(--paper); font-weight: 600; }
+.sm-notes code { color: var(--accent-ink); }
+
+/* 内部滚动容器基线：键盘可达 + 不把滚动链传给整页 */
+.sm-scroller,
+.sm-stack,
+.sm-tl,
+.sm-chapters,
+.sm-snap,
+.sm-rail,
+.sm-compare__box {
+  position: relative;
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  border: var(--hairline);
+  border-radius: var(--r-sm);
+  background-color: var(--ink-800);
+  min-width: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-500) transparent;
+}
+.sm-scroller:focus-visible,
+.sm-stack:focus-visible,
+.sm-tl:focus-visible,
+.sm-chapters:focus-visible,
+.sm-snap:focus-visible,
+.sm-rail:focus-visible,
+.sm-compare__box:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   2. 01 滚动揭示
+   -------------------------------------------------------------------------- */
+.sm-reveal {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+  gap: var(--space-2);
+}
+.sm-reveal__cell {
+  display: grid;
+  align-items: center;
+  min-height: 64px;
+  padding: var(--space-2) var(--space-3);
+  border: var(--hairline);
+  border-radius: var(--r-sm);
+  background-color: var(--ink-700);
+  color: var(--paper);
+  font-size: var(--fs-sm);
+}
+
+/* ---------------------------------------------------------------------------
+   3. 02 / 03 视差
+   -------------------------------------------------------------------------- */
+.sm-para {
+  position: relative;
+  height: 200px;
+  border: var(--hairline);
+  border-radius: var(--r-sm);
+  background: radial-gradient(circle at 50% 128%, var(--ink-700), var(--ink-900));
+  overflow: hidden;
+  isolation: isolate;
+}
+.sm-para__layer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-radius: var(--r-pill);
+  will-change: transform;
+}
+.sm-para__layer--1 { bottom: 0;    height: 58px; margin-inline: 4%;  background-color: var(--ink-500); }
+.sm-para__layer--2 { bottom: 46px; height: 44px; margin-inline: 12%; background-color: var(--ink-600); }
+.sm-para__layer--3 { bottom: 98px; height: 32px; margin-inline: 21%; background-color: var(--ink-500); }
+.sm-para__layer--4 {
+  bottom: 144px;
+  height: 22px;
+  margin-inline: 31%;
+  background-color: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+}
+.sm-para__caption {
+  position: absolute;
+  left: var(--space-3);
+  top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  color: var(--muted-2);
+}
+/* 对照：暂停时用页面样式压掉内核写入的 transform（内核仍会写，但不再可见） */
+.sm-para.is-off [data-parallax],
+.sm-kinetic.is-off [data-parallax] { transform: none !important; }
+
+.sm-kinetic {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px var(--space-3);
+  margin: 0;
+  font: 700 clamp(1.625rem, 4.6vw, 2.75rem) / 1.25 var(--font-display);
+  letter-spacing: -0.02em;
+  color: var(--paper);
+}
+.sm-kinetic__w { display: inline-block; will-change: transform; }
+.sm-kinetic__w--accent { color: var(--accent-ink); }
+
+/* ---------------------------------------------------------------------------
+   4. 04 粘性堆叠卡片
+   -------------------------------------------------------------------------- */
+.sm-stack {
+  height: 320px;
+  padding: var(--space-3);
+  display: block;
+}
+.sm-stack__card {
+  position: sticky;
+  top: calc(var(--space-2) + var(--sm-i, 0) * 10px);
+  margin: 0 0 var(--space-4);
+  padding: var(--space-4);
+  border: var(--hairline);
+  border-radius: var(--r-md);
+  background-color: var(--surface-2);
+  box-shadow: var(--shadow-2);
+  transform: scale(var(--sm-card-scale, 1));
+  opacity: var(--sm-card-alpha, 1);
+  will-change: transform, opacity;
+}
+.sm-stack__card:last-child { margin-bottom: 0; }
+.sm-stack__num { margin: 0; font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 0.16em; color: var(--accent-ink); }
+.sm-stack__title { margin: 2px 0 0; font: 600 var(--fs-h3) / 1.3 var(--font-display); color: var(--paper); }
+.sm-stack__text { margin: 6px 0 0; color: var(--muted-2); font-size: var(--fs-sm); }
+
+/* ---------------------------------------------------------------------------
+   5. 05 滚动时间轴
+   -------------------------------------------------------------------------- */
+.sm-tl { height: 320px; padding: var(--space-5) var(--space-4) var(--space-5) var(--space-6); }
+.sm-tl__track {
+  position: absolute;
+  left: calc(var(--space-6) / 2 + 10px);
+  top: var(--space-5);
+  bottom: var(--space-5);
+  width: 2px;
+  background-color: var(--line);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+.sm-tl__fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: var(--accent);
+  transform: scaleY(var(--sm-tl, 0));
+  transform-origin: 50% 0;
+}
+.sm-tl__list { display: grid; gap: var(--space-5); margin: 0; padding: 0; list-style: none; }
+.sm-tl__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px var(--space-3);
+  align-items: baseline;
+  transition: opacity var(--dur-base) var(--ease-out-quint);
+}
+.sm-tl__dot {
+  position: absolute;
+  left: calc(var(--space-6) / -1 + 4px);
+  top: 8px;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--r-pill);
+  background-color: var(--ink-600);
+  border: 1px solid var(--line);
+  transition: background-color var(--dur-base) var(--ease-out-quint),
+              transform var(--dur-base) var(--ease-spring-soft);
+}
+.sm-tl__time { grid-column: 1; font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; color: var(--muted-strong); }
+.sm-tl__label { grid-column: 2; grid-row: 1 / span 2; color: var(--muted-2); font-size: var(--fs-sm); }
+.sm-tl__item.is-done .sm-tl__label { color: var(--paper); }
+.sm-tl__item.is-done .sm-tl__dot { background-color: var(--accent); border-color: var(--accent); transform: scale(1.15); }
+
+/* ---------------------------------------------------------------------------
+   6. 06 章节背景色过渡
+   -------------------------------------------------------------------------- */
+.sm-chapters {
+  height: 264px;
+  background-color: var(--sm-chapter-bg, var(--ink-800));
+  transition: background-color var(--dur-slow) var(--ease-out-quint);
+}
+.sm-chapters__inner { display: block; }
+.sm-chapter {
+  min-height: 244px;
+  display: grid;
+  align-content: center;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-4);
+}
+.sm-chapter__t { margin: 0; font: 600 var(--fs-h3) / 1.3 var(--font-display); color: var(--paper); }
+.sm-chapter__p { margin: 0; color: var(--muted-2); font-size: var(--fs-sm); max-width: var(--measure-tight); }
+.sm-chapters .sm-chapter + .sm-chapter { border-top: var(--hairline); }
+
+/* ---------------------------------------------------------------------------
+   7. 07 分段滚动进度
+   -------------------------------------------------------------------------- */
+.sm-seg { display: grid; gap: var(--space-3); }
+.sm-seg__track {
+  position: relative;
+  display: block;
+  height: 8px;
+  border-radius: var(--r-pill);
+  background-color: var(--ink-600);
+  overflow: hidden;
+}
+.sm-seg__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--accent);
+  transform: scaleX(var(--scroll-progress, 0));
+  transform-origin: 0 50%;
+}
+.sm-seg__marks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sm-seg__mark {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  border: var(--hairline);
+  border-radius: var(--r-sm);
+  background-color: var(--ink-700);
+  color: var(--muted-2);
+  font: 500 var(--fs-sm) / 1.3 var(--font-body);
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out-quint),
+              border-color var(--dur-fast) var(--ease-out-quint),
+              background-color var(--dur-fast) var(--ease-out-quint);
+}
+.sm-seg__mark:hover { color: var(--paper); border-color: var(--accent); }
+.sm-seg__mark.is-active {
+  color: var(--paper);
+  border-color: var(--accent);
+  background-color: var(--accent-soft);
+}
+.sm-seg__mark:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ---------------------------------------------------------------------------
+   8. 08 scroll-snap 章节
+   -------------------------------------------------------------------------- */
+.sm-snap {
+  height: 268px;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+.sm-snap.is-free { scroll-snap-type: none; }
+/* 首帧同步：inline.js 在 <head> 里就把偏好写到 html 上，避免先吸附再跳一次 */
+html[data-sm-snap="free"] .sm-snap { scroll-snap-type: none; }
+.sm-snap__page {
+  min-height: 244px;
+  display: grid;
+  align-content: center;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-4);
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+.sm-snap__page + .sm-snap__page { border-top: var(--hairline); }
+.sm-snap__t { margin: 0; font: 600 var(--fs-h3) / 1.3 var(--font-display); color: var(--paper); }
+.sm-snap__p { margin: 0; color: var(--muted); font-size: var(--fs-sm); max-width: var(--measure-tight); }
+
+/* ---------------------------------------------------------------------------
+   9. 09 横向滚动区
+   -------------------------------------------------------------------------- */
+.sm-rail {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
+}
+.sm-rail__item {
+  flex: 0 0 min(76%, 300px);
+  scroll-snap-align: center;
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  padding: var(--space-4);
+  border: var(--hairline);
+  border-radius: var(--r-md);
+  background-color: var(--ink-700);
+}
+.sm-rail__k { margin: 0; font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 0.16em; color: var(--accent-ink); }
+.sm-rail__t { margin: 0; font: 600 var(--fs-body) / 1.35 var(--font-display); color: var(--paper); }
+.sm-rail__p { margin: 0; color: var(--muted-2); font-size: var(--fs-sm); }
+
+/* ---------------------------------------------------------------------------
+   10. 10 scroll-jacking 对照
+   -------------------------------------------------------------------------- */
+.sm-compare { display: grid; gap: var(--space-3); }
+.sm-compare__col { display: grid; gap: var(--space-2); min-width: 0; }
+.sm-compare__head {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.sm-compare__box { height: 196px; padding: var(--space-3); }
+.sm-compare__box--hijack { border-color: var(--danger); }
+.sm-compare__line { margin: 0 0 var(--space-3); color: var(--muted); font-size: var(--fs-sm); }
+.sm-compare__line:last-child { margin-bottom: 0; }
+
+@media (min-width: 720px) {
+  .sm-compare { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---------------------------------------------------------------------------
+   11. 动效降级
+   -------------------------------------------------------------------------- */
+html[data-motion="lite"] .sm-stack__card,
+html[data-motion="off"] .sm-stack__card { transform: none; opacity: 1; }
+
+html:is([data-motion="lite"], [data-motion="off"]) :is(
+  .sm-toc__link,
+  .sm-tl__item,
+  .sm-tl__dot,
+  .sm-chapters,
+  .sm-seg__mark,
+  .sm-rail__item
+) {
+  transition-duration: 1ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sm-snap,
+  .sm-rail { scroll-behavior: auto; }
+  .sm-stack__card { transform: none; opacity: 1; }
+  .sm-toc__link,
+  .sm-tl__item,
+  .sm-tl__dot,
+  .sm-chapters,
+  .sm-seg__mark { transition-duration: 1ms; }
+}
+
+/* ---------------------------------------------------------------------------
+   12. 窄屏
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .sm-stack,
+  .sm-tl { height: 280px; }
+  .sm-para { height: 168px; }
+  .sm-chapters { height: 240px; }
+  .sm-chapter { min-height: 220px; }
+  .sm-snap { height: 244px; }
+  .sm-snap__page { min-height: 220px; }
+  .sm-rail__item { flex-basis: 84%; }
+  .sm-kinetic { font-size: 1.5rem; }
+  .sm-row > .btn { flex: 1 1 auto; }
+}

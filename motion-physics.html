@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-motion="on" data-theme="dark" data-page="motion-physics">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>运动物理 · MOTION LAB</title>
+  <meta name="description" content="运动物理展厅：三个滑杆实时改刚度、阻尼、质量，同步驱动真实弹簧小球并重算位移/速度曲线与临界阻尼线 2√(km)，另有缓动对比、时长阶梯、可打断、触感跟随、惯性、抛掷吸附与性能对比。">
+  <meta name="theme-color" content="#0A0B0D">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/pages/motion-physics.css">
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/pages/motion-physics.inline.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主内容</a>
+  <div id="site-header"></div>
+
+  <main id="main" class="page">
+    <header class="page-head shell">
+      <p class="eyebrow">展厅 H · MOTION-PHYSICS</p>
+      <h1 class="h1">运动物理</h1>
+      <p class="lede">丝滑不是感觉，是可复现的参数。本页的小球、曲线与规格表共用同一个二阶弹簧模型：m·x″ = −k·x − c·x′，曲线为真实数值积分，过冲与整定时间由积分结果量出。</p>
+      <ul class="meta-chips">
+        <li class="chip">12 个可交互 demo</li>
+        <li class="chip">曲线为真实数值积分</li>
+        <li class="chip">含 reduced-motion 降级演示</li>
+      </ul>
+    </header>
+
+    <section class="section shell" id="mp-spring">
+      <div class="section-head">
+        <p class="eyebrow">01</p>
+        <h2 class="h2">弹簧与参数</h2>
+        <p class="lede">刚度决定快慢，阻尼决定收敛，质量决定惯性。参数一改，小球与曲线同一帧内一起变。</p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo reveal" id="demo-tuner">
+          <header class="demo__label">
+            <span class="demo__index">01</span>
+            <h3 class="demo__title">弹簧参数实时调参器</h3>
+            <p class="demo__desc">k / c / m 三个滑杆与数字输入实时驱动真实小球，并即时重算位移曲线、速度曲线与临界阻尼线 2√(km)。</p>
+          </header>
+          <div class="demo__stage mp-tuner">
+            <div class="mp-ctls">
+              <div class="mp-ctl">
+                <label class="label" for="mp-k">stiffness 刚度 k</label>
+                <div class="mp-ctl__row">
+                  <input class="mp-range" type="range" id="mp-k" min="40" max="600" step="5" value="340">
+                  <input class="mp-num tnum" type="number" id="mp-k-num" min="40" max="600" step="5" value="340" inputmode="numeric">
+                </div>
+              </div>
+              <div class="mp-ctl">
+                <label class="label" for="mp-c">damping 阻尼 c</label>
+                <div class="mp-ctl__row">
+                  <input class="mp-range" type="range" id="mp-c" min="4" max="60" step="0.5" value="28">
+                  <input class="mp-num tnum" type="number" id="mp-c-num" min="4" max="60" step="0.5" value="28" inputmode="decimal">
+                </div>
+              </div>
+              <div class="mp-ctl">
+                <label class="label" for="mp-m">mass 质量 m</label>
+                <div class="mp-ctl__row">
+                  <input class="mp-range" type="range" id="mp-m" min="0.2" max="3" step="0.05" value="1">
+                  <input class="mp-num tnum" type="number" id="mp-m-num" min="0.2" max="3" step="0.05" value="1" inputmode="decimal">
+                </div>
+              </div>
+            </div>
+
+            <div class="mp-track" id="mp-track">
+              <span class="mp-track__origin" aria-hidden="true"></span>
+              <span class="mp-track__target" aria-hidden="true"></span>
+              <span class="mp-ball" id="mp-ball" aria-hidden="true"></span>
+              <span class="mp-track__cap">起点</span>
+              <span class="mp-track__cap mp-track__cap--end">目标</span>
+            </div>
+
+            <svg class="mp-plot" viewBox="0 0 720 220" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="mp-plot-t mp-plot-d">
+              <title id="mp-plot-t">位移与速度曲线，以及阻尼与临界阻尼 2√(km) 的比较</title>
+              <desc id="mp-plot-d">左图横轴为时间 0 到 1.4 秒，实线为归一化位移、点线为速度；虚线为位移目标线 1。右图为阻尼 c 与临界阻尼 2√(km) 的对比，线下方为欠阻尼区。</desc>
+              <g class="mp-axis" aria-hidden="true">
+                <line x1="40" y1="190" x2="360" y2="190"></line>
+                <line x1="40" y1="20" x2="40" y2="190"></line>
+                <line class="mp-axis__gridline" x1="40" y1="100" x2="360" y2="100"></line>
+                <line class="mp-axis__gridline" x1="200" y1="20" x2="200" y2="190"></line>
+              </g>
+              <line class="mp-reftarget" id="mp-reftarget" x1="40" y1="62" x2="360" y2="62" aria-hidden="true"></line>
+              <path class="mp-curve mp-curve--v" id="mp-curve-v" d="" aria-hidden="true"></path>
+              <path class="mp-curve mp-curve--x" id="mp-curve-x" d="" aria-hidden="true"></path>
+              <circle class="mp-head" id="mp-head" cx="40" cy="62" r="3.5" aria-hidden="true"></circle>
+              <text class="mp-lab" x="40" y="208">0s</text>
+              <text class="mp-lab" x="316" y="208">1.4s</text>
+              <text class="mp-lab" x="46" y="34">位移 x(t)</text>
+              <text class="mp-lab mp-lab--v" x="46" y="186">速度 v(t)</text>
+              <g class="mp-gauge" aria-hidden="true">
+                <line x1="380" y1="190" x2="700" y2="190"></line>
+                <line x1="380" y1="190" x2="380" y2="20"></line>
+                <rect class="mp-under" id="mp-under" x="392" y="20" width="292" height="0"></rect>
+                <line class="mp-ccrit" id="mp-ccrit-line" x1="392" y1="190" x2="692" y2="190"></line>
+                <circle class="mp-cmark" id="mp-cmark" cx="392" cy="190" r="5"></circle>
+                <text class="mp-lab" x="392" y="208">c</text>
+                <text class="mp-lab" x="646" y="208">c=70</text>
+                <text class="mp-lab mp-lab--cc" id="mp-ccrit-text" x="398" y="182">2√(km)</text>
+                <text class="mp-lab" x="392" y="34" id="mp-under-text">欠阻尼区</text>
+              </g>
+            </svg>
+
+            <dl class="mp-readout mono tnum">
+              <div class="mp-readout__item"><dt>阻尼比 ζ</dt><dd id="mp-zeta">0.76</dd></div>
+              <div class="mp-readout__item"><dt>临界阻尼 2√(km)</dt><dd id="mp-ccrit">36.9</dd></div>
+              <div class="mp-readout__item"><dt>过冲</dt><dd id="mp-overshoot">0.0%</dd></div>
+              <div class="mp-readout__item"><dt>峰值时刻</dt><dd id="mp-peak-t">0.00s</dd></div>
+              <div class="mp-readout__item"><dt>整定 ±2%</dt><dd id="mp-settle">0.00s</dd></div>
+            </dl>
+            <p class="mp-status mono tnum" id="mp-tuner-status" aria-live="polite">k=340 c=28 m=1</p>
+            <div class="mp-actions">
+              <button class="btn btn--primary" id="mp-tuner-run" type="button">释放小球</button>
+              <button class="btn btn--ghost" id="mp-tuner-reset" type="button">复位</button>
+              <button class="btn btn--ghost" id="mp-tuner-crit" type="button">切到临界阻尼</button>
+            </div>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">input（滑杆 / 数字输入）· 按钮释放</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">由 k/c/m 决定（实测整定时间见读数）</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.spring({stiffness,damping,mass})，同参数数值积分</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d（小球）· SVG d（曲线）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：小球改为 5 级逐步跳变，曲线静态重算仍显示</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-overshoot">
+          <header class="demo__label">
+            <span class="demo__index">02</span>
+            <h3 class="demo__title">过冲对比：临界阻尼 vs playful</h3>
+            <p class="demo__desc">同一目标、同一起点，左侧 standard（c ≥ 2√(km) 不过冲），右侧 playful（故意欠阻尼）。峰值由真实测量得出。</p>
+          </header>
+          <div class="demo__stage mp-over">
+            <div class="mp-over__tracks">
+              <div class="mp-over__track" data-side="crit">
+                <p class="mp-over__name mono">standard · 340/28/1</p>
+                <div class="mp-lane"><span class="mp-ball mp-ball--sm" id="mp-ball-crit" aria-hidden="true"></span></div>
+                <p class="mp-over__out mono tnum" id="mp-out-crit">ζ=0.76 · 过冲 0.0%</p>
+              </div>
+              <div class="mp-over__track" data-side="play">
+                <p class="mp-over__name mono">playful · 420/24/1</p>
+                <div class="mp-lane"><span class="mp-ball mp-ball--sm" id="mp-ball-play" aria-hidden="true"></span></div>
+                <p class="mp-over__out mono tnum" id="mp-out-play">ζ=0.41 · 过冲 5.8%</p>
+              </div>
+            </div>
+            <div class="mp-actions">
+              <button class="btn btn--primary" id="mp-over-run" type="button">同步触发</button>
+              <button class="btn btn--ghost" id="mp-over-reset" type="button">复位</button>
+            </div>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click / Enter（同步触发两侧）</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">由各自参数决定，实测峰值与整定时间</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.presets.standard / ML.presets.playful</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：目标位移瞬移 + 不透明度切换，读数照常</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-interrupt">
+          <header class="demo__label">
+            <span class="demo__index">03</span>
+            <h3 class="demo__title">可打断：速度衔接不归零</h3>
+            <p class="demo__desc">小球飞行途中改目标，句柄从当前速度继续积分，而不是回到起点重开。</p>
+          </header>
+          <div class="demo__stage mp-interrupt">
+            <div class="mp-track mp-track--plain">
+              <span class="mp-mark mp-mark--a" aria-hidden="true">A</span>
+              <span class="mp-mark mp-mark--b" aria-hidden="true">B</span>
+              <span class="mp-mark mp-mark--c" aria-hidden="true">C</span>
+              <span class="mp-ball" id="mp-ball-int" aria-hidden="true"></span>
+            </div>
+            <dl class="mp-readout mono tnum">
+              <div class="mp-readout__item"><dt>当前目标</dt><dd id="mp-int-target">C</dd></div>
+              <div class="mp-readout__item"><dt>打断瞬间速度</dt><dd id="mp-int-v">0 px/s</dd></div>
+              <div class="mp-readout__item"><dt>打断次数</dt><dd id="mp-int-count">0</dd></div>
+            </dl>
+            <p class="mp-status mono tnum" id="mp-int-status" aria-live="polite">等待开始</p>
+            <div class="mp-actions">
+              <button class="btn btn--primary" id="mp-int-go" type="button">出发到 C</button>
+              <button class="btn btn--danger" id="mp-int-hit" type="button">中途改目标</button>
+              <button class="btn btn--ghost" id="mp-int-reset" type="button">复位</button>
+            </div>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">click「中途改目标」，任意时刻可点</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">不重置：剩余位移由当前速度续算</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.presets.soft 170/24/1.2 + handle.setTarget()</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：瞬时跳到新目标，速度读数记 0 并标注降级</dd></div>
+            </dl>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell" id="mp-curves">
+      <div class="section-head">
+        <p class="eyebrow">02</p>
+        <h2 class="h2">曲线与时长</h2>
+        <p class="lede">曲线是参数的另一种画法。缓动看形状，时长看节奏，退出永远快于进入。</p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo reveal" id="demo-easing">
+          <header class="demo__label">
+            <span class="demo__index">04</span>
+            <h3 class="demo__title">缓动曲线对比器</h3>
+            <p class="demo__desc">在 SVG 上按真实 cubic-bezier 求解绘制两条曲线，两个点沿各自曲线同步跑一圈做对比。</p>
+          </header>
+          <div class="demo__stage mp-ease">
+            <svg class="mp-easeplot" viewBox="0 0 320 260" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="mp-ease-t mp-ease-d">
+              <title id="mp-ease-t">两条 cubic-bezier 缓动曲线与沿曲线运动的点</title>
+              <desc id="mp-ease-d">横轴为进度时间，纵轴为进度值。曲线 A 为强调色实线，曲线 B 为信息蓝虚线，两点沿曲线同步运动。</desc>
+              <g class="mp-axis" aria-hidden="true">
+                <line x1="40" y1="220" x2="290" y2="220"></line>
+                <line x1="40" y1="20" x2="40" y2="220"></line>
+                <line class="mp-axis__gridline" x1="40" y1="20" x2="290" y2="20"></line>
+                <line class="mp-axis__gridline" x1="40" y1="120" x2="290" y2="120"></line>
+              </g>
+              <path class="mp-ecurve mp-ecurve--a" id="mp-ease-path-a" d="" aria-hidden="true"></path>
+              <path class="mp-ecurve mp-ecurve--b" id="mp-ease-path-b" d="" aria-hidden="true"></path>
+              <circle class="mp-edot mp-edot--a" id="mp-ease-dot-a" cx="40" cy="220" r="5" aria-hidden="true"></circle>
+              <circle class="mp-edot mp-edot--b" id="mp-ease-dot-b" cx="40" cy="220" r="5" aria-hidden="true"></circle>
+              <text class="mp-lab" x="40" y="240">0</text>
+              <text class="mp-lab" x="272" y="240">进度 1</text>
+              <text class="mp-lab" x="46" y="34">进度值 1</text>
+            </svg>
+            <div class="mp-ease__ctls">
+              <div class="mp-ctl">
+                <label class="label" for="mp-ease-a">曲线 A</label>
+                <select class="mp-select" id="mp-ease-a"></select>
+              </div>
+              <div class="mp-ctl">
+                <label class="label" for="mp-ease-b">曲线 B</label>
+                <select class="mp-select" id="mp-ease-b"></select>
+              </div>
+              <div class="mp-ctl">
+                <label class="label" for="mp-ease-dur">时长 <span class="tnum" id="mp-ease-dur-out">560ms</span></label>
+                <input class="mp-range" type="range" id="mp-ease-dur" min="240" max="1400" step="20" value="560">
+              </div>
+            </div>
+            <dl class="mp-readout mono tnum">
+              <div class="mp-readout__item"><dt>A 控制点</dt><dd id="mp-ease-cp-a">.22, 1, .36, 1</dd></div>
+              <div class="mp-readout__item"><dt>B 控制点</dt><dd id="mp-ease-cp-b">.34, 1.56, .64, 1</dd></div>
+              <div class="mp-readout__item"><dt>A 中点位移</dt><dd id="mp-ease-mid-a">0.00</dd></div>
+              <div class="mp-readout__item"><dt>B 中点位移</dt><dd id="mp-ease-mid-b">0.00</dd></div>
+            </dl>
+            <div class="mp-actions">
+              <button class="btn btn--primary" id="mp-ease-run" type="button">播放对比</button>
+            </div>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">select change · 滑杆 input · 播放按钮</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">240–1400ms（默认 560ms = --dur-slower）</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint / --ease-out-expo / --ease-in-quad / --ease-in-out-quart / --ease-spring-soft / --ease-snap</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d（两点）· SVG d（曲线）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：点直接落在终点，曲线与读数仍完整显示</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-durations">
+          <header class="demo__label">
+            <span class="demo__index">05</span>
+            <h3 class="demo__title">时长阶梯 80/150/240/360/560</h3>
+            <p class="demo__desc">五条轨道同帧触发，结束后回报每档的真实测量毫秒数，用来核对 token 是否被正确使用。</p>
+          </header>
+          <div class="demo__stage mp-durs" id="mp-durs">
+            <ul class="mp-durs__list" id="mp-durs-list"></ul>
+            <p class="mp-status mono tnum" id="mp-durs-status" aria-live="polite">等待同步触发</p>
+            <div class="mp-actions">
+              <button class="btn btn--primary" id="mp-durs-run" type="button">同步触发五档</button>
+            </div>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">click / Enter，同一帧内批量启动</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-instant 80 · --dur-fast 150 · --dur-base 240 · --dur-slow 360 · --dur-slower 560</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（进入）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d + scaleX</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：瞬时到终点，仍回报 token 值与 0ms 实测</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-exit">
+          <header class="demo__label">
+            <span class="demo__index">06</span>
+            <h3 class="demo__title">退出快于进入（0.68 系数）</h3>
+            <p class="demo__desc">退出时长写死为 calc(var(--dur-slow) * 0.68)，实测两边耗时验证比例不是口头约定。</p>
+          </header>
+          <div class="demo__stage mp-exit" id="mp-exit">
+            <div class="mp-exit__panels">
+              <div class="mp-exit__panel" id="mp-exit-in" data-open="true">
+                <p class="mp-exit__cap mono">进入 --dur-slow 360ms</p>
+                <div class="mp-exit__box" aria-hidden="true"></div>
+              </div>
+              <div class="mp-exit__panel" id="mp-exit-out" data-open="true">
+                <p class="mp-exit__cap mono">退出 calc(360ms × 0.68)</p>
+                <div class="mp-exit__box" aria-hidden="true"></div>
+              </div>
+            </div>
+            <dl class="mp-readout mono tnum">
+              <div class="mp-readout__item"><dt>进入实测</dt><dd id="mp-exit-in-ms">—</dd></div>
+              <div class="mp-readout__item"><dt>退出实测</dt><dd id="mp-exit-out-ms">—</dd></div>
+              <div class="mp-readout__item"><dt>实测比值</dt><dd id="mp-exit-ratio">—</dd></div>
+            </dl>
+            <div class="mp-actions">
+              <button class="btn btn--primary" id="mp-exit-toggle" type="button" aria-pressed="true">隐藏两侧</button>
+            </div>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click（aria-pressed 切换）</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">进入 --dur-slow 360ms / 退出 calc(var(--dur-slow) * 0.68) ≈ 245ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">进入 --ease-out-quint · 退出 --ease-in-quad</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d + scale · opacity</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：只做 opacity 切换，实测值为 0ms 并标注</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-stagger">
+          <header class="demo__label">
+            <span class="demo__index">07</span>
+            <h3 class="demo__title">stagger 错开序列（0–120ms 可调）</h3>
+            <p class="demo__desc">12 个方块按 --stagger 依次揭示，总时长 = 单次时长 + (n−1) × stagger，实时算出并显示。</p>
+          </header>
+          <div class="demo__stage mp-stagger">
+            <ul class="mp-stagger__grid" id="mp-stagger-grid"></ul>
+            <div class="mp-ctl">
+              <label class="label" for="mp-stagger-range">stagger <span class="tnum" id="mp-stagger-out">45ms</span></label>
+              <input class="mp-range" type="range" id="mp-stagger-range" min="0" max="120" step="5" value="45">
+            </div>
+            <p class="mp-status mono tnum" id="mp-stagger-status" aria-live="polite">等待播放</p>
+            <div class="mp-actions">
+              <button class="btn btn--primary" id="mp-stagger-run" type="button">重播序列</button>
+            </div>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click / 滑杆 input</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">单项 --dur-base 240ms + delay i × stagger（0–120ms）</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d + scale · opacity</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：全部同时淡入，顺序由 DOM 顺序与序号标注表达</dd></div>
+            </dl>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell" id="mp-gesture">
+      <div class="section-head">
+        <p class="eyebrow">03</p>
+        <h2 class="h2">手势与物理</h2>
+        <p class="lede">手指是 1:1 的，松手之后才交给物理。三个 demo 都有键盘替代：方向键移动、Enter 抛掷。</p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo reveal" id="demo-follow">
+          <header class="demo__label">
+            <span class="demo__index">08</span>
+            <h3 class="demo__title">1:1 跟随手指物理</h3>
+            <p class="demo__desc">实心球 1:1 跟手（无延迟），拖尾球用 soft 弹簧跟随同一目标，两球间距即弹簧滞后量。</p>
+          </header>
+          <div class="demo__stage mp-follow">
+            <div class="mp-pad" id="mp-pad">
+              <span class="mp-follow__grid" aria-hidden="true"></span>
+              <span class="mp-follow__lag" id="mp-lag" aria-hidden="true"></span>
+              <span class="mp-follow__puck" id="mp-puck" tabindex="0" role="application" aria-label="拖动或用方向键移动小球，按住 Shift 加速"></span>
+            </div>
+            <dl class="mp-readout mono tnum">
+              <div class="mp-readout__item"><dt>指针位置</dt><dd id="mp-follow-pos">0, 0</dd></div>
+              <div class="mp-readout__item"><dt>弹簧滞后</dt><dd id="mp-follow-lag">0 px</dd></div>
+              <div class="mp-readout__item"><dt>输入源</dt><dd id="mp-follow-src">指针</dd></div>
+            </dl>
+            <p class="mp-status mono tnum" id="mp-follow-status" aria-live="polite">拖动小球，或用方向键（Shift 加速 4×）</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown + pointermove（setPointerCapture）· 方向键 keydown</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">跟手 0ms（直写目标）· 拖尾弹簧 soft 170/24/1.2</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.spring soft（滞后球）· 无缓动（1:1 球）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d（写入在 rAF 内）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：拖尾球直接吸附到目标，跟手仍可用</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-inertia">
+          <header class="demo__label">
+            <span class="demo__index">09</span>
+            <h3 class="demo__title">惯性滚动与摩擦衰减</h3>
+            <p class="demo__desc">松手后按实测速度继续滑行，速度每帧乘 0.94^（60·dt），触底用橡皮筋回弹。</p>
+          </header>
+          <div class="demo__stage mp-inertia">
+            <div class="mp-inertia__viewport" id="mp-iview" tabindex="0" role="application" aria-label="惯性滚动列表，可用上下方向键滚动">
+              <ul class="mp-inertia__track" id="mp-itrack"></ul>
+            </div>
+            <div class="mp-inertia__meta">
+              <p class="mp-status mono tnum" id="mp-inertia-status" aria-live="polite">等待拖动</p>
+              <div class="mp-meter" aria-hidden="true"><span class="mp-meter__fill" id="mp-inertia-meter"></span></div>
+            </div>
+            <dl class="mp-readout mono tnum">
+              <div class="mp-readout__item"><dt>释放速度</dt><dd id="mp-inertia-v0">0 px/s</dd></div>
+              <div class="mp-readout__item"><dt>当前速度</dt><dd id="mp-inertia-v">0 px/s</dd></div>
+              <div class="mp-readout__item"><dt>滑行距离</dt><dd id="mp-inertia-dist">0 px</dd></div>
+            </dl>
+            <div class="mp-actions">
+              <button class="btn btn--ghost" id="mp-inertia-up" type="button">上一项</button>
+              <button class="btn btn--ghost" id="mp-inertia-down" type="button">下一项</button>
+            </div>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown/move/up（指针捕获）· 方向键 / 按钮</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">衰减至 |v| &lt; 8px/s 判停，实测约 0.6–1.4s</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">摩擦衰减 v ← v · 0.94^(60·dt)；越界回弹 ML.presets.standard</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d · scaleX（速度条）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：松手即停，改为按项吸附定位；键盘始终可用</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-throw">
+          <header class="demo__label">
+            <span class="demo__index">10</span>
+            <h3 class="demo__title">抛掷与吸附（按速度决定落点）</h3>
+            <p class="demo__desc">松手速度决定落点：先按 0.18s 线性预测终点，落在哪个槽就吸到哪个槽，预测位移可视化。</p>
+          </header>
+          <div class="demo__stage mp-throw">
+            <div class="mp-slots" id="mp-slots" aria-hidden="true"></div>
+            <div class="mp-throw__rail" id="mp-throw-rail">
+              <span class="mp-throw__card" id="mp-throw-card" tabindex="0" role="application" aria-label="可抛掷卡片，左右方向键移动，Enter 抛掷">卡片</span>
+            </div>
+            <p class="mp-status mono tnum" id="mp-throw-status" aria-live="polite">拖动卡片后松手</p>
+            <dl class="mp-readout mono tnum">
+              <div class="mp-readout__item"><dt>释放速度</dt><dd id="mp-throw-v">0 px/s</dd></div>
+              <div class="mp-readout__item"><dt>预测位移</dt><dd id="mp-throw-proj">0 px</dd></div>
+              <div class="mp-readout__item"><dt>判定落点</dt><dd id="mp-throw-slot">—</dd></div>
+            </dl>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown/move/up · 方向键 + Enter（合成抛掷）</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">吸附 --dur-slow 360ms 等效弹簧 340/28/1</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.presets.standard；投影 v × 0.18s</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d（卡片）· scaleX（预测条）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：直接跳到判定槽位 + 高亮不透明度，速度读数照常</dd></div>
+            </dl>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell" id="mp-perf">
+      <div class="section-head">
+        <p class="eyebrow">04</p>
+        <h2 class="h2">档位与性能</h2>
+        <p class="lede">同一动作在三档动效下的表现，以及同一位移用 transform 与 width 的帧耗时差异。</p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo reveal" id="demo-levels">
+          <header class="demo__label">
+            <span class="demo__index">11</span>
+            <h3 class="demo__title">动效三档并排对比（on / lite / off）</h3>
+            <p class="demo__desc">三个面板固定演示各自档位：on 走 transform 弹簧，lite 只做不透明度，off 瞬时切换。此处为演示档位，不改变站点全局设置。</p>
+          </header>
+          <div class="demo__stage mp-levels">
+            <div class="mp-levels__panels" id="mp-levels-panels"></div>
+            <p class="mp-status mono tnum" id="mp-levels-status" aria-live="polite">全局动效档位：读取中</p>
+            <div class="mp-actions">
+              <button class="btn btn--primary" id="mp-levels-run" type="button">三档同步切换</button>
+              <button class="btn btn--ghost" id="mp-levels-global" type="button">跟随全局档位</button>
+            </div>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click / Enter；全局档位变化事件 ML.motion.onChange</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">on 360ms · lite 240ms（仅不透明度）· off 0ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">on --ease-out-quint / lite --ease-in-out-quart / off 无</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform + opacity（on）· 仅 opacity（lite）· 无（off）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">全局 lite/off 时本 demo 仍按三档逻辑演示，实测毫秒照常回报</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-perf">
+          <header class="demo__label">
+            <span class="demo__index">12</span>
+            <h3 class="demo__title">transform vs width 性能对比</h3>
+            <p class="demo__desc">同一段 2 秒位移：左侧只改 transform（合成层），右侧故意改 left + width（触发布局）作为反模式对照，实时统计帧数、平均/最差帧耗时。</p>
+          </header>
+          <div class="demo__stage mp-perf">
+            <div class="mp-perf__row">
+              <p class="mp-perf__cap mono">transform: translate3d</p>
+              <div class="mp-perf__lane"><span class="mp-perf__bar mp-perf__bar--good" id="mp-bar-good" aria-hidden="true"></span></div>
+              <dl class="mp-readout mono tnum">
+                <div class="mp-readout__item"><dt>帧数</dt><dd id="mp-good-frames">0</dd></div>
+                <div class="mp-readout__item"><dt>平均帧</dt><dd id="mp-good-avg">—</dd></div>
+                <div class="mp-readout__item"><dt>最差帧</dt><dd id="mp-good-max">—</dd></div>
+                <div class="mp-readout__item"><dt>掉帧</dt><dd id="mp-good-drop">0</dd></div>
+              </dl>
+            </div>
+            <div class="mp-perf__row">
+              <p class="mp-perf__cap mono">left + width（反模式，仅作对照）</p>
+              <div class="mp-perf__lane"><span class="mp-perf__bar mp-perf__bar--bad" id="mp-bar-bad" aria-hidden="true"></span></div>
+              <dl class="mp-readout mono tnum">
+                <div class="mp-readout__item"><dt>帧数</dt><dd id="mp-bad-frames">0</dd></div>
+                <div class="mp-readout__item"><dt>平均帧</dt><dd id="mp-bad-avg">—</dd></div>
+                <div class="mp-readout__item"><dt>最差帧</dt><dd id="mp-bad-max">—</dd></div>
+                <div class="mp-readout__item"><dt>掉帧</dt><dd id="mp-bad-drop">0</dd></div>
+              </dl>
+            </div>
+            <p class="mp-status mono tnum" id="mp-perf-status" aria-live="polite">等待运行（每次采样 2.0s）</p>
+            <div class="mp-actions">
+              <button class="btn btn--primary" id="mp-perf-run" type="button">运行 2 秒对比</button>
+            </div>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click，2.0s 采样窗口</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">2000ms（--dur-* 不适用：性能采样）</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-in-out-quart（两侧同一曲线）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">左：transform: translate3d；右：left + width（反模式，仅本 demo 使用）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：只跑 transform 侧并说明反模式原因，不触发布局抖动</dd></div>
+            </dl>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <nav class="page-nav shell" aria-label="展厅导航">
+      <a class="page-nav__link" href="gestures.html">上一站 · 展厅 G 手势与拖拽</a>
+      <a class="page-nav__link" href="index.html">返回首页</a>
+      <a class="page-nav__link" href="feedback.html">下一站 · 展厅 I 反馈系统</a>
+    </nav>
+  </main>
+
+  <div id="site-footer"></div>
+  <div id="site-overlays"></div>
+
+  <script src="assets/js/site.js"></script>
+  <script src="assets/js/pages/motion-physics.js"></script>
+</body>
+</html>

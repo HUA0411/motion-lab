@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-motion="on" data-theme="dark" data-page="navigation">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>导航模式 · MOTION LAB</title>
+  <meta name="description" content="导航模式展厅：自建命令面板（↑↓ / Enter / Esc、分组结果、最近访问）、超大菜单焦点管理、移动端底部导航、标签页滑动指示器、可折叠面包屑、分页器、可回退步骤向导、粘性目录、200ms 防抖自动补全、锚点高亮、返回状态保持与抽屉菜单。">
+  <meta name="theme-color" content="#0A0B0D">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/pages/navigation.css">
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/pages/navigation.inline.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主内容</a>
+  <div id="site-header"></div>
+
+  <main id="main" class="page">
+    <header class="page-head shell">
+      <p class="eyebrow">展厅 E · NAVIGATION</p>
+      <h1 class="h1">导航模式</h1>
+      <p class="lede">导航不是菜单列表，而是「我在哪、能去哪、怎么回来」的连续回答。12 个 demo 全部键盘可走通：命令面板、超大菜单、面包屑折叠、分页、向导、粘性目录、自动补全、锚点高亮与状态保持。</p>
+      <ul class="meta-chips">
+        <li class="chip">12 个可交互 demo</li>
+        <li class="chip">全部键盘可达</li>
+        <li class="chip">支持 reduced-motion</li>
+      </ul>
+    </header>
+
+    <section class="section shell" id="np-sec-search">
+      <div class="section-head">
+        <p class="eyebrow">01</p>
+        <h2 class="h2">检索与跳转</h2>
+        <p class="lede">键盘用户不该用鼠标找路：命令面板、防抖补全、超大菜单与面包屑各自解决一种「找不到」。</p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo reveal" id="demo-command">
+          <header class="demo__label">
+            <span class="demo__index">01</span>
+            <h3 class="demo__title">命令面板（自建）</h3>
+            <p class="demo__desc">分组结果、最近访问、匹配高亮；↑↓ 移动、Enter 打开、Esc 关闭，焦点锁定并在关闭后回到触发按钮。</p>
+          </header>
+          <div class="demo__stage np-command">
+            <div class="np-row">
+              <button class="btn btn--primary" id="np-cmd-open" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="np-cmd-box">
+                <span data-np-icon="search"></span>打开命令面板
+              </button>
+              <p class="np-hint mono">面板内：↑↓ 选择 · Enter 执行 · Esc 关闭（站内 ⌘K 命令面板由内核提供）</p>
+            </div>
+            <div class="np-command__stage" id="np-cmd-stage">
+              <div class="np-command__box" id="np-cmd-box" role="dialog" aria-modal="true" aria-label="演示用命令面板" hidden>
+                <div class="np-command__field">
+                  <span data-np-icon="search"></span>
+                  <input class="np-input" id="np-cmd-input" type="text" role="combobox" aria-expanded="true" aria-controls="np-cmd-list" aria-autocomplete="list" placeholder="搜索展厅 / 条目 / 操作（↑↓ 选择，Enter 打开，Esc 关闭）">
+                </div>
+                <ul class="np-command__list" id="np-cmd-list" role="listbox" aria-label="命令结果"></ul>
+                <p class="np-command__hint mono tnum" id="np-cmd-hint">共 0 项</p>
+              </div>
+            </div>
+            <p class="np-status mono tnum" id="np-cmd-status" aria-live="polite">等待打开（Esc 关闭）</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click / Enter · input 过滤 · keydown ↑↓ Enter Esc</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">进入 --dur-slow 360ms · 退出 calc(--dur-slow × 0.68)</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（进入）· --ease-in-quad（退出）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d + scale · opacity</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：仅 opacity 切换，键盘与筛选逻辑不变</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-autocomplete">
+          <header class="demo__label">
+            <span class="demo__index">02</span>
+            <h3 class="demo__title">搜索自动补全（防抖 200ms）</h3>
+            <p class="demo__desc">输入停止 200ms 后才查询本地 60 条索引，避免每次按键都重排；↑↓ 选择、Enter 确认、Esc 清空。</p>
+          </header>
+          <div class="demo__stage np-ac">
+            <div class="np-ac__field">
+              <label class="label" for="np-ac-input">搜索交互条目</label>
+              <input class="np-input" id="np-ac-input" type="text" role="combobox" aria-expanded="false" aria-controls="np-ac-list" aria-autocomplete="list" autocomplete="off" placeholder="例如：弹簧、校验、遮罩">
+            </div>
+            <ul class="np-ac__list" id="np-ac-list" role="listbox" aria-label="补全建议" hidden></ul>
+            <p class="np-status mono tnum" id="np-ac-status" aria-live="polite">输入关键词开始；已就绪 60 条索引</p>
+            <dl class="np-readout mono tnum">
+              <div><dt>最近一次查询耗时</dt><dd id="np-ac-time">—</dd></div>
+              <div><dt>防抖</dt><dd>200ms</dd></div>
+              <div><dt>结果</dt><dd id="np-ac-count">0</dd></div>
+            </dl>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">input（防抖 200ms）· keydown ↑↓ Enter Esc</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">防抖 200ms · 面板 --dur-fast 150ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d · opacity</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：列表直接显隐，防抖与键盘逻辑不变</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-mega">
+          <header class="demo__label">
+            <span class="demo__index">03</span>
+            <h3 class="demo__title">超大菜单（展开动画 + 焦点管理）</h3>
+            <p class="demo__desc">三列分组 + 推荐卡片；打开后焦点进入第一项，Esc 关闭并回焦，Tab 离开即关闭。</p>
+          </header>
+          <div class="demo__stage np-mega">
+            <div class="np-mega__bar">
+              <button class="btn btn--ghost" id="np-mega-btn" type="button" aria-expanded="false" aria-controls="np-mega-panel">
+                <span data-np-icon="grid"></span>全部展厅
+              </button>
+              <p class="np-hint mono" id="np-mega-state">已关闭</p>
+            </div>
+            <div class="np-mega__panel" id="np-mega-panel" hidden>
+              <div class="np-mega__cols" id="np-mega-cols"></div>
+              <div class="np-mega__promo">
+                <p class="np-mega__promo-title">推荐路线</p>
+                <p class="np-mega__promo-text">先看「运动物理」的调参器，再回到「微交互」验证手感。</p>
+                <a class="btn btn--primary" href="motion-physics.html">前往展厅 H</a>
+              </div>
+            </div>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">click / Enter / Space 展开 · Esc · focusout · 点击外部</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">进入 --dur-slow 360ms · 退出 calc(--dur-slow × 0.68)</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（进入）· --ease-in-quad（退出）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d + scaleY(0.96→1) · opacity</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：直接显隐，焦点管理照常</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-breadcrumb">
+          <header class="demo__label">
+            <span class="demo__index">04</span>
+            <h3 class="demo__title">面包屑（含溢出折叠）</h3>
+            <p class="demo__desc">容器变窄时用 ResizeObserver 真实测量并折叠中间层级为「…」，点击后浮层列出被折叠层。</p>
+          </header>
+          <div class="demo__stage np-crumb">
+            <div class="np-ctl">
+              <label class="label" for="np-crumb-width">容器宽度 <span class="tnum" id="np-crumb-width-out">100%</span></label>
+              <input class="np-range" type="range" id="np-crumb-width" min="200" max="640" step="20" value="640">
+            </div>
+            <nav class="np-crumb__nav" id="np-crumb-nav" aria-label="面包屑">
+              <ol class="np-crumb__list" id="np-crumb-list"></ol>
+            </nav>
+            <p class="np-status mono tnum" id="np-crumb-status" aria-live="polite">完整层级：首页 / 展厅 / 分组 / 条目</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">滑杆 input · ResizeObserver · click / Enter「…」</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-fast 150ms（折叠项进出）</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity · transform: scale(0.96→1)</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：折叠瞬时生效，浮层改用 ML.UI.popover 自身降级</dd></div>
+            </dl>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell" id="np-sec-structure">
+      <div class="section-head">
+        <p class="eyebrow">02</p>
+        <h2 class="h2">结构与位置</h2>
+        <p class="lede">同层级之间用指示器说明「在哪」，跨层级之间用向导与分页说明「还有多少」。</p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo reveal" id="demo-tabs">
+          <header class="demo__label">
+            <span class="demo__index">05</span>
+            <h3 class="demo__title">标签页滑动指示器</h3>
+            <p class="demo__desc">指示器用 translateX + scaleX 滑动（不改宽度），roving tabindex，方向键 / Home / End 可达。</p>
+          </header>
+          <div class="demo__stage np-tabs">
+            <div class="np-tabs__bar" role="tablist" aria-label="演示标签页" id="np-tabs-bar">
+              <span class="np-tabs__ind" id="np-tabs-ind" aria-hidden="true"></span>
+            </div>
+            <div class="np-tabs__panels" id="np-tabs-panels"></div>
+            <p class="np-status mono tnum" id="np-tabs-status" aria-live="polite">当前：总览（方向键切换）</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">click · ←→ / Home / End（自动激活）</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.presets.snap 520/30/0.7（等效 --ease-snap）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translateX + scaleX · opacity</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：指示器瞬时定位，选中态仍由 aria-selected 表达</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-stepper">
+          <header class="demo__label">
+            <span class="demo__index">06</span>
+            <h3 class="demo__title">步骤向导（可回退）</h3>
+            <p class="demo__desc">4 步流程，进度条 transform: scaleX，回退保留已填内容，步骤指示用 aria-current="step"。</p>
+          </header>
+          <div class="demo__stage np-step">
+            <ol class="np-step__dots" id="np-step-dots"></ol>
+            <div class="np-step__bar" aria-hidden="true"><span class="np-step__fill" id="np-step-fill"></span></div>
+            <div class="np-step__body" id="np-step-body"></div>
+            <p class="np-status mono tnum" id="np-step-status" aria-live="polite">第 1 / 4 步</p>
+            <div class="np-row">
+              <button class="btn btn--ghost" id="np-step-prev" type="button">上一步</button>
+              <button class="btn btn--primary" id="np-step-next" type="button">下一步</button>
+              <button class="btn btn--ghost" id="np-step-last" type="button">跳到最后</button>
+            </div>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click / Enter · 方向键在步骤间移动焦点</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">步骤切换 --dur-base 240ms · 进度条同步</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: scaleX（进度）· translate3d + opacity（内容）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：内容瞬时替换，步骤与数值仍用文字表达</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-pager">
+          <header class="demo__label">
+            <span class="demo__index">07</span>
+            <h3 class="demo__title">分页器</h3>
+            <p class="demo__desc">48 条本地数据、每页 6 条；页码含省略号与首末页，当前页 aria-current="page"，禁用态真的 disabled。</p>
+          </header>
+          <div class="demo__stage np-pager">
+            <ul class="np-pager__list" id="np-pager-list"></ul>
+            <nav class="np-pager__nav" id="np-pager-nav" aria-label="分页导航"></nav>
+            <p class="np-status mono tnum" id="np-pager-status" aria-live="polite">第 1–6 条 / 共 48 条</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">页码/上下页 click · Enter · Tab 聚焦</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">列表淡入 --dur-fast 150ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity · transform: translate3d</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：列表直接替换，aria-current 与计数文本照常更新</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-toc">
+          <header class="demo__label">
+            <span class="demo__index">08</span>
+            <h3 class="demo__title">粘性侧栏目录（滚动高亮）</h3>
+            <p class="demo__desc">目录 position: sticky 常驻，滚动时高亮当前节；点击用平滑滚动定位，aria-current 同步。</p>
+          </header>
+          <div class="demo__stage np-toc">
+            <nav class="np-toc__nav" aria-label="目录"><ul class="np-toc__list" id="np-toc-list"></ul></nav>
+            <div class="np-toc__scroll" id="np-toc-scroll" tabindex="0" aria-label="可滚动内容区，滚动查看目录高亮">
+              <div id="np-toc-content"></div>
+            </div>
+            <p class="np-status mono tnum" id="np-toc-status" aria-live="polite">当前节：概览</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">容器 scroll · 目录 click / Enter</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-fast 150ms（高亮）· 滚动行为 smooth</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint · scroll-behavior: smooth</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">color / background（不透明度）· transform: translateX(2px)</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：瞬时跳转（scroll 行为 auto），高亮只靠颜色与字重</dd></div>
+            </dl>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell" id="np-sec-mobile">
+      <div class="section-head">
+        <p class="eyebrow">03</p>
+        <h2 class="h2">移动与状态</h2>
+        <p class="lede">移动端把「上一层」放在拇指可及处；返回时把滚动位置与筛选状态一起还回去。</p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo reveal" id="demo-bottomnav">
+          <header class="demo__label">
+            <span class="demo__index">09</span>
+            <h3 class="demo__title">移动端底部导航（≤5 项）</h3>
+            <p class="demo__desc">5 项、每项 ≥44px、图标 + 文字双通道表达当前项，aria-current 与指示条同步；方向键可切换。</p>
+          </header>
+          <div class="demo__stage np-phone-wrap">
+            <div class="np-phone">
+              <div class="np-phone__body" id="np-phone-body">
+                <p class="np-phone__title" id="np-phone-title">概览</p>
+                <p class="np-phone__text" id="np-phone-text">底部 5 个目的地始终可见，当前项同时用颜色、字重与指示条三种方式表达。</p>
+              </div>
+              <div class="np-phone__bar" role="tablist" aria-label="移动端主导航" id="np-bn-bar"></div>
+            </div>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">tap / click · ←→ Home End</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">指示条 --dur-base 240ms · 内容 --dur-fast 150ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.presets.snap（等效 --ease-snap）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translateX + scaleX · opacity</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：指示条瞬时定位，仍保留文字标签与 aria-current</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-drawer">
+          <header class="demo__label">
+            <span class="demo__index">10</span>
+            <h3 class="demo__title">抽屉菜单</h3>
+            <p class="demo__desc">从右侧滑入，scrim 遮罩、焦点锁定、Esc 关闭并回焦触发按钮；只动画 transform 与 opacity。</p>
+          </header>
+          <div class="demo__stage np-drawer">
+            <button class="btn btn--primary" id="np-drawer-open" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="np-drawer-panel">
+              <span data-np-icon="menu"></span>打开抽屉菜单
+            </button>
+            <div class="np-drawer__stage" id="np-drawer-stage">
+              <div class="np-drawer__scrim" id="np-drawer-scrim" hidden></div>
+              <div class="np-drawer__panel" id="np-drawer-panel" role="dialog" aria-modal="true" aria-label="演示抽屉菜单" hidden>
+                <div class="np-drawer__head">
+                  <p class="np-drawer__title">全部展厅</p>
+                  <button class="btn btn--ghost btn--icon" id="np-drawer-close" type="button" aria-label="关闭抽屉"><span data-np-icon="close"></span></button>
+                </div>
+                <ul class="np-drawer__list" id="np-drawer-list"></ul>
+                <p class="np-hint mono">Tab 循环于抽屉内部，Esc 关闭</p>
+              </div>
+            </div>
+            <p class="np-status mono tnum" id="np-drawer-status" aria-live="polite">已关闭</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">click 打开 · Esc / scrim 关闭 · Tab 焦点循环</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">进入 --dur-slow 360ms · 退出 calc(--dur-slow × 0.68)</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（进入）· --ease-in-quad（退出）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d · opacity</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：直接显隐，焦点锁定与回焦照常</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-anchors">
+          <header class="demo__label">
+            <span class="demo__index">11</span>
+            <h3 class="demo__title">锚点导航（scrollspy）</h3>
+            <p class="demo__desc">锚点指向本页真实小节，滚动时自动高亮当前节；点击平滑滚动并同步 aria-current。</p>
+          </header>
+          <div class="demo__stage np-anchors">
+            <nav class="np-anchors__nav" aria-label="本页小节">
+              <ul class="np-anchors__list" id="np-anchor-list">
+                <li><a class="np-anchors__link" href="#np-sec-search">01 检索与跳转</a></li>
+                <li><a class="np-anchors__link" href="#np-sec-structure">02 结构与位置</a></li>
+                <li><a class="np-anchors__link" href="#np-sec-mobile">03 移动与状态</a></li>
+                <li><a class="np-anchors__link" href="#main">回到页首</a></li>
+              </ul>
+            </nav>
+            <p class="np-status mono tnum" id="np-anchor-status" aria-live="polite">当前节：01 检索与跳转</p>
+            <p class="np-hint mono">高亮由 IntersectionObserver + 滚动位置共同计算，滚动本页即可观察。</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">页面 scroll（IntersectionObserver）· 链接 click / Enter</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">高亮 --dur-fast 150ms · 滚动行为 smooth</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（高亮）· native smooth scroll</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">color / background-color · transform: translateX(2px)</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：跳转瞬时完成，高亮用字重 + 边框表达</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-backstate">
+          <header class="demo__label">
+            <span class="demo__index">12</span>
+            <h3 class="demo__title">返回行为与状态保持</h3>
+            <p class="demo__desc">离开列表时把筛选与滚动位置写进 history.state；返回（含浏览器后退 popstate）后原样还原。</p>
+          </header>
+          <div class="demo__stage np-back">
+            <div class="np-back__filters" id="np-back-filters" role="group" aria-label="筛选分类"></div>
+            <div class="np-back__list" id="np-back-list" tabindex="0" aria-label="条目列表，可滚动"></div>
+            <div class="np-back__detail" id="np-back-detail" hidden></div>
+            <div class="np-row">
+              <button class="btn btn--ghost" id="np-back-return" type="button" hidden><span data-np-icon="arrow-left"></span>返回列表</button>
+            </div>
+            <p class="np-status mono tnum" id="np-back-status" aria-live="polite">当前：列表</p>
+            <pre class="np-back__state mono tnum" id="np-back-state">{"view":"list","filter":"all","scroll":0}</pre>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">卡片 click / Enter · 返回按钮 · 浏览器 popstate</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">视图切换 --dur-base 240ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-in-out-quart</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d · opacity</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：瞬时切换；history.state 与 localStorage 仍在写入</dd></div>
+            </dl>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <nav class="page-nav shell" aria-label="展厅导航">
+      <a class="page-nav__link" href="page-transitions.html">上一站 · 展厅 D 页面转场</a>
+      <a class="page-nav__link" href="index.html">返回首页</a>
+      <a class="page-nav__link" href="forms.html">下一站 · 展厅 F 表单交互</a>
+    </nav>
+  </main>
+
+  <div id="site-footer"></div>
+  <div id="site-overlays"></div>
+
+  <script src="assets/js/site.js"></script>
+  <script src="assets/js/pages/navigation.js"></script>
+</body>
+</html>

@@ -1,0 +1,801 @@
+/* ==========================================================================
+   MOTION LAB · motion.css — 动效原语与声明式工具类
+   规则：只动画 transform / opacity / filter / CSS 变量。
+        任何"进入"动画都必须有 exit 更快（--exit-factor）的对应实现。
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. 通用过渡工具
+   -------------------------------------------------------------------------- */
+.t-color {
+  transition: color var(--dur-fast) var(--ease-out-quint),
+    background-color var(--dur-fast) var(--ease-out-quint),
+    border-color var(--dur-fast) var(--ease-out-quint);
+}
+
+.t-transform {
+  transition: transform var(--dur-base) var(--ease-out-quint), opacity var(--dur-base) var(--ease-out-quint);
+}
+
+.t-exit {
+  transition-duration: calc(var(--dur-base) * var(--exit-factor));
+  transition-timing-function: var(--ease-in-quad);
+}
+
+/* GPU 提示（仅在动画期间由 JS 或类添加，避免长期占用） */
+.gpu {
+  will-change: transform, opacity;
+}
+
+/* 按压反馈：只改 transform，不动布局 */
+.press {
+  transition: transform var(--dur-fast) var(--ease-out-quint), box-shadow var(--dur-base) var(--ease-out-quint);
+}
+
+.press:active {
+  transform: scale(0.97);
+}
+
+/* 图标 */
+.icon {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  stroke-width: 1.5;
+}
+
+.icon--sm {
+  width: 16px;
+  height: 16px;
+}
+
+.icon--lg {
+  width: 24px;
+  height: 24px;
+}
+
+.icon--xl {
+  width: 32px;
+  height: 32px;
+}
+
+.spin {
+  animation: ml-spin 900ms linear infinite;
+}
+
+@keyframes ml-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. 滚动揭示（.reveal → .reveal--in，由 ML.reveal() 添加）
+   -------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  transition: opacity var(--dur-slower) var(--ease-out-quint),
+    transform var(--dur-slower) var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal--left {
+  transform: translate3d(-26px, 0, 0);
+}
+
+.reveal--right {
+  transform: translate3d(26px, 0, 0);
+}
+
+.reveal--down {
+  transform: translate3d(0, -22px, 0);
+}
+
+.reveal--scale {
+  transform: scale(0.94);
+}
+
+.reveal--fade {
+  transform: none;
+}
+
+.reveal--blur {
+  filter: blur(10px);
+  transform: translate3d(0, 14px, 0);
+  transition: opacity var(--dur-slower) var(--ease-out-quint),
+    transform var(--dur-slower) var(--ease-out-expo), filter var(--dur-slower) var(--ease-out-quint);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal--in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* 子项错开：容器加 .reveal--stagger，子项用 --reveal-delay 逐个延后 */
+.reveal--stagger > * {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition: opacity var(--dur-slower) var(--ease-out-quint),
+    transform var(--dur-slower) var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal--stagger.reveal--in > * {
+  opacity: 1;
+  transform: none;
+}
+
+/* 遮罩推开式揭示（标题用） */
+.reveal-mask {
+  overflow: hidden;
+  display: block;
+}
+
+.reveal-mask > * {
+  display: block;
+  transform: translate3d(0, 105%, 0);
+  transition: transform var(--dur-slower) var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal-mask.reveal--in > * {
+  transform: none;
+}
+
+/* 字词级进入（JS 拆词后使用） */
+.word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.word > span {
+  display: inline-block;
+  transform: translate3d(0, 100%, 0) rotate(2deg);
+  transition: transform var(--dur-slower) var(--ease-out-expo), opacity var(--dur-slower) var(--ease-out-quint);
+  transition-delay: var(--word-delay, 0ms);
+  opacity: 0;
+}
+
+.word--in > span {
+  transform: none;
+  opacity: 1;
+}
+
+/* 动效精简档：只保留不透明度 */
+[data-motion='lite'] .reveal,
+[data-motion='lite'] .reveal--stagger > *,
+[data-motion='lite'] .reveal-mask > *,
+[data-motion='lite'] .word > span {
+  transform: none;
+  filter: none;
+  transition: opacity var(--dur-base) var(--ease-out-quint);
+  transition-delay: 0ms;
+}
+
+[data-motion='lite'] .reveal-mask > * {
+  opacity: 0;
+}
+
+[data-motion='lite'] .reveal-mask.reveal--in > * {
+  opacity: 1;
+}
+
+/* 未进入时不可交互（避免不可见元素被点击） */
+.reveal:not(.reveal--in) {
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   3. 骨架屏 / 加载
+   -------------------------------------------------------------------------- */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--surface-2);
+  border-radius: var(--r-sm);
+  color: transparent !important;
+  user-select: none;
+  min-height: 1em;
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translate3d(-100%, 0, 0);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--paper) 9%, transparent),
+    transparent
+  );
+  animation: ml-shimmer 1.4s var(--ease-in-out-quart) infinite;
+}
+
+.skeleton--line {
+  height: 0.85em;
+  border-radius: var(--r-pill);
+}
+
+.skeleton--block {
+  height: 96px;
+}
+
+.skeleton--circle {
+  border-radius: 50%;
+  aspect-ratio: 1;
+}
+
+@keyframes ml-shimmer {
+  100% {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+[data-motion='lite'] .skeleton::after,
+[data-motion='off'] .skeleton::after {
+  animation: none;
+  opacity: 0.5;
+  transform: none;
+  background: color-mix(in srgb, var(--paper) 6%, transparent);
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, currentColor 28%, transparent);
+  border-top-color: currentColor;
+  animation: ml-spin 700ms linear infinite;
+  flex: none;
+}
+
+.spinner--lg {
+  width: 28px;
+  height: 28px;
+  border-width: 3px;
+}
+
+.progress {
+  position: relative;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background-color: var(--surface-2);
+  overflow: hidden;
+}
+
+.progress__bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 100%;
+  border-radius: inherit;
+  background-color: var(--accent);
+  transform-origin: left center;
+  transform: scaleX(var(--progress, 0));
+  transition: transform var(--dur-base) var(--ease-out-quint);
+}
+
+.progress--indeterminate .progress__bar {
+  width: 40%;
+  animation: ml-indeterminate 1.5s var(--ease-in-out-quart) infinite;
+}
+
+@keyframes ml-indeterminate {
+  0% {
+    transform: translate3d(-110%, 0, 0);
+  }
+  100% {
+    transform: translate3d(260%, 0, 0);
+  }
+}
+
+/* 不确定进度：动效精简时改为不透明度呼吸 */
+[data-motion='lite'] .progress--indeterminate .progress__bar,
+[data-motion='off'] .progress--indeterminate .progress__bar {
+  animation: none;
+  transform: none;
+  width: 100%;
+  opacity: 0.45;
+}
+
+/* --------------------------------------------------------------------------
+   4. 涟漪 / 磁吸 / 倾斜 / 光泽
+   -------------------------------------------------------------------------- */
+.ripple-host {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, color-mix(in srgb, var(--paper) 42%, transparent), transparent 70%);
+  transform: translate3d(-50%, -50%, 0) scale(0);
+  opacity: 0.55;
+  animation: ml-ripple 560ms var(--ease-out-quint) forwards;
+  z-index: 1;
+}
+
+@keyframes ml-ripple {
+  100% {
+    transform: translate3d(-50%, -50%, 0) scale(1);
+    opacity: 0;
+  }
+}
+
+[data-motion='lite'] .ripple,
+[data-motion='off'] .ripple {
+  display: none;
+}
+
+.tilt {
+  transform-style: preserve-3d;
+  transition: transform var(--dur-slow) var(--ease-out-quint);
+}
+
+.tilt__glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  background: radial-gradient(
+    420px circle at var(--glare-x, 50%) var(--glare-y, 50%),
+    color-mix(in srgb, var(--paper) 12%, transparent),
+    transparent 62%
+  );
+  transition: opacity var(--dur-base) var(--ease-out-quint);
+}
+
+.tilt:hover .tilt__glare {
+  opacity: 1;
+}
+
+[data-motion='lite'] .tilt,
+[data-motion='off'] .tilt {
+  transform: none !important;
+}
+
+/* 悬停下划线绘制 */
+.underline-draw {
+  position: relative;
+}
+
+.underline-draw::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-base) var(--ease-out-quint);
+}
+
+.underline-draw:hover::after,
+.underline-draw:focus-visible::after {
+  transform: scaleX(1);
+}
+
+[data-motion='lite'] .underline-draw::after {
+  transition: opacity var(--dur-base) var(--ease-out-quint);
+  transform: none;
+  opacity: 0;
+}
+
+[data-motion='lite'] .underline-draw:hover::after,
+[data-motion='lite'] .underline-draw:focus-visible::after {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   5. 数值滚动 / 计数
+   -------------------------------------------------------------------------- */
+.count {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* --------------------------------------------------------------------------
+   6. 序列错开播放入场（.stagger-seq > * 自动按 --i 延迟）
+   -------------------------------------------------------------------------- */
+.stagger-seq > * {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition: opacity var(--dur-slower) var(--ease-out-quint), transform var(--dur-slower) var(--ease-out-expo);
+  transition-delay: calc(var(--i, 0) * var(--stagger));
+}
+
+.stagger-seq.seq--in > * {
+  opacity: 1;
+  transform: none;
+}
+
+[data-motion='lite'] .stagger-seq > * {
+  transform: none;
+  transition: opacity var(--dur-base) var(--ease-out-quint);
+  transition-delay: 0ms;
+}
+
+/* --------------------------------------------------------------------------
+   7. 形状与路径描绘（图表、勾选、进度环）
+   -------------------------------------------------------------------------- */
+.draw-path {
+  stroke-dasharray: var(--len, 1000);
+  stroke-dashoffset: var(--len, 1000);
+  transition: stroke-dashoffset var(--dur-slower) var(--ease-out-quint);
+  transition-delay: var(--draw-delay, 0ms);
+}
+
+.draw-path--in {
+  stroke-dashoffset: 0;
+}
+
+[data-motion='lite'] .draw-path,
+[data-motion='off'] .draw-path {
+  stroke-dashoffset: 0;
+}
+
+.ring__value {
+  stroke-dasharray: var(--circ, 314);
+  stroke-dashoffset: calc(var(--circ, 314) * (1 - var(--ring, 0)));
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transition: stroke-dashoffset var(--dur-slower) var(--ease-out-quint);
+}
+
+[data-motion='lite'] .ring__value {
+  transition-duration: var(--dur-base);
+}
+
+/* --------------------------------------------------------------------------
+   8. 弹层动效：模态 / 抽屉 / 弹出层 / 气泡
+   -------------------------------------------------------------------------- */
+.enter-scale {
+  opacity: 0;
+  transform: scale(0.96) translate3d(0, 8px, 0);
+  transition: opacity var(--dur-base) var(--ease-out-quint), transform var(--dur-slow) var(--ease-out-expo);
+}
+
+.enter-scale.is-open {
+  opacity: 1;
+  transform: none;
+}
+
+.enter-scale.is-closing {
+  opacity: 0;
+  transform: scale(0.98);
+  transition-duration: calc(var(--dur-base) * var(--exit-factor));
+  transition-timing-function: var(--ease-in-quad);
+}
+
+.enter-slide-right {
+  transform: translate3d(100%, 0, 0);
+  transition: transform var(--dur-slow) var(--ease-out-expo);
+}
+
+.enter-slide-right.is-open {
+  transform: none;
+}
+
+.enter-slide-right.is-closing {
+  transform: translate3d(100%, 0, 0);
+  transition-duration: calc(var(--dur-slow) * var(--exit-factor));
+  transition-timing-function: var(--ease-in-quad);
+}
+
+.enter-slide-left {
+  transform: translate3d(-100%, 0, 0);
+  transition: transform var(--dur-slow) var(--ease-out-expo);
+}
+
+.enter-slide-left.is-open {
+  transform: none;
+}
+
+.enter-slide-left.is-closing {
+  transform: translate3d(-100%, 0, 0);
+  transition-duration: calc(var(--dur-slow) * var(--exit-factor));
+  transition-timing-function: var(--ease-in-quad);
+}
+
+.enter-slide-up {
+  transform: translate3d(0, 100%, 0);
+  transition: transform var(--dur-slow) var(--ease-out-expo);
+}
+
+.enter-slide-up.is-open {
+  transform: none;
+}
+
+.enter-slide-up.is-closing {
+  transform: translate3d(0, 100%, 0);
+  transition-duration: calc(var(--dur-slow) * var(--exit-factor));
+  transition-timing-function: var(--ease-in-quad);
+}
+
+.fade {
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out-quint);
+}
+
+.fade.is-open {
+  opacity: 1;
+}
+
+.fade.is-closing {
+  opacity: 0;
+  transition-duration: calc(var(--dur-base) * var(--exit-factor));
+  transition-timing-function: var(--ease-in-quad);
+}
+
+[data-motion='lite'] .enter-scale,
+[data-motion='lite'] .enter-slide-right,
+[data-motion='lite'] .enter-slide-left,
+[data-motion='lite'] .enter-slide-up {
+  transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   9. 视图过渡（跨文档 + 同文档）
+   -------------------------------------------------------------------------- */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--dur-slow);
+  animation-timing-function: var(--ease-out-quint);
+}
+
+::view-transition-old(root) {
+  animation-duration: calc(var(--dur-slow) * var(--exit-factor));
+  animation-timing-function: var(--ease-in-quad);
+}
+
+/* 前进：新内容自右进入 / 旧内容向左退出 */
+html[data-nav-dir='forward']::view-transition-old(root) {
+  animation-name: ml-vt-out-left;
+}
+
+html[data-nav-dir='forward']::view-transition-new(root) {
+  animation-name: ml-vt-in-right;
+}
+
+/* 后退：反向 */
+html[data-nav-dir='back']::view-transition-old(root) {
+  animation-name: ml-vt-out-right;
+}
+
+html[data-nav-dir='back']::view-transition-new(root) {
+  animation-name: ml-vt-in-left;
+}
+
+@keyframes ml-vt-in-right {
+  from {
+    opacity: 0;
+    transform: translate3d(24px, 0, 0);
+  }
+}
+
+@keyframes ml-vt-in-left {
+  from {
+    opacity: 0;
+    transform: translate3d(-24px, 0, 0);
+  }
+}
+
+@keyframes ml-vt-out-left {
+  to {
+    opacity: 0;
+    transform: translate3d(-18px, 0, 0);
+  }
+}
+
+@keyframes ml-vt-out-right {
+  to {
+    opacity: 0;
+    transform: translate3d(18px, 0, 0);
+  }
+}
+
+/* 共享元素：卡片 → 详情 */
+.vt-card {
+  view-transition-name: match-element;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-name: none;
+  }
+}
+
+[data-motion='lite']::view-transition-old(root),
+[data-motion='lite']::view-transition-new(root) {
+  animation-name: ml-vt-fade;
+}
+
+@keyframes ml-vt-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* 同名视图过渡：主题切换时的柔和交叉淡化 */
+.theme-vt::view-transition-old(root),
+.theme-vt::view-transition-new(root) {
+  animation-duration: var(--dur-slow);
+}
+
+/* --------------------------------------------------------------------------
+   10. 氛围动画（全部是一次性或与滚动绑定，禁止装饰性无限循环）
+   -------------------------------------------------------------------------- */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-noise);
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: var(--grain-size) var(--grain-size);
+  mix-blend-mode: overlay;
+}
+
+[data-theme='light'] .grain {
+  mix-blend-mode: multiply;
+  opacity: 0.05;
+}
+
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, var(--accent-soft), transparent 68%);
+  filter: blur(48px);
+  opacity: 0.7;
+  z-index: -1;
+}
+
+@keyframes ml-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, -3%, 0) scale(1.06);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.drift {
+  animation: ml-drift 18s var(--ease-in-out-quart) infinite;
+}
+
+[data-motion='lite'] .drift,
+[data-motion='off'] .drift {
+  animation: none;
+}
+
+/* 网格底纹（静态，随滚动视差） */
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(to right, var(--line-soft) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line-soft) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse at 50% 0%, #000 20%, transparent 78%);
+  z-index: -1;
+}
+
+/* 呼吸（仅用于"在线/录制中"等真实状态，不用于装饰） */
+@keyframes ml-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(0.92);
+  }
+}
+
+.pulse {
+  animation: ml-pulse 2.4s var(--ease-in-out-quart) infinite;
+}
+
+/* 成功勾选绘制 */
+@keyframes ml-draw-check {
+  from {
+    stroke-dashoffset: var(--len, 40);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   11. 页面级过渡（同页内区块切换 / 内容替换：交叉淡化）
+   -------------------------------------------------------------------------- */
+.swap {
+  display: grid;
+}
+
+.swap > * {
+  grid-area: 1 / 1;
+  transition: opacity var(--dur-base) var(--ease-out-quint), transform var(--dur-base) var(--ease-out-quint);
+}
+
+.swap > [hidden] {
+  display: block;
+  visibility: hidden;
+}
+
+.swap__leaving {
+  opacity: 0;
+  transform: translate3d(0, -6px, 0);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   12. 键盘提示
+   -------------------------------------------------------------------------- */
+kbd {
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  line-height: 1;
+  padding: 4px 6px;
+  border-radius: var(--r-xs);
+  border: var(--hairline-w) solid var(--line);
+  background-color: var(--surface-2);
+  box-shadow: var(--shadow-hi);
+  color: var(--paper);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   13. 通用可视化辅助（手势阈值、标尺、网格覆盖等页面常用）
+   -------------------------------------------------------------------------- */
+.ruler {
+  position: relative;
+  height: 1px;
+  background: repeating-linear-gradient(
+    to right,
+    var(--line) 0 1px,
+    transparent 1px 8px
+  );
+}
+
+.threshold-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--accent);
+  transform: translate3d(-50%, 0, 0);
+}
+
+/* 主题切换：由 JS 在切换瞬间给 <html> 加 .theme-fading 并立即移除。
+   原因：元素上的 transition 会让「由 CSS 变量驱动的颜色」在变量变化时停在旧值
+   （实测 Chromium：transition: background-color + var() 变化 = 颜色不更新）。
+   因此主题切换期间必须临时禁用所有过渡，切换完成后再恢复。 */
+html.theme-fading,
+html.theme-fading *,
+html.theme-fading *::before,
+html.theme-fading *::after {
+  transition: none !important;
+  animation-duration: 1ms !important;
+}

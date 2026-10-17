@@ -1,0 +1,469 @@
+/* ==========================================================================
+   MOTION LAB · 交互地图（atlas.html）页面样式
+   仅使用 DESIGN-SYSTEM.md 定义的 token；不定义颜色字面量。
+   筛选重排只动 transform / opacity，绝不动画 width / height。
+   ========================================================================== */
+
+/* ---------- 筛选器 ---------- */
+
+.atl-filters {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  border: var(--hairline-w) solid var(--line);
+  border-radius: var(--r-lg);
+  background-color: var(--ink-800);
+}
+
+.atl-filters__search {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.atl-filters__field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.atl-filters__icon {
+  position: absolute;
+  left: var(--space-4);
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.atl-filters__input {
+  width: 100%;
+  min-height: 48px;
+  padding-inline: calc(var(--space-4) + 24px + var(--space-2)) 64px;
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  color: var(--paper);
+  background-color: var(--ink-700);
+  border: var(--hairline-w) solid var(--line);
+  border-radius: var(--r-md);
+}
+
+.atl-filters__input::placeholder {
+  color: var(--faint);
+}
+
+.atl-filters__input::-webkit-search-cancel-button,
+.atl-filters__input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.atl-filters__clear {
+  position: absolute;
+  right: var(--space-2);
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.atl-filters .hint {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+
+.atl-filters kbd {
+  padding: 1px 6px;
+  border: var(--hairline-w) solid var(--line);
+  border-radius: var(--r-xs);
+  background-color: var(--ink-700);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  line-height: 1.4;
+}
+
+.atl-filters__zones {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.atl-filters__zones .label {
+  padding: 0;
+}
+
+.atl-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.atl-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: var(--hairline-w) solid var(--line);
+  border-radius: var(--r-pill);
+  background-color: var(--ink-700);
+  color: var(--muted-strong);
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  transition:
+    transform var(--dur-fast) var(--ease-out-quint),
+    border-color var(--dur-fast) var(--ease-out-quint),
+    background-color var(--dur-fast) var(--ease-out-quint),
+    color var(--dur-fast) var(--ease-out-quint);
+}
+
+.atl-chip:hover {
+  color: var(--paper);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--ink-600));
+  transform: translate3d(0, -2px, 0);
+}
+
+.atl-chip__key {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.14em;
+  color: var(--accent-ink);
+}
+
+.atl-chip__n {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  color: inherit;
+  opacity: 0.75;
+}
+
+/* 选中态：颜色 + 勾选图标 + aria-pressed，三重表达 */
+.atl-chip__tick {
+  display: none;
+  align-items: center;
+}
+
+.atl-chip[aria-pressed="true"] {
+  background-color: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--paper);
+}
+
+.atl-chip[aria-pressed="true"] .atl-chip__tick {
+  display: inline-flex;
+  color: currentColor;
+}
+
+.atl-filters__status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  padding-top: var(--space-4);
+  border-top: var(--hairline-w) solid var(--line);
+}
+
+.atl-count {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.08em;
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+}
+
+.atl-active {
+  flex: 1 1 12rem;
+  min-width: 0;
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.atl-filters__status .btn {
+  min-height: 44px;
+}
+
+@media (min-width: 1024px) {
+  .atl-filters {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    column-gap: var(--space-7);
+  }
+
+  .atl-filters__status {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------- 结果列表 ---------- */
+
+.atl-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.atl-item {
+  display: block;
+  opacity: 1;
+}
+
+.atl-item__id {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.atl-item__main {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+/* 首屏同步脚本标记：脚本渲染前先占位，避免首屏跳动 */
+html.atl-boot .atl-list:empty {
+  min-height: 40vh;
+}
+
+.atl-item__link {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  gap: var(--space-2) var(--space-4);
+  align-items: start;
+  padding: var(--space-4);
+  border: var(--hairline-w) solid var(--line);
+  border-radius: var(--r-md);
+  background-color: var(--ink-800);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) var(--ease-out-quint),
+    background-color var(--dur-fast) var(--ease-out-quint),
+    transform var(--dur-fast) var(--ease-out-quint);
+}
+
+.atl-item__link:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--ink-600));
+  background-color: var(--ink-700);
+}
+
+.atl-item__id {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.08em;
+  color: var(--accent-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.atl-item__main {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.atl-item__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+}
+
+.atl-item__desc {
+  max-width: var(--measure);
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+
+.atl-item__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.atl-item__tags .chip {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.04em;
+  overflow-wrap: anywhere;
+}
+
+.atl-item__zone {
+  grid-column: 1;
+  grid-row: 3;
+  justify-self: start;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.atl-item__go {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: center;
+  justify-self: end;
+  color: var(--faint);
+}
+
+@media (min-width: 768px) {
+  .atl-item__link {
+    grid-template-columns: 72px minmax(0, 1fr) 148px 20px;
+    align-items: center;
+  }
+
+  .atl-item__id {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .atl-item__main {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .atl-item__zone {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+    text-align: right;
+  }
+
+  .atl-item__go {
+    grid-column: 4;
+    grid-row: 1;
+    align-self: center;
+  }
+}
+
+/* 键盘漫游高亮：焦点环 + 背景 + 左侧色条（不只靠颜色） */
+.atl-item--active .atl-item__link,
+.atl-item__link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.atl-item--active .atl-item__link {
+  background-color: var(--ink-700);
+  border-color: var(--accent);
+}
+
+/* ---------- 空状态 ---------- */
+
+.atl-empty {
+  padding: var(--space-6);
+  margin-top: var(--space-4);
+}
+
+.atl-empty .h3 {
+  margin: var(--space-3) 0 0;
+}
+
+.atl-empty__why {
+  margin: var(--space-3) 0 0;
+  max-width: var(--measure);
+  color: var(--paper);
+  font-size: var(--fs-sm);
+}
+
+.atl-empty__tips {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 var(--space-5);
+  padding-left: var(--space-5);
+  max-width: var(--measure);
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+
+.atl-empty__tips a {
+  color: var(--accent-ink);
+}
+
+.atl-empty .btn {
+  min-height: 44px;
+}
+
+/* ---------- 回到筛选器 ---------- */
+
+.atl-top {
+  position: fixed;
+  right: var(--space-5);
+  bottom: var(--space-5);
+  z-index: var(--z-sticky);
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  background-color: var(--ink-700);
+  border: var(--hairline-w) solid var(--line);
+  box-shadow: var(--shadow-2);
+}
+
+/* ---------- 触控与降级 ---------- */
+
+/* tokens.css 的全局 :focus-visible 会把圆角改成 --r-xs，这里按组件本来圆角抵消 */
+.atl-chip:focus-visible,
+.atl-filters__clear:focus-visible,
+.atl-filters__input:focus-visible,
+.atl-top:focus-visible,
+.atl-filters__status .btn:focus-visible,
+.atl-item__link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.atl-chip:focus-visible,
+.atl-filters__status .btn:focus-visible {
+  border-radius: var(--r-pill);
+}
+
+.atl-filters__clear:focus-visible,
+.atl-top:focus-visible {
+  border-radius: var(--r-pill);
+}
+
+.atl-filters__input:focus-visible,
+.atl-item__link:focus-visible {
+  border-radius: var(--r-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atl-chip,
+  .atl-item__link {
+    transition-duration: 1ms;
+  }
+
+  .atl-chip:hover {
+    transform: none;
+  }
+}
+
+html[data-motion="off"] .atl-chip,
+html[data-motion="off"] .atl-item__link {
+  transition: none;
+}
+
+html[data-motion="off"] .atl-chip:hover {
+  transform: none;
+}
+
+/* ---------- [hidden] 兜底：作者样式的 display 会覆盖 UA 的 [hidden] ---------- */
+
+.atl-item[hidden],
+.atl-empty[hidden],
+.atl-top[hidden],
+.atl-filters__clear[hidden] {
+  display: none;
+}

@@ -1,0 +1,2281 @@
+{
+  "mode": "reduced",
+  "viewport": {
+    "w": 375,
+    "h": 900
+  },
+  "base": "http://127.0.0.1:8912",
+  "generated": "2026-10-16T16:03:02.439Z",
+  "results": {
+    "index": {
+      "url": "http://127.0.0.1:8912/index.html",
+      "status": "ok",
+      "metrics": {
+        "title": "MOTION LAB · 交互设计交付展",
+        "lang": "zh-CN",
+        "dataMotion": "lite",
+        "dataTheme": "dark",
+        "dataPage": "index",
+        "scrollWidth": 375,
+        "innerWidth": 375,
+        "bodyScrollWidth": 375,
+        "overflowX": false,
+        "h1Count": 1,
+        "h1Text": "丝滑\n          不是\n          感觉\n          \n          是\n        ",
+        "headings": "H1,H2,H2,H3,H3,H3,H3,H3,H3,H3,H3,H3,H3,H3,H3,H2,H3,H3,H3,H3,H3,H3,H2,H3,H3,H3,H3,H3,H2",
+        "images": 0,
+        "imagesNoAlt": 0,
+        "links": 76,
+        "buttons": 10,
+        "demos": 0,
+        "specs": 0,
+        "demosNoSpec": [],
+        "svgIcons": 53,
+        "emojiNodes": 0,
+        "emojiSamples": [],
+        "header": true,
+        "footer": true,
+        "palette": true,
+        "drawer": true,
+        "toastRegion": false,
+        "revealTotal": 17,
+        "revealIn": 17,
+        "hiddenContent": [],
+        "hiddenContentCount": 0,
+        "hiddenReveal": [],
+        "hiddenRevealCount": 0,
+        "hiddenRevealInViewport": 0,
+        "fontsLoaded": [
+          "Archivo",
+          "JetBrains Mono",
+          "Space Grotesk"
+        ],
+        "overflowItems": [
+          {
+            "sel": "div.ix-hero__grid",
+            "left": -64,
+            "right": 439,
+            "clippedBy": "div.ix-hero__bg",
+            "unclipped": false
+          },
+          {
+            "sel": "div.ix-hero__glow.ix-hero__glow--a",
+            "left": -37,
+            "right": 308,
+            "clippedBy": "div.ix-hero__bg",
+            "unclipped": false
+          },
+          {
+            "sel": "div.ix-hero__glow.ix-hero__glow--b",
+            "left": 135,
+            "right": 428,
+            "clippedBy": "div.ix-hero__bg",
+            "unclipped": false
+          },
+          {
+            "sel": "li.ix-param",
+            "left": 342,
+            "right": 619,
+            "clippedBy": "ul.ix-wall__track",
+            "unclipped": false
+          },
+          {
+            "sel": "p.ix-param__idx.tnum",
+            "left": 367,
+            "right": 594,
+            "clippedBy": "ul.ix-wall__track",
+            "unclipped": false
+          },
+          {
+            "sel": "h3.ix-param__title",
+            "left": 367,
+            "right": 594,
+            "clippedBy": "ul.ix-wall__track",
+            "unclipped": false
+          },
+          {
+            "sel": "p.ix-param__token.mono",
+            "left": 367,
+            "right": 594,
+            "clippedBy": "ul.ix-wall__track",
+            "unclipped": false
+          },
+          {
+            "sel": "div.ix-plot",
+            "left": 367,
+            "right": 594,
+            "clippedBy": "ul.ix-wall__track",
+            "unclipped": false
+          },
+          {
+            "sel": "svg",
+            "left": 367,
+            "right": 594,
+            "clippedBy": "ul.ix-wall__track",
+            "unclipped": false
+          },
+          {
+            "sel": "path",
+            "left": 382,
+            "right": 578,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          },
+          {
+            "sel": "path",
+            "left": 382,
+            "right": 578,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          },
+          {
+            "sel": "path",
+            "left": 382,
+            "right": 578,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          }
+        ],
+        "overflowCount": 123,
+        "overflowUnclipped": [],
+        "overflowUnclippedCount": 0,
+        "docHeight": 11154,
+        "hasFaviconLink": true,
+        "mlMotionGet": "lite",
+        "mlReduced": true,
+        "mlSystem": true
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "netFailures": [],
+      "screenshot": "audit/shots/index-375-reduced.png"
+    },
+    "atlas": {
+      "url": "http://127.0.0.1:8912/atlas.html",
+      "status": "ok",
+      "metrics": {
+        "title": "交互地图 · MOTION LAB",
+        "lang": "zh-CN",
+        "dataMotion": "lite",
+        "dataTheme": "dark",
+        "dataPage": "atlas",
+        "scrollWidth": 375,
+        "innerWidth": 375,
+        "bodyScrollWidth": 375,
+        "overflowX": false,
+        "h1Count": 1,
+        "h1Text": "全部交互条目",
+        "headings": "H1,H2,H2,H3",
+        "images": 0,
+        "imagesNoAlt": 0,
+        "links": 173,
+        "buttons": 24,
+        "demos": 0,
+        "specs": 0,
+        "demosNoSpec": [],
+        "svgIcons": 147,
+        "emojiNodes": 0,
+        "emojiSamples": [],
+        "header": true,
+        "footer": true,
+        "palette": true,
+        "drawer": true,
+        "toastRegion": false,
+        "revealTotal": 0,
+        "revealIn": 0,
+        "hiddenContent": [],
+        "hiddenContentCount": 0,
+        "hiddenReveal": [],
+        "hiddenRevealCount": 0,
+        "hiddenRevealInViewport": 0,
+        "fontsLoaded": [
+          "Archivo",
+          "JetBrains Mono",
+          "Space Grotesk"
+        ],
+        "overflowItems": [],
+        "overflowCount": 0,
+        "overflowUnclipped": [],
+        "overflowUnclippedCount": 0,
+        "docHeight": 32435,
+        "hasFaviconLink": true,
+        "mlMotionGet": "lite",
+        "mlReduced": true,
+        "mlSystem": true
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "netFailures": [],
+      "screenshot": "audit/shots/atlas-375-reduced.png"
+    },
+    "micro-interactions": {
+      "url": "http://127.0.0.1:8912/micro-interactions.html",
+      "status": "ok",
+      "metrics": {
+        "title": "微交互 · MOTION LAB",
+        "lang": "zh-CN",
+        "dataMotion": "lite",
+        "dataTheme": "dark",
+        "dataPage": "micro-interactions",
+        "scrollWidth": 375,
+        "innerWidth": 375,
+        "bodyScrollWidth": 375,
+        "overflowX": false,
+        "h1Count": 1,
+        "h1Text": "微交互",
+        "headings": "H1,H2,H3,H3,H3,H3,H2,H3,H3,H3,H3,H2,H3,H3,H3,H3,H2,H3,H3,H3,H3",
+        "images": 0,
+        "imagesNoAlt": 0,
+        "links": 60,
+        "buttons": 32,
+        "demos": 16,
+        "specs": 16,
+        "demosNoSpec": [],
+        "svgIcons": 48,
+        "emojiNodes": 0,
+        "emojiSamples": [],
+        "header": true,
+        "footer": true,
+        "palette": true,
+        "drawer": true,
+        "toastRegion": false,
+        "revealTotal": 16,
+        "revealIn": 1,
+        "hiddenContent": [],
+        "hiddenContentCount": 0,
+        "hiddenReveal": [
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "02\n          涟漪扩散\n          从指",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "03\n          磁吸悬停\n          指针",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "04\n          悬停下划线绘制\n         ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "05\n          开关（含拖动）\n         ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "06\n          复选框画勾\n          勾",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "07\n          单选滑动指示器\n         ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "08\n          分段控件\n          ta",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "09\n          点赞爆发\n          欠阻",
+            "inViewport": false,
+            "isReveal": true
+          }
+        ],
+        "hiddenRevealCount": 15,
+        "hiddenRevealInViewport": 0,
+        "fontsLoaded": [
+          "Archivo",
+          "JetBrains Mono",
+          "Space Grotesk"
+        ],
+        "overflowItems": [],
+        "overflowCount": 0,
+        "overflowUnclipped": [],
+        "overflowUnclippedCount": 0,
+        "docHeight": 14919,
+        "hasFaviconLink": true,
+        "mlMotionGet": "lite",
+        "mlReduced": true,
+        "mlSystem": true
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "netFailures": [],
+      "screenshot": "audit/shots/micro-interactions-375-reduced.png"
+    },
+    "states-feedback": {
+      "url": "http://127.0.0.1:8912/states-feedback.html",
+      "status": "ok",
+      "metrics": {
+        "title": "状态与反馈 · MOTION LAB",
+        "lang": "zh-CN",
+        "dataMotion": "lite",
+        "dataTheme": "dark",
+        "dataPage": "states-feedback",
+        "scrollWidth": 375,
+        "innerWidth": 375,
+        "bodyScrollWidth": 375,
+        "overflowX": false,
+        "h1Count": 1,
+        "h1Text": "状态与反馈",
+        "headings": "H1,H2,H3,H3,H2,H3,H3,H3,H2,H3,H3,H3,H2,H3,H3,H3,H3",
+        "images": 0,
+        "imagesNoAlt": 0,
+        "links": 58,
+        "buttons": 48,
+        "demos": 12,
+        "specs": 12,
+        "demosNoSpec": [],
+        "svgIcons": 29,
+        "emojiNodes": 0,
+        "emojiSamples": [],
+        "header": true,
+        "footer": true,
+        "palette": true,
+        "drawer": true,
+        "toastRegion": false,
+        "revealTotal": 12,
+        "revealIn": 1,
+        "hiddenContent": [],
+        "hiddenContentCount": 0,
+        "hiddenReveal": [
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "02\n          加载进度（确定 + 不确定）\n  ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "03\n          空状态（含引导动作）\n      ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "04\n          错误态（含恢复路径）\n      ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "05\n          超时态\n          慢请求",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "06\n          离线态\n          同时响",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "07\n          乐观更新（失败自动回滚）\n    ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "08\n          指数退避重试（可视化倒计时）\n  ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "09\n          禁用态\n          禁用必",
+            "inViewport": false,
+            "isReveal": true
+          }
+        ],
+        "hiddenRevealCount": 11,
+        "hiddenRevealInViewport": 0,
+        "fontsLoaded": [
+          "Archivo",
+          "JetBrains Mono",
+          "Space Grotesk"
+        ],
+        "overflowItems": [],
+        "overflowCount": 0,
+        "overflowUnclipped": [],
+        "overflowUnclippedCount": 0,
+        "docHeight": 14687,
+        "hasFaviconLink": true,
+        "mlMotionGet": "lite",
+        "mlReduced": true,
+        "mlSystem": true
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "netFailures": [],
+      "screenshot": "audit/shots/states-feedback-375-reduced.png"
+    },
+    "scroll-motion": {
+      "url": "http://127.0.0.1:8912/scroll-motion.html",
+      "status": "ok",
+      "metrics": {
+        "title": "滚动与视差叙事 · MOTION LAB",
+        "lang": "zh-CN",
+        "dataMotion": "lite",
+        "dataTheme": "dark",
+        "dataPage": "scroll-motion",
+        "scrollWidth": 375,
+        "innerWidth": 375,
+        "bodyScrollWidth": 375,
+        "overflowX": false,
+        "h1Count": 1,
+        "h1Text": "滚动与视差叙事",
+        "headings": "H1,H2,H3,H3,H3,H2,H3,H4,H4,H4,H4,H3,H3,H4,H4,H4,H4,H2,H3,H3,H4,H4,H4,H4,H3,H4,H4,H4,H4,H4,H2,H3",
+        "images": 0,
+        "imagesNoAlt": 0,
+        "links": 57,
+        "buttons": 31,
+        "demos": 10,
+        "specs": 10,
+        "demosNoSpec": [],
+        "svgIcons": 24,
+        "emojiNodes": 0,
+        "emojiSamples": [],
+        "header": true,
+        "footer": true,
+        "palette": true,
+        "drawer": true,
+        "toastRegion": false,
+        "revealTotal": 11,
+        "revealIn": 1,
+        "hiddenContent": [
+          {
+            "sel": "span.sm-reveal__cell",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "01 触发阈值 12%",
+            "inViewport": false,
+            "isReveal": false
+          },
+          {
+            "sel": "span.sm-reveal__cell",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "02 位移 16px",
+            "inViewport": false,
+            "isReveal": false
+          },
+          {
+            "sel": "span.sm-reveal__cell",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "03 错开 45ms",
+            "inViewport": false,
+            "isReveal": false
+          },
+          {
+            "sel": "span.sm-reveal__cell",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "04 只动 transform",
+            "inViewport": false,
+            "isReveal": false
+          },
+          {
+            "sel": "span.sm-reveal__cell",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "05 只动 opacity",
+            "inViewport": false,
+            "isReveal": false
+          },
+          {
+            "sel": "span.sm-reveal__cell",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "06 一次性",
+            "inViewport": false,
+            "isReveal": false
+          }
+        ],
+        "hiddenContentCount": 6,
+        "hiddenReveal": [
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "02\n          4 层视差\n          0",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "03\n          视差文字位移\n          ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "04\n          粘性堆叠卡片\n          ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "05\n          滚动时间轴\n          一",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "06\n          章节背景色随滚动过渡\n      ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "07\n          分段滚动进度指示\n        ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "08\n          scroll-snap 章节\n  ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "09\n          横向滚动区（键盘可用）\n     ",
+            "inViewport": false,
+            "isReveal": true
+          }
+        ],
+        "hiddenRevealCount": 9,
+        "hiddenRevealInViewport": 0,
+        "fontsLoaded": [
+          "Archivo",
+          "JetBrains Mono",
+          "Space Grotesk"
+        ],
+        "overflowItems": [
+          {
+            "sel": "article.sm-rail__item",
+            "left": 293,
+            "right": 524,
+            "clippedBy": "div.sm-rail",
+            "unclipped": false
+          },
+          {
+            "sel": "p.sm-rail__k.mono.tnum",
+            "left": 310,
+            "right": 507,
+            "clippedBy": "div.sm-rail",
+            "unclipped": false
+          },
+          {
+            "sel": "h4.sm-rail__t",
+            "left": 310,
+            "right": 507,
+            "clippedBy": "div.sm-rail",
+            "unclipped": false
+          },
+          {
+            "sel": "p.sm-rail__p",
+            "left": 310,
+            "right": 507,
+            "clippedBy": "div.sm-rail",
+            "unclipped": false
+          },
+          {
+            "sel": "article.sm-rail__item",
+            "left": 536,
+            "right": 767,
+            "clippedBy": "div.sm-rail",
+            "unclipped": false
+          },
+          {
+            "sel": "p.sm-rail__k.mono.tnum",
+            "left": 553,
+            "right": 750,
+            "clippedBy": "div.sm-rail",
+            "unclipped": false
+          },
+          {
+            "sel": "h4.sm-rail__t",
+            "left": 553,
+            "right": 750,
+            "clippedBy": "div.sm-rail",
+            "unclipped": false
+          },
+          {
+            "sel": "p.sm-rail__p",
+            "left": 553,
+            "right": 750,
+            "clippedBy": "div.sm-rail",
+            "unclipped": false
+          },
+          {
+            "sel": "article.sm-rail__item",
+            "left": 779,
+            "right": 1010,
+            "clippedBy": "div.sm-rail",
+            "unclipped": false
+          },
+          {
+            "sel": "p.sm-rail__k.mono.tnum",
+            "left": 796,
+            "right": 993,
+            "clippedBy": "div.sm-rail",
+            "unclipped": false
+          },
+          {
+            "sel": "h4.sm-rail__t",
+            "left": 796,
+            "right": 993,
+            "clippedBy": "div.sm-rail",
+            "unclipped": false
+          },
+          {
+            "sel": "p.sm-rail__p",
+            "left": 796,
+            "right": 993,
+            "clippedBy": "div.sm-rail",
+            "unclipped": false
+          }
+        ],
+        "overflowCount": 16,
+        "overflowUnclipped": [],
+        "overflowUnclippedCount": 0,
+        "docHeight": 12975,
+        "hasFaviconLink": true,
+        "mlMotionGet": "lite",
+        "mlReduced": true,
+        "mlSystem": true
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "netFailures": [],
+      "screenshot": "audit/shots/scroll-motion-375-reduced.png"
+    },
+    "page-transitions": {
+      "url": "http://127.0.0.1:8912/page-transitions.html",
+      "status": "ok",
+      "metrics": {
+        "title": "页面转场 · MOTION LAB",
+        "lang": "zh-CN",
+        "dataMotion": "lite",
+        "dataTheme": "dark",
+        "dataPage": "page-transitions",
+        "scrollWidth": 375,
+        "innerWidth": 375,
+        "bodyScrollWidth": 375,
+        "overflowX": false,
+        "h1Count": 1,
+        "h1Text": "页面转场",
+        "headings": "H1,H2,H3,H2,H3,H3,H3,H3,H2,H3,H3,H2,H3",
+        "images": 0,
+        "imagesNoAlt": 0,
+        "links": 60,
+        "buttons": 31,
+        "demos": 8,
+        "specs": 8,
+        "demosNoSpec": [],
+        "svgIcons": 25,
+        "emojiNodes": 0,
+        "emojiSamples": [],
+        "header": true,
+        "footer": true,
+        "palette": true,
+        "drawer": true,
+        "toastRegion": false,
+        "revealTotal": 8,
+        "revealIn": 8,
+        "hiddenContent": [],
+        "hiddenContentCount": 0,
+        "hiddenReveal": [],
+        "hiddenRevealCount": 0,
+        "hiddenRevealInViewport": 0,
+        "fontsLoaded": [
+          "Archivo",
+          "JetBrains Mono",
+          "Space Grotesk"
+        ],
+        "overflowItems": [],
+        "overflowCount": 0,
+        "overflowUnclipped": [],
+        "overflowUnclippedCount": 0,
+        "docHeight": 12084,
+        "hasFaviconLink": true,
+        "mlMotionGet": "lite",
+        "mlReduced": true,
+        "mlSystem": true
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "netFailures": [],
+      "screenshot": "audit/shots/page-transitions-375-reduced.png"
+    },
+    "navigation": {
+      "url": "http://127.0.0.1:8912/navigation.html",
+      "status": "ok",
+      "metrics": {
+        "title": "导航模式 · MOTION LAB",
+        "lang": "zh-CN",
+        "dataMotion": "lite",
+        "dataTheme": "dark",
+        "dataPage": "navigation",
+        "scrollWidth": 375,
+        "innerWidth": 375,
+        "bodyScrollWidth": 375,
+        "overflowX": false,
+        "h1Count": 1,
+        "h1Text": "导航模式",
+        "headings": "H1,H2,H3,H3,H3,H3,H2,H3,H3,H3,H3,H4,H4,H4,H4,H2,H3,H3,H3,H3",
+        "images": 0,
+        "imagesNoAlt": 0,
+        "links": 91,
+        "buttons": 57,
+        "demos": 12,
+        "specs": 12,
+        "demosNoSpec": [],
+        "svgIcons": 35,
+        "emojiNodes": 0,
+        "emojiSamples": [],
+        "header": true,
+        "footer": true,
+        "palette": true,
+        "drawer": true,
+        "toastRegion": false,
+        "revealTotal": 12,
+        "revealIn": 1,
+        "hiddenContent": [],
+        "hiddenContentCount": 0,
+        "hiddenReveal": [
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "02\n            搜索自动补全（防抖 200ms",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "03\n            超大菜单（展开动画 + 焦点管",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "04\n            面包屑（含溢出折叠）\n    ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "05\n            标签页滑动指示器\n      ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "06\n            步骤向导（可回退）\n     ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "07\n            分页器\n           ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "08\n            粘性侧栏目录（滚动高亮）\n  ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "09\n            移动端底部导航（≤5 项）\n ",
+            "inViewport": false,
+            "isReveal": true
+          }
+        ],
+        "hiddenRevealCount": 11,
+        "hiddenRevealInViewport": 0,
+        "fontsLoaded": [
+          "Archivo",
+          "JetBrains Mono",
+          "Space Grotesk"
+        ],
+        "overflowItems": [
+          {
+            "sel": "div.np-ctl",
+            "left": -132,
+            "right": 508,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "label.label",
+            "left": -132,
+            "right": 508,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "span.tnum",
+            "left": -70,
+            "right": -34,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "input.np-range",
+            "left": -130,
+            "right": 190,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "nav.np-crumb__nav",
+            "left": -132,
+            "right": 508,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "ol.np-crumb__list",
+            "left": -119,
+            "right": 495,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          },
+          {
+            "sel": "li",
+            "left": -119,
+            "right": -75,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          },
+          {
+            "sel": "a.np-crumb__link",
+            "left": -119,
+            "right": -75,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          },
+          {
+            "sel": "li",
+            "left": -67,
+            "right": -6,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          },
+          {
+            "sel": "a.np-crumb__link",
+            "left": -50,
+            "right": -6,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          },
+          {
+            "sel": "p.np-status.mono.tnum",
+            "left": -132,
+            "right": 508,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          }
+        ],
+        "overflowCount": 11,
+        "overflowUnclipped": [],
+        "overflowUnclippedCount": 0,
+        "docHeight": 12522,
+        "hasFaviconLink": true,
+        "mlMotionGet": "lite",
+        "mlReduced": true,
+        "mlSystem": true
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "netFailures": [],
+      "screenshot": "audit/shots/navigation-375-reduced.png"
+    },
+    "forms": {
+      "url": "http://127.0.0.1:8912/forms.html",
+      "status": "ok",
+      "metrics": {
+        "title": "表单交互 · MOTION LAB",
+        "lang": "zh-CN",
+        "dataMotion": "lite",
+        "dataTheme": "dark",
+        "dataPage": "forms",
+        "scrollWidth": 375,
+        "innerWidth": 375,
+        "bodyScrollWidth": 375,
+        "overflowX": false,
+        "h1Count": 1,
+        "h1Text": "表单交互",
+        "headings": "H1,H2,H3,H3,H3,H3,H3,H2,H3,H3,H3,H3,H2,H3,H3,H3,H3,H2,H3,H3",
+        "images": 0,
+        "imagesNoAlt": 0,
+        "links": 54,
+        "buttons": 36,
+        "demos": 15,
+        "specs": 15,
+        "demosNoSpec": [],
+        "svgIcons": 44,
+        "emojiNodes": 0,
+        "emojiSamples": [],
+        "header": true,
+        "footer": true,
+        "palette": true,
+        "drawer": true,
+        "toastRegion": false,
+        "revealTotal": 15,
+        "revealIn": 1,
+        "hiddenContent": [],
+        "hiddenContentCount": 0,
+        "hiddenReveal": [
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "02\n            帮助文本与 required ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "03\n            只读 vs 禁用\n      ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "04\n            字段分组 fieldset /",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "05\n            自动填充属性 autocomp",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "06\n            内联校验（blur 后校验，不",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "07\n            错误位置与错误汇总锚点\n   ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "08\n            首个错误自动聚焦\n      ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "09\n            密码强度与显示切换\n     ",
+            "inViewport": false,
+            "isReveal": true
+          }
+        ],
+        "hiddenRevealCount": 14,
+        "hiddenRevealInViewport": 0,
+        "fontsLoaded": [
+          "Archivo",
+          "JetBrains Mono",
+          "Space Grotesk"
+        ],
+        "overflowItems": [],
+        "overflowCount": 0,
+        "overflowUnclipped": [],
+        "overflowUnclippedCount": 0,
+        "docHeight": 15739,
+        "hasFaviconLink": true,
+        "mlMotionGet": "lite",
+        "mlReduced": true,
+        "mlSystem": true
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "netFailures": [],
+      "screenshot": "audit/shots/forms-375-reduced.png"
+    },
+    "gestures": {
+      "url": "http://127.0.0.1:8912/gestures.html",
+      "status": "ok",
+      "metrics": {
+        "title": "手势与拖拽 · MOTION LAB",
+        "lang": "zh-CN",
+        "dataMotion": "lite",
+        "dataTheme": "dark",
+        "dataPage": "gestures",
+        "scrollWidth": 375,
+        "innerWidth": 375,
+        "bodyScrollWidth": 375,
+        "overflowX": false,
+        "h1Count": 1,
+        "h1Text": "手势与拖拽",
+        "headings": "H1,H2,H3,H3,H3,H2,H3,H3,H3,H2,H3,H3,H4,H4,H4,H3,H2,H3,H3,H3",
+        "images": 0,
+        "imagesNoAlt": 0,
+        "links": 54,
+        "buttons": 26,
+        "demos": 12,
+        "specs": 12,
+        "demosNoSpec": [],
+        "svgIcons": 41,
+        "emojiNodes": 0,
+        "emojiSamples": [],
+        "header": true,
+        "footer": true,
+        "palette": true,
+        "drawer": true,
+        "toastRegion": false,
+        "revealTotal": 12,
+        "revealIn": 1,
+        "hiddenContent": [],
+        "hiddenContentCount": 0,
+        "hiddenReveal": [
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "02\n            滑动删除（阈值可视化 + 回弹",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "03\n            橡皮筋边界\n         ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "04\n            拖拽文件区（DOM 事件模拟）",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "05\n            长按上下文菜单\n       ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "06\n            下拉刷新\n          ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "07\n            双指缩放画布（含 +/- 按钮",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "08\n            滑动切换卡片\n        ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "09\n            拖动滑块（含方向键）\n    ",
+            "inViewport": false,
+            "isReveal": true
+          }
+        ],
+        "hiddenRevealCount": 11,
+        "hiddenRevealInViewport": 0,
+        "fontsLoaded": [
+          "Archivo",
+          "JetBrains Mono",
+          "Space Grotesk"
+        ],
+        "overflowItems": [
+          {
+            "sel": "article.gp-cards__card",
+            "left": 338,
+            "right": 639,
+            "clippedBy": "div.gp-cards__viewport",
+            "unclipped": false
+          },
+          {
+            "sel": "h4",
+            "left": 355,
+            "right": 622,
+            "clippedBy": "div.gp-cards__viewport",
+            "unclipped": false
+          },
+          {
+            "sel": "p",
+            "left": 355,
+            "right": 622,
+            "clippedBy": "div.gp-cards__viewport",
+            "unclipped": false
+          },
+          {
+            "sel": "article.gp-cards__card",
+            "left": 639,
+            "right": 940,
+            "clippedBy": "div.gp-cards__viewport",
+            "unclipped": false
+          },
+          {
+            "sel": "h4",
+            "left": 656,
+            "right": 923,
+            "clippedBy": "div.gp-cards__viewport",
+            "unclipped": false
+          },
+          {
+            "sel": "p",
+            "left": 656,
+            "right": 923,
+            "clippedBy": "div.gp-cards__viewport",
+            "unclipped": false
+          }
+        ],
+        "overflowCount": 6,
+        "overflowUnclipped": [],
+        "overflowUnclippedCount": 0,
+        "docHeight": 13155,
+        "hasFaviconLink": true,
+        "mlMotionGet": "lite",
+        "mlReduced": true,
+        "mlSystem": true
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "netFailures": [],
+      "screenshot": "audit/shots/gestures-375-reduced.png"
+    },
+    "motion-physics": {
+      "url": "http://127.0.0.1:8912/motion-physics.html",
+      "status": "ok",
+      "metrics": {
+        "title": "运动物理 · MOTION LAB",
+        "lang": "zh-CN",
+        "dataMotion": "lite",
+        "dataTheme": "dark",
+        "dataPage": "motion-physics",
+        "scrollWidth": 375,
+        "innerWidth": 375,
+        "bodyScrollWidth": 375,
+        "overflowX": false,
+        "h1Count": 1,
+        "h1Text": "运动物理",
+        "headings": "H1,H2,H3,H3,H3,H2,H3,H3,H3,H3,H2,H3,H3,H3,H2,H3,H3",
+        "images": 0,
+        "imagesNoAlt": 0,
+        "links": 54,
+        "buttons": 25,
+        "demos": 12,
+        "specs": 12,
+        "demosNoSpec": [],
+        "svgIcons": 40,
+        "emojiNodes": 0,
+        "emojiSamples": [],
+        "header": true,
+        "footer": true,
+        "palette": true,
+        "drawer": true,
+        "toastRegion": false,
+        "revealTotal": 12,
+        "revealIn": 1,
+        "hiddenContent": [],
+        "hiddenContentCount": 0,
+        "hiddenReveal": [
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "02\n            过冲对比：临界阻尼 vs pl",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "03\n            可打断：速度衔接不归零\n   ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "04\n            缓动曲线对比器\n       ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "05\n            时长阶梯 80/150/240",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "06\n            退出快于进入（0.68 系数）",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "07\n            stagger 错开序列（0–",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "08\n            1:1 跟随手指物理\n    ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "09\n            惯性滚动与摩擦衰减\n     ",
+            "inViewport": false,
+            "isReveal": true
+          }
+        ],
+        "hiddenRevealCount": 11,
+        "hiddenRevealInViewport": 0,
+        "fontsLoaded": [
+          "Archivo",
+          "JetBrains Mono",
+          "Space Grotesk"
+        ],
+        "overflowItems": [],
+        "overflowCount": 0,
+        "overflowUnclipped": [],
+        "overflowUnclippedCount": 0,
+        "docHeight": 15456,
+        "hasFaviconLink": true,
+        "mlMotionGet": "lite",
+        "mlReduced": true,
+        "mlSystem": true
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "netFailures": [],
+      "screenshot": "audit/shots/motion-physics-375-reduced.png"
+    },
+    "feedback": {
+      "url": "http://127.0.0.1:8912/feedback.html",
+      "status": "ok",
+      "metrics": {
+        "title": "反馈系统 · MOTION LAB",
+        "lang": "zh-CN",
+        "dataMotion": "lite",
+        "dataTheme": "dark",
+        "dataPage": "feedback",
+        "scrollWidth": 375,
+        "innerWidth": 375,
+        "bodyScrollWidth": 375,
+        "overflowX": false,
+        "h1Count": 1,
+        "h1Text": "反馈系统",
+        "headings": "H1,H2,H3,H3,H3,H2,H3,H3,H3,H2,H3,H3,H3,H2,H3,H3,H3",
+        "images": 0,
+        "imagesNoAlt": 0,
+        "links": 53,
+        "buttons": 47,
+        "demos": 12,
+        "specs": 12,
+        "demosNoSpec": [],
+        "svgIcons": 42,
+        "emojiNodes": 0,
+        "emojiSamples": [],
+        "header": true,
+        "footer": true,
+        "palette": true,
+        "drawer": true,
+        "toastRegion": false,
+        "revealTotal": 12,
+        "revealIn": 1,
+        "hiddenContent": [],
+        "hiddenContentCount": 0,
+        "hiddenReveal": [
+          {
+            "sel": "article.demo.reveal.reveal--in",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "01\n          Toast 栈：队列、上限与暂停\n",
+            "inViewport": true,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "02\n          aria-live 播报与\"屏幕阅",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "03\n          内联横幅：四种语义\n       ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "04\n          工具提示：四个方向 + 键盘 fo",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "05\n          弹出层：空间不足时自动翻转\n   ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "06\n          确认对话框：焦点锁定与还原\n   ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "07\n          确定 / 不确定进度条\n     ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "08\n          成功反馈：勾选绘制动画\n     ",
+            "inViewport": false,
+            "isReveal": true
+          }
+        ],
+        "hiddenRevealCount": 12,
+        "hiddenRevealInViewport": 1,
+        "fontsLoaded": [
+          "Archivo",
+          "JetBrains Mono",
+          "Space Grotesk"
+        ],
+        "overflowItems": [
+          {
+            "sel": "header.demo__label",
+            "left": 21,
+            "right": 624,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "h3.demo__title",
+            "left": 73,
+            "right": 600,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "p.demo__desc",
+            "left": 73,
+            "right": 600,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "div.demo__stage.demo__stage--column",
+            "left": 21,
+            "right": 624,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "div.fb-channels",
+            "left": 37,
+            "right": 608,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "div.fb-channel",
+            "left": 37,
+            "right": 608,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "span",
+            "left": 106,
+            "right": 533,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "span.fb-channel__name",
+            "left": 106,
+            "right": 533,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "span.fb-channel__desc",
+            "left": 106,
+            "right": 522,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "span.chip",
+            "left": 545,
+            "right": 595,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "div.fb-channel",
+            "left": 37,
+            "right": 608,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "span",
+            "left": 106,
+            "right": 533,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          }
+        ],
+        "overflowCount": 35,
+        "overflowUnclipped": [],
+        "overflowUnclippedCount": 0,
+        "docHeight": 15439,
+        "hasFaviconLink": true,
+        "mlMotionGet": "lite",
+        "mlReduced": true,
+        "mlSystem": true
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "netFailures": [],
+      "screenshot": "audit/shots/feedback-375-reduced.png"
+    },
+    "accessibility": {
+      "url": "http://127.0.0.1:8912/accessibility.html",
+      "status": "ok",
+      "metrics": {
+        "title": "无障碍交互 · MOTION LAB",
+        "lang": "zh-CN",
+        "dataMotion": "lite",
+        "dataTheme": "dark",
+        "dataPage": "accessibility",
+        "scrollWidth": 375,
+        "innerWidth": 375,
+        "bodyScrollWidth": 375,
+        "overflowX": false,
+        "h1Count": 1,
+        "h1Text": "无障碍交互",
+        "headings": "H1,H2,H3,H2,H3,H3,H2,H3,H4,H3,H3,H4,H5,H2,H3,H3,H2,H3,H3,H3,H4,H4,H4,H4,H2,H3,H3",
+        "images": 0,
+        "imagesNoAlt": 0,
+        "links": 62,
+        "buttons": 71,
+        "demos": 13,
+        "specs": 13,
+        "demosNoSpec": [],
+        "svgIcons": 51,
+        "emojiNodes": 0,
+        "emojiSamples": [],
+        "header": true,
+        "footer": true,
+        "palette": true,
+        "drawer": true,
+        "toastRegion": false,
+        "revealTotal": 13,
+        "revealIn": 1,
+        "hiddenContent": [
+          {
+            "sel": "div.a11y-carousel__slide",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "02 · 落地 token\n                ",
+            "inViewport": false,
+            "isReveal": false
+          },
+          {
+            "sel": "div.a11y-carousel__slide",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "03 · 键盘与读屏验收\n                T",
+            "inViewport": false,
+            "isReveal": false
+          },
+          {
+            "sel": "div.a11y-carousel__slide",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "04 · 交付规格标注\n                每个",
+            "inViewport": false,
+            "isReveal": false
+          }
+        ],
+        "hiddenContentCount": 3,
+        "hiddenReveal": [
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "02\n          焦点环：好与坏的对比\n      ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "03\n          Tab 顺序：tabindex 乱",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "04\n          跳转链接\n          下面",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "05\n          屏幕阅读器播报模拟\n       ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "06\n          语义标签 vs div\n     ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "07\n          触控目标 44px 可视化标尺\n ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "08\n          表单标签与错误播报\n       ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "09\n          reduced-motion 并排",
+            "inViewport": false,
+            "isReveal": true
+          }
+        ],
+        "hiddenRevealCount": 12,
+        "hiddenRevealInViewport": 0,
+        "fontsLoaded": [
+          "Archivo",
+          "JetBrains Mono",
+          "Space Grotesk"
+        ],
+        "overflowItems": [
+          {
+            "sel": "header.demo__label",
+            "left": 21,
+            "right": 535,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "h3.demo__title",
+            "left": 73,
+            "right": 511,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "p.demo__desc",
+            "left": 73,
+            "right": 511,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "div.demo__stage.demo__stage--column",
+            "left": 21,
+            "right": 535,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "div.a11y-table-wrap",
+            "left": 37,
+            "right": 519,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "table.a11y-table",
+            "left": 38,
+            "right": 518,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          },
+          {
+            "sel": "thead",
+            "left": 38,
+            "right": 518,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          },
+          {
+            "sel": "tr",
+            "left": 38,
+            "right": 518,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          },
+          {
+            "sel": "th",
+            "left": 361,
+            "right": 518,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          },
+          {
+            "sel": "tbody",
+            "left": 38,
+            "right": 518,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          },
+          {
+            "sel": "tr",
+            "left": 38,
+            "right": 518,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          },
+          {
+            "sel": "td",
+            "left": 361,
+            "right": 518,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          }
+        ],
+        "overflowCount": 45,
+        "overflowUnclipped": [],
+        "overflowUnclippedCount": 0,
+        "docHeight": 19209,
+        "hasFaviconLink": true,
+        "mlMotionGet": "lite",
+        "mlReduced": true,
+        "mlSystem": true
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "netFailures": [],
+      "screenshot": "audit/shots/accessibility-375-reduced.png"
+    },
+    "data-viz": {
+      "url": "http://127.0.0.1:8912/data-viz.html",
+      "status": "ok",
+      "metrics": {
+        "title": "数据可视化 · MOTION LAB",
+        "lang": "zh-CN",
+        "dataMotion": "lite",
+        "dataTheme": "dark",
+        "dataPage": "data-viz",
+        "scrollWidth": 375,
+        "innerWidth": 375,
+        "bodyScrollWidth": 375,
+        "overflowX": false,
+        "h1Count": 1,
+        "h1Text": "数据可视化动态",
+        "headings": "H1,H2,H3,H3,H3,H2,H3,H3,H3,H2,H3,H3,H3,H2,H3,H3",
+        "images": 0,
+        "imagesNoAlt": 0,
+        "links": 53,
+        "buttons": 45,
+        "demos": 11,
+        "specs": 11,
+        "demosNoSpec": [],
+        "svgIcons": 55,
+        "emojiNodes": 0,
+        "emojiSamples": [],
+        "header": true,
+        "footer": true,
+        "palette": true,
+        "drawer": true,
+        "toastRegion": false,
+        "revealTotal": 11,
+        "revealIn": 1,
+        "hiddenContent": [],
+        "hiddenContentCount": 0,
+        "hiddenReveal": [
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "02\n          面积图 · 两组构成对比\n    ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "03\n          Sparkline · 指标卡里的",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "04\n          环形图 · 流量构成\n      ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "05\n          堆叠柱 · 100% 构成随时间变",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "06\n          柱状图 · 渠道对比（降序）\n  ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "07\n          热力图 · 星期 × 小时\n   ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "08\n          进度环 · 单一完成度\n     ",
+            "inViewport": false,
+            "isReveal": true
+          },
+          {
+            "sel": "article.demo.reveal",
+            "op": "0",
+            "disp": "grid",
+            "vis": "visible",
+            "text": "09\n          仪表盘 · 带区间的单值\n    ",
+            "inViewport": false,
+            "isReveal": true
+          }
+        ],
+        "hiddenRevealCount": 10,
+        "hiddenRevealInViewport": 0,
+        "fontsLoaded": [
+          "Archivo",
+          "JetBrains Mono",
+          "Space Grotesk"
+        ],
+        "overflowItems": [
+          {
+            "sel": "header.demo__label",
+            "left": 21,
+            "right": 695,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "h3.demo__title",
+            "left": 73,
+            "right": 671,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "p.demo__desc",
+            "left": 73,
+            "right": 671,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "div.demo__stage.demo__stage--column",
+            "left": 21,
+            "right": 695,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "div.dv-chart",
+            "left": 37,
+            "right": 679,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "div.dv-row",
+            "left": 37,
+            "right": 679,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "span.chip",
+            "left": 335,
+            "right": 411,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "div.dv-plot",
+            "left": 37,
+            "right": 679,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "svg",
+            "left": 44,
+            "right": 672,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          },
+          {
+            "sel": "g",
+            "left": 254,
+            "right": 462,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          },
+          {
+            "sel": "text",
+            "left": 254,
+            "right": 462,
+            "clippedBy": "ancestor(overflow!=visible)",
+            "unclipped": false
+          },
+          {
+            "sel": "p.dv-chart__hint",
+            "left": 37,
+            "right": 679,
+            "clippedBy": "article.demo.reveal",
+            "unclipped": false
+          }
+        ],
+        "overflowCount": 41,
+        "overflowUnclipped": [],
+        "overflowUnclippedCount": 0,
+        "docHeight": 14258,
+        "hasFaviconLink": true,
+        "mlMotionGet": "lite",
+        "mlReduced": true,
+        "mlSystem": true
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "netFailures": [],
+      "screenshot": "audit/shots/data-viz-375-reduced.png"
+    },
+    "design-system": {
+      "url": "http://127.0.0.1:8912/design-system.html",
+      "status": "ok",
+      "metrics": {
+        "title": "设计系统 · MOTION LAB",
+        "lang": "zh-CN",
+        "dataMotion": "lite",
+        "dataTheme": "dark",
+        "dataPage": "design-system",
+        "scrollWidth": 375,
+        "innerWidth": 375,
+        "bodyScrollWidth": 375,
+        "overflowX": false,
+        "h1Count": 1,
+        "h1Text": "设计系统",
+        "headings": "H1,H2,H2,H3,H3,H2,H3,H2,H3,H3,H3,H3,H2,H3,H2,H3,H4,H4,H4,H2,H3,H2,H3,H4,H4,H2,H3,H3,H3,H3,H3,H3,H3,H3,H3,H3",
+        "images": 0,
+        "imagesNoAlt": 0,
+        "links": 53,
+        "buttons": 32,
+        "demos": 4,
+        "specs": 4,
+        "demosNoSpec": [],
+        "svgIcons": 62,
+        "emojiNodes": 0,
+        "emojiSamples": [],
+        "header": true,
+        "footer": true,
+        "palette": true,
+        "drawer": true,
+        "toastRegion": false,
+        "revealTotal": 4,
+        "revealIn": 4,
+        "hiddenContent": [],
+        "hiddenContentCount": 0,
+        "hiddenReveal": [],
+        "hiddenRevealCount": 0,
+        "hiddenRevealInViewport": 0,
+        "fontsLoaded": [
+          "Archivo",
+          "JetBrains Mono",
+          "Space Grotesk"
+        ],
+        "overflowItems": [
+          {
+            "sel": "table.ds-table",
+            "left": 21,
+            "right": 565,
+            "clippedBy": "div.ds-tablewrap",
+            "unclipped": false
+          },
+          {
+            "sel": "caption",
+            "left": 21,
+            "right": 565,
+            "clippedBy": "div.ds-tablewrap",
+            "unclipped": false
+          },
+          {
+            "sel": "span.mono",
+            "left": 432,
+            "right": 502,
+            "clippedBy": "div.ds-tablewrap",
+            "unclipped": false
+          },
+          {
+            "sel": "thead",
+            "left": 21,
+            "right": 565,
+            "clippedBy": "div.ds-tablewrap",
+            "unclipped": false
+          },
+          {
+            "sel": "tr",
+            "left": 21,
+            "right": 565,
+            "clippedBy": "div.ds-tablewrap",
+            "unclipped": false
+          },
+          {
+            "sel": "th",
+            "left": 268,
+            "right": 408,
+            "clippedBy": "div.ds-tablewrap",
+            "unclipped": false
+          },
+          {
+            "sel": "th",
+            "left": 408,
+            "right": 565,
+            "clippedBy": "div.ds-tablewrap",
+            "unclipped": false
+          },
+          {
+            "sel": "tbody",
+            "left": 21,
+            "right": 565,
+            "clippedBy": "div.ds-tablewrap",
+            "unclipped": false
+          },
+          {
+            "sel": "tr",
+            "left": 21,
+            "right": 565,
+            "clippedBy": "div.ds-tablewrap",
+            "unclipped": false
+          },
+          {
+            "sel": "td",
+            "left": 268,
+            "right": 408,
+            "clippedBy": "div.ds-tablewrap",
+            "unclipped": false
+          },
+          {
+            "sel": "td",
+            "left": 408,
+            "right": 565,
+            "clippedBy": "div.ds-tablewrap",
+            "unclipped": false
+          },
+          {
+            "sel": "span.ds-chip-na",
+            "left": 420,
+            "right": 553,
+            "clippedBy": "div.ds-tablewrap",
+            "unclipped": false
+          }
+        ],
+        "overflowCount": 247,
+        "overflowUnclipped": [],
+        "overflowUnclippedCount": 0,
+        "docHeight": 21714,
+        "hasFaviconLink": true,
+        "mlMotionGet": "lite",
+        "mlReduced": true,
+        "mlSystem": true
+      },
+      "consoleErrors": [],
+      "consoleWarnings": [],
+      "pageErrors": [],
+      "netFailures": [],
+      "screenshot": "audit/shots/design-system-375-reduced.png"
+    }
+  }
+}

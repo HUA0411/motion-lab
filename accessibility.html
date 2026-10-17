@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-motion="on" data-theme="dark" data-page="accessibility">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>无障碍交互 · MOTION LAB</title>
+  <meta name="description" content="展厅 J：无障碍交互的证据页。实时对比度检测器、焦点环好坏对比、键盘陷阱与修复、跳转链接、屏幕阅读器播报模拟、语义 DOM 对比、44px 触控标尺、reduced-motion 并排对照、仅用颜色的反例、自动轮播暂停、表单错误播报、ARIA 状态与快捷键表——每一项都可由你的键盘当场验证。">
+  <meta name="theme-color" content="#0A0B0D">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/pages/accessibility.css">
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/pages/accessibility.inline.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主内容</a>
+<div id="site-header"></div>
+
+<main id="main" class="page">
+
+  <header class="page-head shell">
+    <p class="eyebrow">展厅 J · ACCESSIBILITY</p>
+    <h1 class="h1">无障碍交互</h1>
+    <p class="lede">这一页不是说明书，是证据页：每个结论都由页面上的实时计算，或你此刻按下的那个键直接给出。</p>
+    <ul class="meta-chips">
+      <li class="chip">13 个可交互 demo</li>
+      <li class="chip">对比度实时计算</li>
+      <li class="chip">键盘全程可验证</li>
+      <li class="chip">reduced-motion 降级</li>
+    </ul>
+  </header>
+
+  <!-- ===================== 01 对比度 ===================== -->
+  <section class="section shell" id="contrast">
+    <div class="section-head">
+      <p class="eyebrow">01 · 看得见</p>
+      <h2 class="h2">对比度</h2>
+      <p class="lede">对比度是可以算出来的数字，不是主观印象。下面的比值全部由本页脚本用 WCAG 2.1 相对亮度公式实时计算。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-01">
+        <header class="demo__label">
+          <span class="demo__index">01</span>
+          <h3 class="demo__title">实时对比度检测器</h3>
+          <p class="demo__desc">两个取色器决定前景 / 背景，比值与 AA、AAA 判定随输入即时刷新。预设里放了本项目的真实 token 组合与三个常见反例。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="a11y-contrast" id="ct-root">
+            <div class="a11y-contrast__bar">
+              <div class="a11y-field">
+                <label class="label" for="ct-fg">前景色</label>
+                <input class="a11y-color" type="color" id="ct-fg" value="#ff6b2c" aria-describedby="ct-result-help">
+                <span class="a11y-hex" id="ct-fg-hex">#FF6B2C</span>
+              </div>
+              <button class="btn btn--ghost a11y-swap" type="button" id="ct-swap">
+                <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg>
+                交换前景 / 背景
+              </button>
+              <div class="a11y-field">
+                <label class="label" for="ct-bg">背景色</label>
+                <input class="a11y-color" type="color" id="ct-bg" value="#0a0b0d" aria-describedby="ct-result-help">
+                <span class="a11y-hex" id="ct-bg-hex">#0A0B0D</span>
+              </div>
+            </div>
+
+            <p class="a11y-formula" id="ct-formula">等待脚本计算…</p>
+
+            <div class="a11y-preview" id="ct-preview" role="img" aria-label="对比度预览样例文本">
+              <figure>
+                <p class="a11y-preview__lg">大字标题（24px / 视觉 18.66px 加粗以上，AA 门槛 3:1）</p>
+                <figcaption class="a11y-preview__sm">大字的判定门槛与正文不同，这是 WCAG 里最常被误用的一条。</figcaption>
+              </figure>
+              <p class="a11y-preview__bd">正文样例：丝滑不是感觉，是可复现的参数。Motion Lab 用同一套 token 与缓动贯穿全部展厅。</p>
+              <p class="a11y-preview__sm tnum">辅助文字样例 0123456789 · tabs 对齐靠 tabular-nums</p>
+            </div>
+
+            <div class="a11y-ratio">
+              <span class="a11y-ratio__num" id="ct-ratio">6.93</span>
+              <span class="a11y-ratio__unit">: 1 &nbsp;·&nbsp; 相对亮度公式 (L1+0.05)/(L2+0.05)</span>
+            </div>
+
+            <ul class="a11y-verdicts" id="ct-verdicts" aria-live="polite" aria-atomic="true">
+              <li class="a11y-verdict"><span class="a11y-verdict__mark"></span>正在计算…</li>
+            </ul>
+            <p class="a11y-note" id="ct-result-help">判定同时用图标与文字表达，不依赖颜色：圆形内是勾或叉，右侧写着 PASS / FAIL。</p>
+
+            <div class="a11y-presets" id="ct-presets" role="group" aria-label="预设色对"></div>
+
+            <div class="a11y-card">
+              <p class="a11y-card__title">
+                计算过程（逐步展示，可复核）
+              </p>
+              <p class="a11y-formula" id="ct-steps">—</p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">input[type=color] 的 input 事件 / 预设按钮 click</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">0ms（同步计算）；预览色 var(--dur-fast) 150ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（仅颜色过渡）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">localStorage 无写入；仅写 --ct-fg / --ct-bg 变量与文本节点</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时取消颜色过渡，直接换色</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 02 焦点 ===================== -->
+  <section class="section shell" id="focus">
+    <div class="section-head">
+      <p class="eyebrow">02 · 走得通</p>
+      <h2 class="h2">焦点与键盘路径</h2>
+      <p class="lede">键盘用户唯一的"鼠标指针"就是焦点环。它必须看得见，顺序必须讲道理，而且不能把人关在里面。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-02">
+        <header class="demo__label">
+          <span class="demo__index">02</span>
+          <h3 class="demo__title">焦点环：好与坏的对比</h3>
+          <p class="demo__desc">请用 Tab 键在两个按钮之间来回走一遍。左边这个故意移除了焦点环，你能判断焦点在哪吗？</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="a11y-ringstage">
+            <div class="a11y-split">
+              <div class="a11y-card a11y-card--bad">
+                <p class="a11y-card__title">
+                  <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+                  反例：outline: none
+                  <span class="a11y-card__tag a11y-card__tag--bad">问题</span>
+                </p>
+                <div class="a11y-ringbar">
+                  <button class="btn a11y-bad-ring" type="button" id="ring-bad-1">提交</button>
+                  <button class="btn a11y-bad-ring" type="button" id="ring-bad-2">取消</button>
+                </div>
+                <p class="a11y-note" id="ring-bad-status" role="status">焦点检测未启动。</p>
+              </div>
+
+              <div class="a11y-card a11y-card--good">
+                <p class="a11y-card__title">
+                  <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.5 2.5L16 9.5"/></svg>
+                  修复：visible focus ring
+                  <span class="a11y-card__tag a11y-card__tag--good">已修复</span>
+                </p>
+                <div class="a11y-ringbar">
+                  <button class="btn btn--primary" type="button" id="ring-good-1">提交</button>
+                  <button class="btn" type="button" id="ring-good-2">取消</button>
+                </div>
+                <p class="a11y-note" id="ring-good-status" role="status">焦点检测未启动。</p>
+              </div>
+            </div>
+
+            <div class="a11y-counterexample-note">
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+              <span>左侧按钮是<strong>故意的反例</strong>，只存在于这个 demo 内。它能被 Tab 聚焦、也能被 Enter 激活，只是你看不到任何视觉提示——这正是键盘用户遇到的真实困境。为了让焦点仍然"可被察觉"，两个失败按钮在获得焦点时会把文字状态写进下方的 <code class="mono">role="status"</code> 区域。</span>
+            </div>
+
+            <div class="a11y-card">
+              <p class="a11y-card__title">焦点环规格</p>
+              <p class="a11y-formula">outline: 2px solid var(--accent); outline-offset: 3px; &nbsp;/* :focus-visible */</p>
+              <p class="a11y-note">2px 实线 + 3px 偏移，保证在任意底色上都能与控件本体分开；使用 <code class="mono">:focus-visible</code> 而非 <code class="mono">:focus</code>，鼠标点击不会留下突兀的环。</p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">键盘 Tab / Shift+Tab 聚焦（:focus-visible）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">0ms（outline 不做动画，避免视觉延迟）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">无（焦点指示必须瞬时）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">outline / outline-offset（非动画属性，不参与过渡）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">焦点环不参与动效降级，任何档位都必须存在</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-03">
+        <header class="demo__label">
+          <span class="demo__index">03</span>
+          <h3 class="demo__title">Tab 顺序：tabindex 乱序 vs DOM 顺序</h3>
+          <p class="demo__desc">上面的清单用 tabindex 把顺序打乱，下面的清单按 DOM 书写顺序走。点"读取真实 Tab 顺序"可以看到浏览器实际给出的序列。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="a11y-split">
+            <div class="a11y-card a11y-card--bad">
+              <p class="a11y-card__title">反例：tabindex 干预顺序<span class="a11y-card__tag a11y-card__tag--bad">问题</span></p>
+              <ul class="a11y-taborder" id="tab-bad">
+                <li><button class="btn a11y-taborder__btn" type="button" tabindex="3" data-order="3">1. 视觉上第一个（tabindex=3）</button></li>
+                <li><button class="btn a11y-taborder__btn" type="button" tabindex="1" data-order="1">2. 视觉上第二个（tabindex=1）</button></li>
+                <li><button class="btn a11y-taborder__btn" type="button" tabindex="4" data-order="4">3. 视觉上第三个（tabindex=4）</button></li>
+                <li><button class="btn a11y-taborder__btn" type="button" tabindex="2" data-order="2">4. 视觉上第四个（tabindex=2）</button></li>
+              </ul>
+            </div>
+            <div class="a11y-card a11y-card--good">
+              <p class="a11y-card__title">修复：DOM 顺序即 Tab 顺序<span class="a11y-card__tag a11y-card__tag--good">已修复</span></p>
+              <ul class="a11y-taborder" id="tab-good">
+                <li><button class="btn a11y-taborder__btn" type="button">1. 视觉上第一个</button></li>
+                <li><button class="btn a11y-taborder__btn" type="button">2. 视觉上第二个</button></li>
+                <li><button class="btn a11y-taborder__btn" type="button">3. 视觉上第三个</button></li>
+                <li><button class="btn a11y-taborder__btn" type="button">4. 视觉上第四个</button></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="a11y-row">
+            <button class="btn" type="button" id="tab-read">
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+              读取真实 Tab 顺序
+            </button>
+            <button class="btn btn--ghost" type="button" id="tab-walk">从反例第一个按钮开始走 Tab</button>
+          </div>
+          <pre class="a11y-out" id="tab-result" aria-live="polite">尚未读取。</pre>
+
+          <div class="a11y-split">
+            <div class="a11y-trapbox a11y-trapbox--bad" id="trap-bad-box">
+              <p class="a11y-card__title">反例：焦点陷阱<span class="a11y-card__tag a11y-card__tag--bad">问题</span></p>
+              <p class="a11y-note">这是一段把 Tab 卡死的代码：进入后按 Tab 无法离开。按 <kbd class="a11y-kbd">Esc</kbd> 或点下方"解除陷阱"可以逃出——WCAG 2.1.2 要求陷阱必须有标准退出方式。</p>
+              <div class="a11y-row">
+                <button class="btn btn--danger" type="button" id="trap-bad-open">进入不良示例</button>
+                <button class="btn btn--ghost" type="button" id="trap-bad-release">解除陷阱</button>
+              </div>
+              <p class="a11y-note" id="trap-bad-state">状态：未进入。</p>
+            </div>
+            <div class="a11y-trapbox a11y-trapbox--good" id="trap-good-box">
+              <p class="a11y-card__title">修复：正确的焦点管理<span class="a11y-card__tag a11y-card__tag--good">已修复</span></p>
+              <p class="a11y-note">Tab 在对话框内部循环，<kbd class="a11y-kbd">Esc</kbd> 关闭，关闭后焦点回到触发按钮。</p>
+              <div class="a11y-row">
+                <button class="btn btn--primary" type="button" id="trap-good-open">打开对话框</button>
+              </div>
+              <p class="a11y-note" id="trap-good-state">状态：关闭；上一次焦点：—。</p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">keydown Tab（拦截并手工转移焦点）/ keydown Esc 释放</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">0ms（焦点转移必须同步完成）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">无</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">focus() 目标切换；不产生任何动画</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">与动效档位无关：键盘路径在任何档位都完整可用</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 03 结构与播报 ===================== -->
+  <section class="section shell" id="structure">
+    <div class="section-head">
+      <p class="eyebrow">03 · 听得懂</p>
+      <h2 class="h2">结构与播报</h2>
+      <p class="lede">屏幕阅读器没有"眼睛"，它靠标签名和实时区域来理解页面。下面三段演示的都是真实 DOM，不是示意图。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-04">
+        <header class="demo__label">
+          <span class="demo__index">04</span>
+          <h3 class="demo__title">跳转链接</h3>
+          <p class="demo__desc">下面是一个带 8 条导航的迷你页面。这是真实可点的跳转链接：激活后焦点会落到主内容容器上。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="a11y-mini">
+            <nav class="a11y-mini__nav" aria-label="演示用导航（8 项）">
+              <a class="a11y-mini__link" href="#demo-04">首页</a>
+              <a class="a11y-mini__link" href="#demo-04">产品</a>
+              <a class="a11y-mini__link" href="#demo-04">定价</a>
+              <a class="a11y-mini__link" href="#demo-04">文档</a>
+              <a class="a11y-mini__link" href="#demo-04">更新日志</a>
+              <a class="a11y-mini__link" href="#demo-04">支持</a>
+              <a class="a11y-mini__link" href="#demo-04">关于</a>
+              <a class="a11y-mini__link" href="#demo-04">招聘</a>
+            </nav>
+            <div class="a11y-mini__content">
+              <a class="a11y-skipdemo" href="#mini-main" id="mini-skip">跳到本演示的主内容</a>
+              <div class="a11y-mini__content" id="mini-main" tabindex="-1">
+                <h4 class="a11y-card__title">主内容（tabindex="-1"）</h4>
+                <p class="a11y-note">焦点到这里之后，下一次 Tab 会直接进入内容区里的第一个可聚焦元素，而不是回到那 8 条导航。这就是跳转链接的全部意义：把 N 次 Tab 压成 1 次。</p>
+                <p class="a11y-note" id="mini-status" role="status">尚未使用跳转链接。</p>
+              </div>
+            </div>
+          </div>
+          <p class="a11y-note">整站级别的 <code class="mono">a.skip-link</code> 就在本页最上方：刷新页面后按一次 <kbd class="a11y-kbd">Tab</kbd> 即可看到它出现。</p>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">锚点链接的 click / Enter（含键盘激活）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-fast 150ms（目标容器出现 2px 焦点环的淡入）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity / color（焦点环本身瞬时出现）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">reduced-motion：去掉淡入，焦点环立即出现</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-05">
+        <header class="demo__label">
+          <span class="demo__index">05</span>
+          <h3 class="demo__title">屏幕阅读器播报模拟</h3>
+          <p class="demo__desc">点击下面的按钮，右侧字幕区显示"屏幕阅读器此刻会听到的内容"。polite 会等当前句子读完，assertive 会立刻打断。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="a11y-split">
+            <div class="a11y-card">
+              <p class="a11y-card__title">触发播报</p>
+              <div class="a11y-row">
+                <button class="btn" type="button" data-announce="polite" data-kind="info">信息（polite）</button>
+                <button class="btn" type="button" data-announce="polite" data-kind="success">成功（polite）</button>
+                <button class="btn" type="button" data-announce="polite" data-kind="warning">警告（polite）</button>
+                <button class="btn btn--danger" type="button" data-announce="assertive" data-kind="danger">错误（assertive）</button>
+              </div>
+              <p class="a11y-note">这四条消息同时写进真实 DOM 的 <code class="mono">role="status"</code>（polite）与 <code class="mono">role="alert"</code>（assertive）区域，所以如果你开着读屏软件，这里是真的会念出来的。</p>
+              <div class="a11y-row">
+                <button class="btn btn--ghost" type="button" id="ann-clear">清空字幕</button>
+                <span class="chip" id="ann-count">播报次数：0</span>
+              </div>
+            </div>
+            <div class="a11y-caption">
+              <span class="a11y-caption__label">屏幕阅读器会听到</span>
+              <p class="a11y-caption__text" id="ann-caption"></p>
+              <span class="a11y-caption__label">真实 ARIA 区域</span>
+              <p class="a11y-caption__text" id="ann-live-probe">role="status" 待命</p>
+            </div>
+          </div>
+          <div class="visually-hidden" role="status" aria-live="polite" id="ann-polite"></div>
+          <div class="visually-hidden" role="alert" aria-live="assertive" id="ann-assertive"></div>
+          <p class="a11y-note" id="ann-status" role="status">尚未播报。</p>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click → 写入 aria-live 区域（先清空再写入，确保重复消息也播报）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms（字幕淡入）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity / transform: translate3d(0,4px,0)（字幕）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">reduced-motion：字幕直接出现，播报行为不变</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-06">
+        <header class="demo__label">
+          <span class="demo__index">06</span>
+          <h3 class="demo__title">语义标签 vs div</h3>
+          <p class="demo__desc">左右两边视觉完全一样。点"朗读大纲"遍历两份真实 DOM，输出屏幕阅读器能提取到的地标与标题结构。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="a11y-split">
+            <div class="a11y-card a11y-card--bad">
+              <p class="a11y-card__title">反例：div 汤<span class="a11y-card__tag a11y-card__tag--bad">0 个地标</span></p>
+              <div id="dom-bad">
+                <div class="sem-title-lg">季度交付报告</div>
+                <div class="sem-title-sm">本周完成</div>
+                <div class="sem-text">12 个组件、4 个页面、0 个未闭环缺陷。</div>
+                <div class="sem-text">下周计划：补齐审计脚本与截图基线。</div>
+              </div>
+            </div>
+            <div class="a11y-card a11y-card--good">
+              <p class="a11y-card__title">修复：landmark + 标题层级<span class="a11y-card__tag a11y-card__tag--good">可导航</span></p>
+              <article id="dom-good" class="sem-article" aria-labelledby="sem-h">
+                <h4 class="sem-title-lg" id="sem-h">季度交付报告</h4>
+                <h5 class="sem-title-sm">本周完成</h5>
+                <p class="sem-text">12 个组件、4 个页面、0 个未闭环缺陷。</p>
+                <p class="sem-text">下周计划：补齐审计脚本与截图基线。</p>
+              </article>
+            </div>
+          </div>
+          <div class="a11y-row">
+            <button class="btn" type="button" id="sem-read">
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.5"/></svg>
+              朗读大纲
+            </button>
+            <span class="chip" id="sem-summary">尚未分析</span>
+          </div>
+          <div class="a11y-split">
+            <div>
+              <p class="a11y-card__title">div 版大纲</p>
+              <pre class="a11y-out" id="sem-out-bad">尚未分析。</pre>
+            </div>
+            <div>
+              <p class="a11y-card__title">语义版大纲</p>
+              <pre class="a11y-out" id="sem-out-good">尚未分析。</pre>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click → 遍历 querySelectorAll('h1..h6, main, nav, article, section[aria-label]')</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">0ms（同步遍历）；结果区 --dur-base 240ms 淡入</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity / transform（结果区）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">reduced-motion：结果直接显示，不做淡入</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 04 输入 ===================== -->
+  <section class="section shell" id="input">
+    <div class="section-head">
+      <p class="eyebrow">04 · 点得中</p>
+      <h2 class="h2">输入目标与表单</h2>
+      <p class="lede">手指比鼠标指针粗得多。下面两段演示把"够不够大"和"错了怎么告诉用户"变成可测量的东西。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-07">
+        <header class="demo__label">
+          <span class="demo__index">07</span>
+          <h3 class="demo__title">触控目标 44px 可视化标尺</h3>
+          <p class="demo__desc">打开标尺后叠加 44px 网格。点"实测本组目标"用 getBoundingClientRect 逐个量出真实宽高并列出不达标项。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="a11y-row">
+            <button class="btn" type="button" id="ruler-toggle" aria-pressed="false">打开 44px 标尺</button>
+            <button class="btn btn--ghost" type="button" id="ruler-measure">实测本组目标</button>
+            <span class="chip">门槛 44×44 CSS px</span>
+          </div>
+          <div class="a11y-ruler" id="ruler-stage">
+            <span class="a11y-ruler__grid" aria-hidden="true"></span>
+            <span class="a11y-targets" role="group" aria-label="不同尺寸的触控目标样例">
+              <button class="a11y-target" type="button" style="--t:20px" data-size="20" aria-label="20 像素目标">20</button>
+              <button class="a11y-target" type="button" style="--t:28px" data-size="28" aria-label="28 像素目标">28</button>
+              <button class="a11y-target" type="button" style="--t:32px" data-size="32" aria-label="32 像素目标">32</button>
+              <button class="a11y-target a11y-target--ok" type="button" style="--t:44px" data-size="44" aria-label="44 像素目标">44</button>
+              <button class="a11y-target a11y-target--ok" type="button" style="--t:48px" data-size="48" aria-label="48 像素目标">48</button>
+              <button class="a11y-target a11y-target--ok" type="button" style="--t:56px" data-size="56" aria-label="56 像素目标">56</button>
+            </span>
+          </div>
+          <pre class="a11y-out" id="ruler-result" aria-live="polite">尚未实测。点击"实测本组目标"开始。</pre>
+          <p class="a11y-note">图标可以画得很小，但<strong>可点击区域必须撑到 44px</strong>——本项目所有图标按钮都用内边距而不是放大图标来解决这个问题。</p>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">标尺按钮 click（aria-pressed 切换）/ 实测按钮 click</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-fast 150ms（标尺淡入）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity（网格覆盖层）；不使用 width/left 动画</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">reduced-motion：标尺瞬间显示/隐藏</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-08">
+        <header class="demo__label">
+          <span class="demo__index">08</span>
+          <h3 class="demo__title">表单标签与错误播报</h3>
+          <p class="demo__desc">标签始终可见（不是 placeholder-only），错误紧邻字段、带图标与文字，并通过 aria-live 与 aria-invalid 同步给读屏软件。点"提交"看完整的错误路径。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <form class="a11y-form" id="a11y-form" novalidate>
+            <div class="field" id="field-mail">
+              <label class="label" for="f-mail">工作邮箱（必填）</label>
+              <input class="a11y-input" type="email" id="f-mail" name="mail" inputmode="email" autocomplete="email"
+                     placeholder="name@example.com" aria-describedby="f-mail-hint f-mail-error" aria-invalid="false">
+              <p class="hint" id="f-mail-hint">用于接收构建结果通知，不会用于其他用途。</p>
+              <p class="error" id="f-mail-error" hidden>
+                <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+                <span>邮箱格式不正确，需要包含 @ 与域名。</span>
+              </p>
+            </div>
+
+            <div class="field" id="field-seat">
+              <label class="label" for="f-seat">团队席位（1–200）</label>
+              <input class="a11y-input" type="text" id="f-seat" name="seat" inputmode="numeric" autocomplete="off"
+                     placeholder="例如 12" aria-describedby="f-seat-hint f-seat-error" aria-invalid="false">
+              <p class="hint" id="f-seat-hint">数字键盘由 inputmode="numeric" 唤起。</p>
+              <p class="error" id="f-seat-error" hidden>
+                <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+                <span>请输入 1 到 200 之间的整数。</span>
+              </p>
+            </div>
+
+            <div class="a11y-row">
+              <button class="btn btn--primary" type="submit" id="f-submit">提交</button>
+              <button class="btn btn--ghost" type="reset" id="f-reset">重置</button>
+              <span class="a11y-form__status" id="f-status" role="status">等待提交。</span>
+            </div>
+            <p class="error" id="f-summary" hidden>
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+              <span id="f-summary-text">表单有 2 处问题。</span>
+            </p>
+          </form>
+          <p class="a11y-note">提交时按钮进入 <code class="mono">disabled + aria-busy</code> 状态，错误出现后焦点自动移到第一个出错字段，而不是留在按钮上。</p>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">submit（含 Enter 提交）/ input（用户修正时清除错误）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms（错误区展开）/ --dur-slow 360ms（按钮 loading）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity / transform: translate3d(0,-4px,0)；不改 height</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">reduced-motion：错误立即出现，无位移；aria 播报路径完全不变</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 05 动效与颜色 ===================== -->
+  <section class="section shell" id="motion">
+    <div class="section-head">
+      <p class="eyebrow">05 · 不难受</p>
+      <h2 class="h2">动效偏好与颜色依赖</h2>
+      <p class="lede">"尊重 prefers-reduced-motion"是中等严重度问题，"只用颜色表达状态"是另一种。两者都在这里被拆开对照。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-09">
+        <header class="demo__label">
+          <span class="demo__index">09</span>
+          <h3 class="demo__title">reduced-motion 并排对照</h3>
+          <p class="demo__desc">左边无视用户偏好，右边按 ML.motion.get() 决定动不动。当前档位实时显示在按钮上，可以直接切换验证。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="a11y-row">
+            <span class="chip" id="motion-mode-chip">当前动效档位：读取中…</span>
+            <button class="btn btn--ghost" type="button" id="motion-cycle">切换动效档位（完整 / 精简 / 关闭）</button>
+            <button class="btn" type="button" id="motion-replay">
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.6 5.9"/><path d="M20 4v7h-7"/></svg>
+              重播一次
+            </button>
+          </div>
+          <div class="a11y-motionpair">
+            <div class="a11y-card a11y-card--bad">
+              <p class="a11y-card__title">
+                <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
+                无视偏好<span class="a11y-card__tag a11y-card__tag--bad">问题</span>
+              </p>
+              <div class="a11y-track" id="track-forced"><span class="a11y-track__ball"></span></div>
+              <p class="a11y-note">位移动画照跑，前庭功能敏感的用户会感到不适。</p>
+            </div>
+            <div class="a11y-card a11y-card--good">
+              <p class="a11y-card__title">
+                <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.5 2.5L16 9.5"/></svg>
+                尊重偏好<span class="a11y-card__tag a11y-card__tag--good">已修复</span>
+              </p>
+              <div class="a11y-track a11y-track--calm" id="track-calm"><span class="a11y-track__ball a11y-track__ball--calm"></span></div>
+              <p class="a11y-note" id="track-calm-note">档位为 on 时：仅保留不透明度过渡，不做位移。</p>
+            </div>
+          </div>
+          <div class="a11y-card">
+            <p class="a11y-card__title">本站的降级策略</p>
+            <p class="a11y-formula">on → 完整动效 &nbsp;|&nbsp; lite → 只保留 opacity / color &nbsp;|&nbsp; off → 全部瞬时</p>
+            <p class="a11y-note">系统 <code class="mono">prefers-reduced-motion: reduce</code> 会自动落到 lite；用户手动选择写入 <code class="mono">localStorage.ml-motion</code>。当前页面检测到：<strong id="motion-system-note">检测中…</strong></p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">重播按钮 click / ML.motion.onChange 档位变化</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">900ms（对照演示用固定值，非 UI 过渡）/ lite 时 240ms ≈ --dur-base</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-in-out-quart（例）× --ease-out-quint（修复）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d / opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite / off 下位移被替换为 240ms 不透明度过渡</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-10">
+        <header class="demo__label">
+          <span class="demo__index">10</span>
+          <h3 class="demo__title">仅用颜色表达：问题与修复</h3>
+          <p class="demo__desc">打开"色盲模拟"把整组降到灰阶——如果信息还在，说明它没有只依赖颜色。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="a11y-row">
+            <button class="btn" type="button" id="cvd-toggle" aria-pressed="false">打开色盲模拟（灰阶）</button>
+            <span class="chip">判定：信息是否仍然可读</span>
+          </div>
+          <div class="a11y-split" id="cvd-scope">
+            <div class="a11y-card a11y-card--bad">
+              <p class="a11y-card__title">反例：圆点靠颜色区分<span class="a11y-card__tag a11y-card__tag--bad">失败</span></p>
+              <ul class="cvd-list">
+                <li><span class="cvd-dot cvd-dot--ok"></span>构建 #412</li>
+                <li><span class="cvd-dot cvd-dot--warn"></span>构建 #411</li>
+                <li><span class="cvd-dot cvd-dot--bad"></span>构建 #410</li>
+              </ul>
+              <p class="a11y-note">灰阶之后三个圆点几乎同色，状态信息彻底丢失。</p>
+            </div>
+            <div class="a11y-card a11y-card--good">
+              <p class="a11y-card__title">修复：图标 + 文字 + 颜色<span class="a11y-card__tag a11y-card__tag--good">通过</span></p>
+              <ul class="cvd-list">
+                <li><span class="cvd-pill cvd-pill--ok"><svg class="icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>通过</span>构建 #412</li>
+                <li><span class="cvd-pill cvd-pill--warn"><svg class="icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>警告</span>构建 #411</li>
+                <li><span class="cvd-pill cvd-pill--bad"><svg class="icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>失败</span>构建 #410</li>
+              </ul>
+              <p class="a11y-note">图标形状不同、文字不同、颜色也不同——三重编码，去掉任意一层都还读得懂。</p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click（aria-pressed 同步）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">filter: grayscale()（合成层属性，不触发重排）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">reduced-motion：灰阶瞬时切换</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-11">
+        <header class="demo__label">
+          <span class="demo__index">11</span>
+          <h3 class="demo__title">自动轮播：暂停与偏好尊重</h3>
+          <p class="demo__desc">自动播放的内容必须能被暂停（WCAG 2.2.2）。这里同时实现了手动暂停、悬停暂停、聚焦暂停，以及 reduced-motion 下不自动开始。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="a11y-carousel" id="carousel">
+            <div class="a11y-carousel__viewport" id="carousel-viewport" aria-roledescription="轮播" aria-label="交付流程步骤">
+              <div class="a11y-carousel__slide" data-active="true" data-slide="0">
+                <h4 class="a11y-carousel__title">01 · 读取需求</h4>
+                <p class="a11y-carousel__desc">把"高级感"拆成可测量的参数。</p>
+              </div>
+              <div class="a11y-carousel__slide" data-slide="1">
+                <h4 class="a11y-carousel__title">02 · 落地 token</h4>
+                <p class="a11y-carousel__desc">颜色、字体、间距、动效全部进 token 表。</p>
+              </div>
+              <div class="a11y-carousel__slide" data-slide="2">
+                <h4 class="a11y-carousel__title">03 · 键盘与读屏验收</h4>
+                <p class="a11y-carousel__desc">Tab 走通全程，aria-live 播报正确。</p>
+              </div>
+              <div class="a11y-carousel__slide" data-slide="3">
+                <h4 class="a11y-carousel__title">04 · 交付规格标注</h4>
+                <p class="a11y-carousel__desc">每个动效都写清触发、时长、缓动、降级。</p>
+              </div>
+            </div>
+            <div class="a11y-carousel__bar"><span id="carousel-progress"></span></div>
+            <div class="a11y-row">
+              <button class="btn" type="button" id="carousel-toggle" aria-pressed="false">
+                <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4v16M15 4v16"/></svg>
+                暂停轮播
+              </button>
+              <div class="a11y-carousel__dots" role="group" aria-label="选择步骤" id="carousel-dots"></div>
+              <span class="chip" id="carousel-state" role="status">状态：读取中…</span>
+            </div>
+          </div>
+          <p class="a11y-note">轮播进度条用 <code class="mono">transform: scaleX()</code> 驱动，不做 width 动画；暂停时进度也停住，恢复时从暂停处继续。</p>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">自动计时 4000ms / pointerenter / focusin / 暂停按钮 / 圆点选择</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms（切页）/ 4000ms 停留（1.4 × --dur-slower 的节奏感）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（进入）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d / scaleX、opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 为真时<span>不自动开始</span>，只保留手动切换</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 06 状态与快捷键 ===================== -->
+  <section class="section shell" id="states">
+    <div class="section-head">
+      <p class="eyebrow">06 · 说得清</p>
+      <h2 class="h2">ARIA 状态与键盘快捷键</h2>
+      <p class="lede">视觉状态变了，ARIA 状态必须跟着变，否则读屏用户听到的是上一次的页面。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-12">
+        <header class="demo__label">
+          <span class="demo__index">12</span>
+          <h3 class="demo__title">ARIA 状态演示</h3>
+          <p class="demo__desc">aria-expanded / aria-pressed / aria-selected / aria-busy 四个状态，每一项都有对应的真实控件与实时状态读数。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="a11y-split">
+            <div class="a11y-card">
+              <p class="a11y-card__title">aria-expanded（折叠面板）</p>
+              <div class="a11y-accordion" id="acc">
+                <button class="btn a11y-taborder__btn" type="button" id="acc-trigger" aria-expanded="false" aria-controls="acc-panel">
+                  <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                  展开"降级策略"
+                </button>
+                <div class="a11y-accordion__panel" id="acc-panel" role="region" aria-labelledby="acc-trigger" hidden>
+                  lite 只保留不透明度与颜色过渡；off 全部瞬时。两者都不改变 DOM 结构与可访问名称。
+                </div>
+              </div>
+              <p class="a11y-note mono" id="acc-state">aria-expanded="false"</p>
+            </div>
+
+            <div class="a11y-card">
+              <p class="a11y-card__title">aria-pressed（切换按钮）</p>
+              <div class="a11y-press" id="press">
+                <button class="btn" type="button" aria-pressed="true" data-press="视觉">
+                  <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.5"/></svg>
+                  视觉
+                </button>
+                <button class="btn" type="button" aria-pressed="false" data-press="声音">
+                  <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+                  声音
+                </button>
+                <button class="btn" type="button" aria-pressed="false" data-press="触觉">
+                  <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 11V6.5a1.5 1.5 0 0 0-3 0V11M15 10.5V4.5a1.5 1.5 0 0 0-3 0V11M12 11V5.5a1.5 1.5 0 0 0-3 0V13"/><path d="M9 12.5 7.6 11a1.6 1.6 0 0 0-2.3 2.2l4 5.1A6 6 0 0 0 14 21h1a6 6 0 0 0 6-6v-4"/></svg>
+                  触觉
+                </button>
+              </div>
+              <p class="a11y-note mono" id="press-state">aria-pressed="true,false,false" · 已启用：视觉（视觉通道不可关闭）</p>
+            </div>
+
+            <div class="a11y-card">
+              <p class="a11y-card__title">aria-selected（标签页）</p>
+              <div class="a11y-tabs" id="tabs">
+                <div class="a11y-tabs__list" role="tablist" aria-label="图表口径">
+                  <button class="a11y-tab" type="button" role="tab" id="tab-d" aria-selected="true" aria-controls="panel-d" tabindex="0">日</button>
+                  <button class="a11y-tab" type="button" role="tab" id="tab-w" aria-selected="false" aria-controls="panel-w" tabindex="-1">周</button>
+                  <button class="a11y-tab" type="button" role="tab" id="tab-m" aria-selected="false" aria-controls="panel-m" tabindex="-1">月</button>
+                </div>
+                <div class="a11y-tabpanel" role="tabpanel" id="panel-d" aria-labelledby="tab-d">按日聚合：粒度最细，波动最明显。</div>
+                <div class="a11y-tabpanel" role="tabpanel" id="panel-w" aria-labelledby="tab-w" hidden>按周聚合：抹平周末低谷，趋势更清楚。</div>
+                <div class="a11y-tabpanel" role="tabpanel" id="panel-m" aria-labelledby="tab-m" hidden>按月聚合：只适合看长期方向。</div>
+              </div>
+              <p class="a11y-note mono" id="tabs-state">aria-selected="true" @ 日 · 方向键 ← → 可切换</p>
+            </div>
+
+            <div class="a11y-card">
+              <p class="a11y-card__title">aria-busy（加载占位）</p>
+              <div class="a11y-row">
+                <button class="btn" type="button" id="busy-trigger">模拟加载 2 秒</button>
+                <span class="a11y-busy" id="busy-region" aria-busy="false" aria-live="polite">
+                  <span class="a11y-busy__spin" aria-hidden="true"></span>
+                  <span id="busy-text">空闲：内容为最终值。</span>
+                </span>
+              </div>
+              <p class="a11y-note">加载中 <code class="mono">aria-busy="true"</code>，读屏软件会等结果稳定后再播报，避免念出一串中间态。</p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">click / keydown（Enter、Space、← →、Home、End）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms（面板展开、tab 指示器）/ 2000ms 模拟加载</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity / transform: translate3d(0,-4px,0)；spinner 用 rotate</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">reduced-motion：面板瞬时展开；spinner 降为静态描边（不旋转）</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-13">
+        <header class="demo__label">
+          <span class="demo__index">13</span>
+          <h3 class="demo__title">键盘快捷键表</h3>
+          <p class="demo__desc">本站真实存在的快捷键，以及它们是否与浏览器冲突。只保留有列出的键位——没写进表里的键位一律不用。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="a11y-table-wrap" tabindex="0" role="region" aria-label="键盘快捷键表（可横向滚动）">
+            <table class="a11y-table">
+              <caption class="visually-hidden">MOTION LAB 键盘快捷键一览</caption>
+              <thead>
+                <tr>
+                  <th scope="col">键位</th>
+                  <th scope="col">动作</th>
+                  <th scope="col">作用范围</th>
+                  <th scope="col">冲突风险</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row"><kbd class="a11y-kbd">⌘</kbd> <kbd class="a11y-kbd">K</kbd> / <kbd class="a11y-kbd">Ctrl</kbd> <kbd class="a11y-kbd">K</kbd></th>
+                  <td><strong>打开命令面板</strong></td>
+                  <td>全站（内核注入）</td>
+                  <td>低：Chrome 的聚焦地址栏为 ⌘L，不冲突</td>
+                </tr>
+                <tr>
+                  <th scope="row"><kbd class="a11y-kbd">Esc</kbd></th>
+                  <td><strong>关闭面板 / 对话框</strong></td>
+                  <td>全站（内核注入）</td>
+                  <td>无：浏览器保留 Esc 用于停止加载，不冲突</td>
+                </tr>
+                <tr>
+                  <th scope="row"><kbd class="a11y-kbd">Tab</kbd> / <kbd class="a11y-kbd">Shift</kbd> <kbd class="a11y-kbd">Tab</kbd></th>
+                  <td><strong>正向 / 反向遍历</strong></td>
+                  <td>浏览器原生</td>
+                  <td>无：不得被脚本拦截，除非焦点锁定在模态内</td>
+                </tr>
+                <tr>
+                  <th scope="row"><kbd class="a11y-kbd">↑</kbd> <kbd class="a11y-kbd">↓</kbd></th>
+                  <td><strong>列表 / tabs 内移动</strong></td>
+                  <td>命令面板、本页 12 号 demo</td>
+                  <td>低：仅在对应组件聚焦时生效</td>
+                </tr>
+                <tr>
+                  <th scope="row"><kbd class="a11y-kbd">←</kbd> <kbd class="a11y-kbd">→</kbd></th>
+                  <td><strong>tabs 切换（自动选中）</strong></td>
+                  <td>本页 12 号 demo</td>
+                  <td>低：仅在 tablist 内生效</td>
+                </tr>
+                <tr>
+                  <th scope="row"><kbd class="a11y-kbd">Home</kbd> / <kbd class="a11y-kbd">End</kbd></th>
+                  <td><strong>跳到首个 / 最后一个选项</strong></td>
+                  <td>tabs、命令面板</td>
+                  <td>中：单键快捷键在文本框内必须被忽略</td>
+                </tr>
+                <tr>
+                  <th scope="row"><kbd class="a11y-kbd">↵</kbd> / <kbd class="a11y-kbd">Space</kbd></th>
+                  <td><strong>激活当前项</strong></td>
+                  <td>全站按钮与 tabs</td>
+                  <td>无：遵循原生语义</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ul class="a11y-outline-list" id="sc-audit" aria-live="polite"></ul>
+          <p class="a11y-note">单键快捷键的危险在于和读屏软件的浏览键冲突（读屏用户常用单字母跳转）。因此本站<strong>不使用任何单字母快捷键</strong>，方向键只在对应组件聚焦时才接管。</p>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">keydown（仅在拥有焦点的组件内响应）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">0ms（键位响应必须同步）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">无（面板开启后的视觉过渡用 --ease-out-quint）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">无动画属性变化；面板开启动 opacity / transform</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">快捷键与动效档位无关；任何档位都完整可用</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <nav class="page-nav shell" aria-label="展厅导航">
+    <a class="page-nav__link" href="motion-physics.html">
+      <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4M11 5l-7 7 7 7"/></svg>
+      上一站：运动物理
+    </a>
+    <a class="page-nav__link" href="data-viz.html">
+      下一站：数据可视化
+      <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7"/></svg>
+    </a>
+  </nav>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="site-overlays"></div>
+
+<script src="assets/js/site.js"></script>
+<script src="assets/js/pages/accessibility.js"></script>
+</body>
+</html>

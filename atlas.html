@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-motion="on" data-theme="dark" data-page="atlas">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>交互地图 · MOTION LAB</title>
+  <meta name="description" content="MOTION LAB 交互地图：120 个交互条目按 12 个展厅归档，支持关键词搜索与多选筛选，结果按位移重新编排。每个条目都能跳到它所在的展厅，并标注关键参数。">
+  <meta name="theme-color" content="#0A0B0D">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/pages/atlas.css">
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/pages/atlas.inline.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主内容</a>
+  <div id="site-header"></div>
+
+  <main id="main" class="page">
+
+    <!-- ============ 页头 ============ -->
+    <header class="page-head shell">
+      <p class="eyebrow">交互地图 · ATLAS</p>
+      <h1 class="h1">全部交互条目</h1>
+      <p class="lede">
+        120 个条目，按 12 个展厅归档，每条一句话说清做法与参数。
+        筛选时条目只做位移重排，不做宽高动画 —— 地图的动效本身也是展品。
+      </p>
+      <ul class="meta-chips">
+        <li class="chip"><span class="tnum">120</span> 个条目</li>
+        <li class="chip"><span class="tnum">12</span> 个展厅</li>
+        <li class="chip">搜索 + 多选筛选</li>
+        <li class="chip">键盘完整可达</li>
+      </ul>
+    </header>
+
+    <!-- ============ 筛选器 ============ -->
+    <section class="section shell" id="filters" aria-labelledby="filters-title">
+      <h2 class="visually-hidden" id="filters-title">筛选条目</h2>
+
+      <form class="atl-filters" id="atl-filters" role="search" novalidate>
+        <div class="atl-filters__search">
+          <label class="label" for="atl-q">搜索条目</label>
+          <div class="atl-filters__field">
+            <svg class="icon atl-filters__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg>
+            <input class="input atl-filters__input" id="atl-q" name="q" type="search" autocomplete="off" spellcheck="false"
+                   placeholder="例如：弹簧 / aria-live / 骨架屏" aria-describedby="atl-hint atl-count" aria-keyshortcuts="/">
+            <button class="btn btn--ghost btn--icon atl-filters__clear" id="atl-q-clear" type="button" aria-label="清空搜索词" hidden>
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
+            </button>
+          </div>
+          <p class="hint" id="atl-hint">按 <kbd class="mono">/</kbd> 聚焦搜索框 · <kbd class="mono">↑</kbd><kbd class="mono">↓</kbd> 在结果间移动 · <kbd class="mono">↵</kbd> 打开条目</p>
+        </div>
+
+        <fieldset class="atl-filters__zones">
+          <legend class="label">展厅</legend>
+          <div class="atl-chips" id="atl-chips"></div>
+        </fieldset>
+
+        <div class="atl-filters__status">
+          <p class="atl-count tnum" id="atl-count" aria-live="polite" aria-atomic="true">120 个条目</p>
+          <p class="atl-active" id="atl-active"></p>
+          <button class="btn btn--ghost" id="atl-reset" type="button">清空全部筛选</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ============ 结果 ============ -->
+    <section class="section shell" id="results" aria-labelledby="results-title">
+      <h2 class="visually-hidden" id="results-title">筛选结果</h2>
+
+      <ul class="atl-list" id="atl-list" aria-label="交互条目列表"></ul>
+
+      <div class="atl-empty panel" id="atl-empty" hidden>
+        <p class="eyebrow">无结果</p>
+        <h3 class="h3" id="atl-empty-title">没有条目同时满足当前条件</h3>
+        <p class="atl-empty__why" id="atl-empty-why"></p>
+        <ul class="atl-empty__tips">
+          <li>减少展厅筛选：多个展厅是「与」关系，选得越多结果越少。</li>
+          <li>搜索词按空格拆成多个关键词，全部命中才通过。</li>
+          <li>直接清空全部条件，回到 120 个条目。</li>
+        </ul>
+        <button class="btn btn--primary" id="atl-empty-reset" type="button">清空全部筛选</button>
+      </div>
+
+      <noscript>
+        <div class="atl-empty panel">
+          <p class="eyebrow">需要 JavaScript</p>
+          <h3 class="h3">交互地图的筛选与搜索由页面脚本提供</h3>
+          <p>脚本未运行，仍可直接浏览 12 个展厅：</p>
+          <ul class="atl-empty__tips">
+            <li><a href="micro-interactions.html">A 微交互</a> · <a href="states-feedback.html">B 状态与反馈</a> · <a href="scroll-motion.html">C 滚动叙事</a></li>
+            <li><a href="page-transitions.html">D 页面转场</a> · <a href="navigation.html">E 导航模式</a> · <a href="forms.html">F 表单交互</a></li>
+            <li><a href="gestures.html">G 手势与拖拽</a> · <a href="motion-physics.html">H 运动物理</a> · <a href="feedback.html">I 反馈系统</a></li>
+            <li><a href="accessibility.html">J 无障碍</a> · <a href="data-viz.html">K 数据可视化</a> · <a href="design-system.html">L 设计系统</a></li>
+          </ul>
+        </div>
+      </noscript>
+    </section>
+
+    <nav class="page-nav shell" aria-label="页面导航">
+      <a class="page-nav__link" href="index.html">
+        <span class="page-nav__dir">回到</span>
+        <span class="page-nav__title">首页</span>
+        <span class="page-nav__desc">丝滑宣言与展厅地图</span>
+      </a>
+      <a class="page-nav__link page-nav__link--next" href="design-system.html">
+        <span class="page-nav__dir">阅读</span>
+        <span class="page-nav__title">设计系统</span>
+        <span class="page-nav__desc">条目规格标注所依据的唯一真源</span>
+      </a>
+    </nav>
+  </main>
+
+  <button class="atl-top btn btn--ghost btn--icon" id="atl-top" type="button" aria-label="回到筛选器" hidden>
+    <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>
+  </button>
+
+  <div id="site-footer"></div>
+  <div id="site-overlays"></div>
+
+  <script src="assets/js/site.js"></script>
+  <script src="assets/js/pages/atlas.js"></script>
+</body>
+</html>

@@ -1,0 +1,774 @@
+/* ============================================================================
+   展厅 A · 微交互（micro-interactions）页面样式
+   仅使用 tokens.css 定义的 var(--token)；不出现颜色字面量。
+   只动画 transform / opacity / filter / CSS 变量。
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   0. 跨文档 View Transitions
+   —— 全站的方向动画（@view-transition、data-nav-dir、::view-transition-*）
+      由 motion.css 统一提供，页面不重复定义。
+      这里只声明本页参与共享元素过渡的名字（同页内必须唯一）。
+   -------------------------------------------------------------------------- */
+.page-head .h1 { view-transition-name: pt-title; }
+
+/* ---------------------------------------------------------------------------
+   1. 页面通用件
+   -------------------------------------------------------------------------- */
+/* 只注册需要做 CSS 过渡的数值变量；--mi-ring 由 rAF 逐帧写入，无需注册 */
+@property --mi-check { syntax: "<number>"; inherits: false; initial-value: 26; }
+
+.mi-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mi-toc__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: var(--hairline);
+  border-radius: var(--r-pill);
+  background-color: var(--ink-800);
+  color: var(--muted);
+  font: 500 var(--fs-sm) / 1 var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+  transform: translate3d(0, 0, 0);
+  transition: color var(--dur-fast) var(--ease-out-quint),
+              border-color var(--dur-fast) var(--ease-out-quint),
+              transform var(--dur-fast) var(--ease-out-quint);
+}
+.mi-toc__link:hover { color: var(--paper); border-color: var(--accent); transform: translate3d(0, -2px, 0); }
+.mi-toc__link:active { transform: translate3d(0, 0, 0); }
+.mi-toc__link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.mi-toc__num {
+  font: 500 var(--fs-label) / 1 var(--font-mono);
+  letter-spacing: 0.18em;
+  color: var(--accent-ink);
+}
+
+.mi-demo { display: grid; gap: var(--space-3); min-width: 0; }
+
+.mi-readout {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  line-height: 1.6;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.mi-readout span { color: var(--paper); }
+
+/* ---------------------------------------------------------------------------
+   2. 01 按钮按压物理
+   -------------------------------------------------------------------------- */
+.mi-pressrow { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+
+.mi-press {
+  position: relative;
+  isolation: isolate;
+  --mi-press-scale: 1;
+  transform: scale(var(--mi-press-scale));
+  transform-origin: 50% 50%;
+  will-change: transform;
+  transition: filter var(--dur-fast) var(--ease-out-quint),
+              border-color var(--dur-fast) var(--ease-out-quint),
+              background-color var(--dur-fast) var(--ease-out-quint);
+}
+.mi-press.is-press { filter: brightness(1.18); }
+.mi-press[data-mi-source="key"] { border-color: var(--accent); }
+.mi-press:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ---------------------------------------------------------------------------
+   3. 02 涟漪
+   -------------------------------------------------------------------------- */
+.mi-ripple-surface {
+  position: relative;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 148px;
+  padding: var(--space-5) var(--space-4);
+  border: var(--hairline);
+  border-radius: var(--r-md);
+  background-color: var(--ink-700);
+  color: var(--paper);
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color var(--dur-fast) var(--ease-out-quint),
+              background-color var(--dur-fast) var(--ease-out-quint);
+}
+.mi-ripple-surface:hover { border-color: var(--accent); background-color: var(--ink-600); }
+.mi-ripple-surface:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.mi-ripple-surface__label { font: 500 var(--fs-body) / 1.4 var(--font-body); }
+.mi-ripple-surface__sub { font-size: var(--fs-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted-2); }
+
+/* 涟漪本体由内核的 .ripple-host / .ripple（motion.css）生成，
+   页面只负责降级档下的一次性颜色闪烁与计数。 */
+.mi-ripple-surface.is-flash { background-color: var(--accent-soft); }
+
+/* ---------------------------------------------------------------------------
+   4. 03 磁吸悬停
+   -------------------------------------------------------------------------- */
+.mi-magnet__field {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 184px;
+  border: var(--hairline);
+  border-radius: var(--r-md);
+  background: radial-gradient(circle at 50% 42%, var(--ink-700), var(--ink-800));
+  cursor: crosshair;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+.mi-magnet__field:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.mi-magnet__puck {
+  --mi-mx: 0px;
+  --mi-my: 0px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  border-radius: var(--r-pill);
+  background-color: var(--accent);
+  color: var(--ink-900);
+  font: 600 var(--fs-label) / 1 var(--font-mono);
+  letter-spacing: 0.14em;
+  transform: translate3d(var(--mi-mx), var(--mi-my), 0);
+  will-change: transform;
+}
+.mi-magnet__puck::after {
+  content: "";
+  position: absolute;
+  inset: -14px;
+  border-radius: var(--r-pill);
+  background-color: var(--accent-soft);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out-quint);
+}
+.mi-magnet__field:hover .mi-magnet__puck::after,
+.mi-magnet__field:focus-visible .mi-magnet__puck::after { opacity: 1; }
+.mi-magnet__hint {
+  position: absolute;
+  bottom: var(--space-2);
+  font-size: var(--fs-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+
+/* ---------------------------------------------------------------------------
+   5. 04 悬停下划线绘制
+   -------------------------------------------------------------------------- */
+.mi-underline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mi-underline__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 2px;
+  color: var(--paper);
+  font: 500 var(--fs-h3) / 1.3 var(--font-display);
+  text-decoration: none;
+  cursor: pointer;
+}
+.mi-underline__link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: var(--r-xs); }
+.mi-underline__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 6px;
+  height: 2px;
+  background-color: var(--accent);
+  transform: scaleX(0);
+  transition: transform var(--dur-base) var(--ease-out-quint);
+}
+.mi-underline__item[data-mi-ul="center"] .mi-underline__bar { transform-origin: 50% 50%; }
+.mi-underline__item[data-mi-ul="right"] .mi-underline__bar { transform-origin: 100% 50%; }
+.mi-underline__item[data-mi-ul="left"] .mi-underline__bar { transform-origin: 0 50%; }
+.mi-underline__item[data-mi-ul="center"] .mi-underline__bar { height: 3px; }
+.mi-underline__item[data-mi-ul="right"] .mi-underline__bar { height: 4px; transform: scaleX(0) scaleY(0.5); }
+
+.mi-underline__link:hover .mi-underline__bar,
+.mi-underline__link:focus-visible .mi-underline__bar,
+.mi-underline__item.is-hot .mi-underline__bar { transform: scaleX(1); }
+.mi-underline__item[data-mi-ul="right"] .mi-underline__link:hover .mi-underline__bar,
+.mi-underline__item[data-mi-ul="right"] .mi-underline__link:focus-visible .mi-underline__bar {
+  transform: scaleX(1) scaleY(1);
+}
+
+/* ---------------------------------------------------------------------------
+   6. 05 开关（含拖动）
+   -------------------------------------------------------------------------- */
+.mi-switchrow { display: flex; align-items: center; gap: var(--space-3); }
+
+.mi-switch {
+  --mi-switch-x: 0px;
+  position: relative;
+  flex: 0 0 auto;
+  width: 68px;
+  height: 44px;
+  padding: 5px;
+  border: var(--hairline);
+  border-radius: var(--r-pill);
+  background-color: var(--ink-700);
+  cursor: pointer;
+  touch-action: none;
+  transition: background-color var(--dur-base) var(--ease-out-quint),
+              border-color var(--dur-base) var(--ease-out-quint);
+}
+.mi-switch[aria-checked="true"] { background-color: var(--accent); border-color: var(--accent); }
+.mi-switch:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.mi-switch__thumb {
+  display: block;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r-pill);
+  background-color: var(--paper);
+  transform: translate3d(var(--mi-switch-x), 0, 0);
+  will-change: transform;
+}
+.mi-switch[aria-checked="true"] .mi-switch__thumb { background-color: var(--surface-sunken); }
+.mi-switch.is-drag { cursor: grabbing; }
+.mi-switch__state {
+  min-width: 3.2em;
+  font-size: var(--fs-mono);
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+.mi-switch[aria-checked="true"] ~ .mi-switch__state { color: var(--accent-ink); }
+
+/* ---------------------------------------------------------------------------
+   7. 06 复选框画勾
+   -------------------------------------------------------------------------- */
+.mi-checkgroup { display: grid; gap: var(--space-1); }
+
+.mi-check {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 44px;
+  padding: 0 var(--space-2);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  color: var(--paper);
+  font: 400 var(--fs-body) / 1.5 var(--font-body);
+  transition: background-color var(--dur-fast) var(--ease-out-quint);
+}
+.mi-check:hover { background-color: var(--ink-700); }
+.mi-check--disabled { cursor: not-allowed; color: var(--muted); }
+.mi-check--disabled:hover { background: transparent; }
+
+.mi-check__input {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 0;
+  opacity: 0;
+  cursor: inherit;
+}
+.mi-check__box {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--ink-600);
+  border-radius: var(--r-xs);
+  background-color: var(--ink-800);
+  color: var(--ink-900);
+  transform: scale(1);
+  transition: transform var(--dur-fast) var(--ease-spring-soft),
+              background-color var(--dur-base) var(--ease-out-quint),
+              border-color var(--dur-base) var(--ease-out-quint),
+              opacity var(--dur-base) var(--ease-out-quint);
+}
+.mi-check__svg { width: 16px; height: 16px; display: block; }
+.mi-check__path {
+  --mi-check: 26;
+  stroke-dasharray: 26;
+  stroke-dashoffset: var(--mi-check);
+  transition: --mi-check var(--dur-base) var(--ease-out-quint);
+}
+.mi-check__input:checked + .mi-check__box {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+.mi-check__input:checked + .mi-check__box .mi-check__path { --mi-check: 0; }
+.mi-check__input:focus-visible + .mi-check__box { outline: 2px solid var(--accent); outline-offset: 3px; }
+.mi-check__input:disabled + .mi-check__box { border-color: var(--ink-600); background-color: var(--ink-800); opacity: 0.45; }
+.mi-check.is-pop .mi-check__box { transform: scale(1.14); }
+
+/* ---------------------------------------------------------------------------
+   8. 07 单选滑动指示器
+   -------------------------------------------------------------------------- */
+.mi-radio {
+  --mi-opt: 52px;
+  --mi-idx: 0;
+  position: relative;
+  display: grid;
+  padding: var(--space-1);
+  border: var(--hairline);
+  border-radius: var(--r-md);
+  background-color: var(--ink-800);
+}
+.mi-radio__ind {
+  position: absolute;
+  left: var(--space-1);
+  right: var(--space-1);
+  top: var(--space-1);
+  height: var(--mi-opt);
+  border: 1px solid var(--accent);
+  border-radius: var(--r-sm);
+  background-color: var(--accent-soft);
+  pointer-events: none;
+  transform: translate3d(0, calc(var(--mi-idx) * var(--mi-opt)), 0);
+  transition: transform var(--dur-base) var(--ease-snap);
+  will-change: transform;
+}
+.mi-radio__opt {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: var(--mi-opt);
+  padding: 0 var(--space-3);
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--muted);
+  font: 500 var(--fs-body) / 1.4 var(--font-body);
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out-quint);
+}
+.mi-radio__opt::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--ink-600);
+  border-radius: var(--r-pill);
+  transition: border-color var(--dur-fast) var(--ease-out-quint),
+              transform var(--dur-fast) var(--ease-spring-soft);
+}
+.mi-radio__opt[aria-checked="true"] { color: var(--paper); }
+.mi-radio__opt[aria-checked="true"]::before {
+  border-color: var(--accent);
+  transform: scale(1.12);
+  box-shadow: inset 0 0 0 4px var(--accent);
+}
+.mi-radio__opt:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+
+/* ---------------------------------------------------------------------------
+   9. 08 分段控件
+   -------------------------------------------------------------------------- */
+/* 分段控件本体直接用内核的 .tabbar / .tabbar__item / .tabbar__indicator（site.css），
+   指示器由 ML.UI.tabs 写入 --tab-x 与 width；页面只负责面板内容样式。 */
+.mi-seg__panel {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: var(--hairline);
+  border-radius: var(--r-sm);
+  background-color: var(--ink-700);
+  animation: mi-panel-in var(--dur-fast) var(--ease-out-quint) both;
+}
+.mi-seg__panel[hidden] { display: none; }
+@keyframes mi-panel-in { from { opacity: 0; } to { opacity: 1; } }
+.mi-seg__row { margin: 0; color: var(--muted-2); font-size: var(--fs-sm); }
+.mi-seg__bar { margin: 0; height: 8px; border-radius: var(--r-pill); background-color: var(--ink-600); }
+.mi-seg__bar--md { height: 12px; }
+.mi-seg__bar--lg { height: 18px; }
+
+/* ---------------------------------------------------------------------------
+   10. 09 点赞爆发
+   -------------------------------------------------------------------------- */
+.mi-likerow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+
+.mi-like {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 48px;
+  padding: 0 var(--space-4);
+  border: var(--hairline);
+  border-radius: var(--r-pill);
+  background-color: var(--ink-700);
+  color: var(--paper);
+  cursor: pointer;
+  overflow: visible;
+  transition: border-color var(--dur-base) var(--ease-out-quint),
+              background-color var(--dur-base) var(--ease-out-quint),
+              color var(--dur-base) var(--ease-out-quint);
+}
+.mi-like:hover { border-color: var(--accent); }
+.mi-like:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.mi-like[aria-pressed="true"] { border-color: var(--danger); }
+.mi-like__glyph {
+  position: relative;
+  display: block;
+  width: 26px;
+  height: 26px;
+  transform: scale(var(--mi-heart-scale, 1));
+  will-change: transform;
+}
+.mi-like__heart { position: absolute; inset: 0; width: 26px; height: 26px; transition: opacity var(--dur-base) var(--ease-out-quint); }
+.mi-like__heart--line { color: var(--muted); opacity: 1; }
+.mi-like__heart--fill { color: var(--danger); opacity: 0; }
+.mi-like[aria-pressed="true"] .mi-like__heart--line { opacity: 0; }
+.mi-like[aria-pressed="true"] .mi-like__heart--fill { opacity: 1; }
+.mi-like__count { font-family: var(--font-mono); font-size: var(--fs-body); font-variant-numeric: tabular-nums; }
+.mi-like__burst { position: absolute; left: 22px; top: 50%; width: 0; height: 0; pointer-events: none; }
+.mi-like__p {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: var(--r-pill);
+  background-color: var(--accent);
+  animation: mi-burst var(--dur-slower) var(--ease-out-quint) forwards;
+}
+@keyframes mi-burst {
+  from { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  to   { opacity: 0; transform: translate3d(var(--mi-bx), var(--mi-by), 0) scale(0.25); }
+}
+
+/* ---------------------------------------------------------------------------
+   11. 10 星级评分
+   -------------------------------------------------------------------------- */
+.mi-rating {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+  cursor: pointer;
+}
+.mi-rating:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: var(--r-sm); }
+.mi-rating__stars { display: flex; gap: var(--space-1); }
+.mi-star { position: relative; display: block; width: 34px; height: 34px; }
+.mi-star svg { position: absolute; inset: 0; width: 34px; height: 34px; }
+.mi-star__base { color: var(--ink-600); }
+.mi-star__fill {
+  position: absolute;
+  inset: 0;
+  display: block;
+  color: var(--warning);
+  clip-path: inset(0 var(--mi-star-cut, 100%) 0 0);
+}
+.mi-star.is-pop { animation: mi-star-pop var(--dur-fast) var(--ease-spring-soft); }
+@keyframes mi-star-pop {
+  0%   { transform: scale(1); }
+  55%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+.mi-rating__out { font-family: var(--font-mono); font-size: var(--fs-mono); color: var(--muted); }
+
+/* ---------------------------------------------------------------------------
+   12. 11 复制成功形变
+   -------------------------------------------------------------------------- */
+.mi-copy { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.mi-copy__code {
+  flex: 1 1 220px;
+  min-width: 0;
+  padding: var(--space-3);
+  border: var(--hairline);
+  border-radius: var(--r-sm);
+  background-color: var(--ink-700);
+  color: var(--paper);
+  font-size: var(--fs-mono);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.mi-copy__btn { min-height: 44px; }
+.mi-copy__icon { position: relative; display: block; width: 20px; height: 20px; }
+.mi-copy__icon svg { position: absolute; inset: 0; width: 20px; height: 20px; }
+.mi-copy__icon .mi-copy__ico-a,
+.mi-copy__icon .mi-copy__ico-b {
+  transition: opacity var(--dur-fast) var(--ease-out-quint),
+              transform var(--dur-fast) var(--ease-out-quint);
+}
+.mi-copy__icon .mi-copy__ico-a { opacity: 1; transform: scale(1) rotate(0deg); }
+.mi-copy__icon .mi-copy__ico-b { opacity: 0; transform: scale(0.55) rotate(-30deg); }
+.mi-copy__icon.is-done .mi-copy__ico-a { opacity: 0; transform: scale(0.55) rotate(30deg); }
+.mi-copy__icon.is-done .mi-copy__ico-b { opacity: 1; transform: scale(1) rotate(0deg); }
+.mi-copy__label { transition: opacity var(--dur-fast) var(--ease-out-quint); }
+
+/* ---------------------------------------------------------------------------
+   13. 12 进度环
+   -------------------------------------------------------------------------- */
+.mi-ringwrap { grid-template-columns: auto; justify-items: start; }
+.mi-ring { position: relative; width: 148px; height: 148px; }
+.mi-ring__svg {
+  width: 148px;
+  height: 148px;
+  transform: rotate(0deg);
+  transform-origin: 50% 50%;
+}
+.mi-ring__track { stroke: var(--ink-600); }
+.mi-ring__bar {
+  stroke: var(--accent);
+  stroke-dasharray: 326.7;
+  stroke-dashoffset: calc(326.7 - 326.7 * var(--mi-ring));
+  transition: stroke var(--dur-base) var(--ease-out-quint);
+}
+.mi-ring.is-done .mi-ring__bar { stroke: var(--success); }
+.mi-ring.is-indet .mi-ring__svg { animation: mi-ring-spin 1100ms linear infinite; }
+.mi-ring.is-indet .mi-ring__bar {
+  stroke-dasharray: 90 237;
+  stroke-dashoffset: 0;
+}
+@keyframes mi-ring-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.mi-ring__val {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-h3);
+  font-variant-numeric: tabular-nums;
+  color: var(--paper);
+}
+.mi-ringctl { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+/* ---------------------------------------------------------------------------
+   14. 13 滑块
+   -------------------------------------------------------------------------- */
+.mi-slider { display: grid; gap: var(--space-2); }
+.mi-slider__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+.mi-slider__val { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--paper); }
+
+.mi-slider__hit {
+  --mi-val: 0.42;
+  --mi-track-w: 0px;
+  --mi-thumb: 28px;
+  position: relative;
+  display: block;
+  min-height: 44px;
+  padding: 18px 0 22px;
+  cursor: pointer;
+  touch-action: none;
+}
+.mi-slider__hit:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: var(--r-sm); }
+.mi-slider__track {
+  position: relative;
+  display: block;
+  height: 8px;
+  border-radius: var(--r-pill);
+  background-color: var(--ink-600);
+}
+.mi-slider__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--accent);
+  transform: scaleX(var(--mi-val));
+  transform-origin: 0 50%;
+  will-change: transform;
+}
+.mi-slider__thumb {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: var(--mi-thumb);
+  height: var(--mi-thumb);
+  border-radius: var(--r-pill);
+  background-color: var(--paper);
+  border: 2px solid var(--accent);
+  transform: translate3d(calc(var(--mi-val) * (var(--mi-track-w) - var(--mi-thumb))), -50%, 0);
+  will-change: transform;
+}
+.mi-slider__hit.is-drag .mi-slider__thumb { border-color: var(--accent); background-color: var(--accent); }
+.mi-slider__hit.is-drag { cursor: grabbing; }
+.mi-slider__cap {
+  position: absolute;
+  bottom: 0;
+  font-size: var(--fs-label);
+  color: var(--muted-strong);
+}
+.mi-slider__cap--min { left: 0; }
+.mi-slider__cap--max { right: 0; }
+
+/* ---------------------------------------------------------------------------
+   15. 14 加载按钮
+   -------------------------------------------------------------------------- */
+.mi-submit { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.mi-submit__btn { min-width: 168px; }
+.mi-submit__icon { position: relative; display: block; width: 18px; height: 18px; }
+.mi-submit__icon svg { position: absolute; inset: 0; width: 18px; height: 18px; }
+.mi-submit__icon .mi-submit__spin {
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out-quint);
+}
+.mi-submit__icon .mi-submit__ok {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity var(--dur-fast) var(--ease-out-quint),
+              transform var(--dur-fast) var(--ease-spring-soft);
+}
+.mi-submit__btn[data-state="loading"] .mi-submit__spin {
+  opacity: 1;
+}
+/* 旋转由内核 .spin（motion.css，900ms linear infinite）提供 —— loader 例外允许无限循环 */
+.mi-submit__btn[data-state="done"] .mi-submit__ok { opacity: 1; transform: scale(1); }
+
+/* ---------------------------------------------------------------------------
+   16. 15 步进器
+   -------------------------------------------------------------------------- */
+.mi-stepper { display: inline-flex; align-items: center; gap: var(--space-2); }
+.mi-stepper__field {
+  display: grid;
+  place-items: center;
+  min-width: 84px;
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  border: var(--hairline);
+  border-radius: var(--r-sm);
+  background-color: var(--ink-700);
+  cursor: text;
+  overflow: hidden;
+}
+.mi-stepper__field:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.mi-stepper__num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-h3);
+  font-variant-numeric: tabular-nums;
+  color: var(--paper);
+}
+.mi-stepper__num.is-up { animation: mi-tick-up var(--dur-fast) var(--ease-out-quint); }
+.mi-stepper__num.is-down { animation: mi-tick-down var(--dur-fast) var(--ease-out-quint); }
+@keyframes mi-tick-up {
+  from { opacity: 0.2; transform: translate3d(0, 8px, 0); }
+  to   { opacity: 1;   transform: translate3d(0, 0, 0); }
+}
+@keyframes mi-tick-down {
+  from { opacity: 0.2; transform: translate3d(0, -8px, 0); }
+  to   { opacity: 1;   transform: translate3d(0, 0, 0); }
+}
+
+/* ---------------------------------------------------------------------------
+   17. 16 图标形变
+   -------------------------------------------------------------------------- */
+.mi-morphrow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.mi-morph__stack { position: relative; display: block; width: 22px; height: 22px; }
+.mi-morph__glyph {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  transition: opacity var(--dur-base) var(--ease-out-quint),
+              transform var(--dur-base) var(--ease-out-quint);
+}
+.mi-morph__glyph--a { opacity: 1; transform: rotate(0deg) scale(1); }
+.mi-morph__glyph--b { opacity: 0; transform: rotate(-90deg) scale(0.55); }
+.mi-morphbtn[aria-pressed="true"] .mi-morph__glyph--a { opacity: 0; transform: rotate(90deg) scale(0.55); }
+.mi-morphbtn[aria-pressed="true"] .mi-morph__glyph--b { opacity: 1; transform: rotate(0deg) scale(1); }
+.mi-morph__tag { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.mi-morph__sep { width: 1px; height: 24px; background-color: var(--ink-600); }
+
+.mi-burger__lines { position: relative; display: block; width: 22px; height: 16px; }
+.mi-burger__lines span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform var(--dur-base) var(--ease-out-quint),
+              opacity var(--dur-fast) var(--ease-out-quint);
+}
+.mi-burger__lines span:nth-child(1) { top: 0; }
+.mi-burger__lines span:nth-child(2) { top: 7px; }
+.mi-burger__lines span:nth-child(3) { top: 14px; }
+.mi-burger[aria-expanded="true"] .mi-burger__lines span:nth-child(1) { transform: translate3d(0, 7px, 0) rotate(45deg); }
+.mi-burger[aria-expanded="true"] .mi-burger__lines span:nth-child(2) { opacity: 0; transform: scaleX(0.2); }
+.mi-burger[aria-expanded="true"] .mi-burger__lines span:nth-child(3) { transform: translate3d(0, -7px, 0) rotate(-45deg); }
+
+/* ---------------------------------------------------------------------------
+   18. 动效降级：lite / off 只保留不透明度与颜色过渡
+   （状态位置类 transform 缩短为 1ms 而不是取消，否则状态会失真）
+   -------------------------------------------------------------------------- */
+html:is([data-motion="lite"], [data-motion="off"]) :is(
+  .mi-press,
+  .mi-toc__link,
+  .mi-underline__bar,
+  .mi-radio__ind,
+  .mi-like__heart,
+  .mi-copy__icon .mi-copy__ico-a,
+  .mi-copy__icon .mi-copy__ico-b,
+  .mi-submit__icon .mi-submit__spin,
+  .mi-submit__icon .mi-submit__ok,
+  .mi-morph__glyph,
+  .mi-burger__lines span,
+  .mi-check__path,
+  .mi-check__box,
+  .mi-star,
+  .mi-stepper__num
+) {
+  transition-duration: 1ms;
+  animation-duration: 1ms;
+}
+html:is([data-motion="lite"], [data-motion="off"]) :is(.mi-like__p, .mi-seg__panel) {
+  animation: none;
+}
+html[data-motion="off"] .mi-ring.is-indet .mi-ring__svg { animation: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mi-toc__link,
+  .mi-underline__bar,
+  .mi-radio__ind,
+  .mi-seg__ind,
+  .mi-like__heart,
+  .mi-copy__icon .mi-copy__ico-a,
+  .mi-copy__icon .mi-copy__ico-b,
+  .mi-morph__glyph,
+  .mi-burger__lines span {
+    transition-duration: 1ms;
+  }
+  .mi-like__p, .mi-ripple__wave { animation: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   19. 窄屏：(≤767px) 单列、字号收敛、无横向滚动
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .mi-underline { gap: var(--space-4); }
+  .mi-underline__link { font-size: 1.125rem; }
+  .mi-slider__cap { font-size: 0.625rem; }
+  .mi-ring, .mi-ring__svg { width: 124px; height: 124px; }
+  .mi-magnet__field { min-height: 156px; }
+  .mi-like, .mi-submit__btn { flex: 1 1 auto; }
+  .mi-copy__code { flex: 1 1 100%; }
+  .tabbar { width: 100%; }
+  .tabbar__item { flex: 1 1 0; }
+}
+
+@media (min-width: 1024px) {
+  .mi-pressrow { gap: var(--space-4); }
+}

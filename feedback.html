@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-motion="on" data-theme="dark" data-page="feedback">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>反馈系统 · MOTION LAB</title>
+  <meta name="description" content="展厅 I：反馈系统。Toast 栈与队列、aria-live 播报字幕、四方向工具提示、弹出层自动翻转、确认对话框的焦点锁定与还原、确定与不确定进度条、通知中心未读徽标、四种内联横幅、勾选绘制动画、错误恢复三路径、撤销 toast，以及声音与触觉的可选说明——全部可键盘操作。">
+  <meta name="theme-color" content="#0A0B0D">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/pages/feedback.css">
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/pages/feedback.inline.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主内容</a>
+<div id="site-header"></div>
+
+<main id="main" class="page">
+
+  <header class="page-head shell">
+    <p class="eyebrow">展厅 I · FEEDBACK</p>
+    <h1 class="h1">反馈系统</h1>
+    <p class="lede">用户在等答案。这一页把"系统发生了什么事"拆成五种通道：瞬时提示、浮层、进度、结果、持续通知。</p>
+    <ul class="meta-chips">
+      <li class="chip">12 个可交互 demo</li>
+      <li class="chip">Toast 3–5s 自动消失</li>
+      <li class="chip">键盘全程可达</li>
+      <li class="chip">aria-live 真实播报</li>
+    </ul>
+  </header>
+
+  <!-- ===================== 01 瞬时通道 ===================== -->
+  <section class="section shell" id="instant">
+    <div class="section-head">
+      <p class="eyebrow">01 · 一瞬间</p>
+      <h2 class="h2">瞬时通道</h2>
+      <p class="lede">Toast 是"不重要但需要知道"的通道。它的全部设计难点在于：多了会堆，久了会烦，少了会漏。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-01">
+        <header class="demo__label">
+          <span class="demo__index">01</span>
+          <h3 class="demo__title">Toast 栈：队列、上限与暂停</h3>
+          <p class="demo__desc">连续点击制造溢出。上限 4 条，超出进入队列；鼠标悬停或键盘 focus 会暂停倒计时——下面三条进度条读的是真实剩余时间。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="fb-row">
+            <button class="btn btn--primary" type="button" id="fb-toast-fire">推送一条 toast</button>
+            <button class="btn" type="button" id="fb-toast-burst">连续推送 6 条（制造溢出）</button>
+            <button class="btn btn--ghost" type="button" id="fb-toast-clear">全部关闭</button>
+          </div>
+
+          <div class="fb-split">
+            <div class="fb-card">
+              <p class="fb-card__title">实时读数（每帧从 DOM 与计时器算出）</p>
+              <div class="fb-meters">
+                <div class="fb-meter">
+                  <span>屏上条数</span>
+                  <span class="progress" role="presentation"><span class="progress__bar" id="fb-meter-live" style="--progress:0"></span></span>
+                  <span class="fb-meter__val" id="fb-live-val">0 / 4</span>
+                </div>
+                <div class="fb-meter fb-meter--queue">
+                  <span>队列长度</span>
+                  <span class="progress" role="presentation"><span class="progress__bar" id="fb-meter-queue" style="--progress:0"></span></span>
+                  <span class="fb-meter__val" id="fb-queue-val">0</span>
+                </div>
+                <div class="fb-meter fb-meter--slot">
+                  <span>剩余名额</span>
+                  <span class="progress" role="presentation"><span class="progress__bar" id="fb-meter-slot" style="--progress:1"></span></span>
+                  <span class="fb-meter__val" id="fb-slot-val">4</span>
+                </div>
+              </div>
+              <p class="fb-note" id="fb-toast-status" role="status">等待推送。</p>
+            </div>
+
+            <div class="fb-card">
+              <p class="fb-card__title">每条 toast 的剩余时间</p>
+              <div class="fb-tracks" id="fb-tracks">
+                <p class="fb-note">还没有 toast。推送后用 Tab 走一遍 toast 上的关闭按钮，倒计时会停住。</p>
+              </div>
+              <p class="fb-note"><strong>为什么必须暂停：</strong>WCAG 2.2.1 要求可被自动关闭的内容有足够阅读时间；指针悬停与键盘聚焦都必须延长它。</p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click → ML.UI.toast()；pointerenter / focusin 暂停，pointerleave / focusout 恢复</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">自动消失 3600–5000ms（落在 3–5s 区间）；进入 --dur-slow 360ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint 进入 / --ease-in-quad 退出（退出 0.68× 更快）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d / opacity；进度条 transform: scaleX（不写 width）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时改入即现、不位移；自动消失与暂停逻辑完全不变</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-02">
+        <header class="demo__label">
+          <span class="demo__index">02</span>
+          <h3 class="demo__title">aria-live 播报与"屏幕阅读器会听到"字幕</h3>
+          <p class="demo__desc">右侧字幕区显示读屏软件此刻会念出的内容，同时真的写进 DOM 的 live region。polite 排队，assertive 打断。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="fb-split">
+            <div class="fb-card">
+              <p class="fb-card__title">触发播报</p>
+              <div class="fb-row">
+                <button class="btn" type="button" data-fb-announce="polite" data-fb-kind="info">信息 · polite</button>
+                <button class="btn" type="button" data-fb-announce="polite" data-fb-kind="success">成功 · polite</button>
+                <button class="btn" type="button" data-fb-announce="polite" data-fb-kind="warning">警告 · polite</button>
+                <button class="btn btn--danger" type="button" data-fb-announce="assertive" data-fb-kind="danger">错误 · assertive</button>
+              </div>
+              <div class="fb-row">
+                <button class="btn btn--ghost" type="button" id="fb-ann-clear">清空字幕</button>
+                <span class="chip" id="fb-ann-count">播报次数：0</span>
+              </div>
+              <p class="fb-note">两次播报同一句话时，必须先把区域清空再写入，否则部分读屏软件会认为是"内容没变"而保持沉默——这个 demo 用的正是这套写法。</p>
+            </div>
+            <div class="fb-caption">
+              <span class="fb-caption__label">屏幕阅读器会听到</span>
+              <p class="fb-caption__text" id="fb-caption"></p>
+              <span class="fb-caption__label">最近 5 条（按时间倒序）</span>
+              <ul class="fb-caption__hist" id="fb-caption-hist"></ul>
+            </div>
+          </div>
+          <div class="visually-hidden" role="status" aria-live="polite" id="fb-live-polite"></div>
+          <div class="visually-hidden" role="alert" aria-live="assertive" id="fb-live-assertive"></div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click → 清空 live region 后 30ms 写入（保证重复内容也播报）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms（字幕淡入）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity（字幕区）；live region 本身不做任何动画</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时字幕直接出现；屏幕阅读器播报行为与档位无关</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-03">
+        <header class="demo__label">
+          <span class="demo__index">03</span>
+          <h3 class="demo__title">内联横幅：四种语义</h3>
+          <p class="demo__desc">横幅是"留在页面上等你处理"的通道。四种语义各有图标、标题文案与左侧色条三重编码，关掉后可以恢复。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="fb-row">
+            <button class="btn btn--ghost" type="button" id="fb-banner-reset">恢复全部横幅</button>
+            <span class="chip" id="fb-banner-count">当前 4 条</span>
+          </div>
+          <div class="fb-banners" id="fb-banners"></div>
+          <p class="fb-note">关闭动画只动 <code>opacity</code> 与 <code>transform</code>：高度立刻由 <code>hidden</code> 收掉，所以下方内容会跳一下。要避免跳动，应把横幅放在独立于主内容流的区域——这也是 toast 存在的理由。</p>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">关闭按钮 click（aria-label 说明是哪一条）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms 淡出；随后立即 hidden</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity、transform: translate3d(0,-3px,0)</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时立即移除，不做淡出</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 02 浮层 ===================== -->
+  <section class="section shell" id="overlay">
+    <div class="section-head">
+      <p class="eyebrow">02 · 贴着触发源</p>
+      <h2 class="h2">浮层与定位</h2>
+      <p class="lede">浮层最容易犯的错是贴错边、挡内容、关不掉。三个 demo 分别处理方向、翻转和焦点。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-04">
+        <header class="demo__label">
+          <span class="demo__index">04</span>
+          <h3 class="demo__title">工具提示：四个方向 + 键盘 focus</h3>
+          <p class="demo__desc">用 Tab 走一遍四个按钮：不需要鼠标，聚焦就会显示提示。每个提示都通过 aria-describedby 接线。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="fb-tipgrid" id="fb-tipgrid">
+            <div class="fb-tipgrid__cell">
+              <button class="btn" type="button" id="tip-top" data-tip-placement="top">上方 top</button>
+              <span class="fb-tipgrid__hint" id="tip-top-out">等待聚焦</span>
+            </div>
+            <div class="fb-tipgrid__cell">
+              <button class="btn" type="button" id="tip-right" data-tip-placement="right">右侧 right</button>
+              <span class="fb-tipgrid__hint" id="tip-right-out">等待聚焦</span>
+            </div>
+            <div class="fb-tipgrid__cell">
+              <button class="btn" type="button" id="tip-bottom" data-tip-placement="bottom">下方 bottom</button>
+              <span class="fb-tipgrid__hint" id="tip-bottom-out">等待聚焦</span>
+            </div>
+            <div class="fb-tipgrid__cell">
+              <button class="btn" type="button" id="tip-left" data-tip-placement="left">左侧 left</button>
+              <span class="fb-tipgrid__hint" id="tip-left-out">等待聚焦</span>
+            </div>
+          </div>
+          <p class="fb-note" id="fb-tip-status" role="status">尚未聚焦任何提示按钮。</p>
+          <p class="fb-note">提示内容必须<strong>补充</strong>而不是<strong>重复</strong>按钮文字。把按钮文字原样再念一遍是纯噪音。</p>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerenter / focusin（键盘 focus 同样显示，这是硬性要求）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-fast 150ms 进入 / --dur-instant 80ms 退出</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint 进入 / --ease-in-quad 退出</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity、transform: translate3d（按方向偏移 4px）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时提示直接出现，去掉位移；aria-describedby 接线不变</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-05">
+        <header class="demo__label">
+          <span class="demo__index">05</span>
+          <h3 class="demo__title">弹出层：空间不足时自动翻转</h3>
+          <p class="demo__desc">锚点被故意放在容器底部。选择偏好的方向，再看引擎实际落在哪一侧——读数由 getBoundingClientRect 实测。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="fb-row">
+            <label class="label" for="fb-flip-pref">偏好方向</label>
+            <select class="input" id="fb-flip-pref" style="max-inline-size:12rem">
+              <option value="bottom-start">bottom-start（优先下方）</option>
+              <option value="top-start">top-start（优先上方）</option>
+              <option value="right-start">right-start（优先右侧）</option>
+              <option value="left-start">left-start（优先左侧）</option>
+            </select>
+            <button class="btn btn--primary" type="button" id="fb-flip-open">打开弹出层</button>
+            <button class="btn btn--ghost" type="button" id="fb-flip-close">关闭</button>
+            <span class="chip" id="fb-flip-readout">尚未打开</span>
+          </div>
+          <div class="fb-flipstage" id="fb-flip-stage">
+            <button class="btn" type="button" id="fb-flip-anchor">我是锚点（贴着容器底边）</button>
+          </div>
+          <pre class="fb-note mono" id="fb-flip-log" aria-live="polite">等待打开弹层以实测放置结果。</pre>
+          <p class="fb-note">翻转不是"可选优化"，是必需行为：如果弹层被视口裁掉，用户就永远读不到那句说明。</p>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">锚点 click / 打开按钮 click → ML.UI.popover()；Esc 与外部点击关闭</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-fast 150ms 进入 / --dur-instant 80ms 退出</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity、translate3d；定位用 top/left 一次写入，不做定位过渡</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时直接显示；翻转判定与滚动跟随逻辑不变</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-06">
+        <header class="demo__label">
+          <span class="demo__index">06</span>
+          <h3 class="demo__title">确认对话框：焦点锁定与还原</h3>
+          <p class="demo__desc">打开后请按 Tab 绕圈——焦点不会跑出对话框。按 Esc 关闭，然后看下面那行"焦点已回到谁"的实测记录。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="fb-row">
+            <button class="btn btn--danger" type="button" id="fb-confirm-danger">删除项目 Atlas（危险确认）</button>
+            <button class="btn" type="button" id="fb-dialog-open">打开普通对话框</button>
+            <button class="btn btn--ghost" type="button" id="fb-drawer-open">打开抽屉</button>
+          </div>
+          <pre class="fb-note mono" id="fb-dialog-log" aria-live="polite">尚未打开任何浮层。</pre>
+          <ul class="fb-note" id="fb-dialog-facts">
+            <li>Tab 循环：停在最后一个按钮时再按 Tab 会回到第一个（Shift+Tab 反向同理）。</li>
+            <li>Esc：随时关闭，不需要先找到关闭按钮。</li>
+            <li>还原焦点：关闭后焦点回到打开它的那个按钮，而不是回到页面顶部。</li>
+            <li>滚动锁定：打开期间页面背景不滚动，且补偿滚动条宽度避免布局左右跳。</li>
+          </ul>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">触发按钮 click → ML.UI.confirm / ML.UI.dialog / ML.UI.drawer（内核已实现焦点锁定）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-slow 360ms 进入 / 245ms 退出（0.68×）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-expo 进入 / --ease-in-quad 退出</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity、scale（0.96 → 1）；遮罩只动 opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时不缩放，直接淡入；焦点管理与 Esc 行为不变</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 03 进度与结果 ===================== -->
+  <section class="section shell" id="progress">
+    <div class="section-head">
+      <p class="eyebrow">03 · 等多久</p>
+      <h2 class="h2">进度、成功与失败</h2>
+      <p class="lede">能算出来就给确定进度；算不出来就给不确定进度。"转圈"不是万能的，它只回答"还没好"。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-07">
+        <header class="demo__label">
+          <span class="demo__index">07</span>
+          <h3 class="demo__title">确定 / 不确定进度条</h3>
+          <p class="demo__desc">上面两条能算进度，下面一条不能。注意不确定态<strong>没有</strong> aria-valuenow，否则读屏软件会念出假数字。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="fb-card">
+            <p class="fb-card__title">确定进度 · 上传 12 个文件</p>
+            <div class="fb-row">
+              <button class="btn btn--primary" type="button" id="fb-prog-run">开始上传</button>
+              <button class="btn btn--ghost" type="button" id="fb-prog-reset">重置</button>
+              <span class="chip tnum" id="fb-prog-readout">0 / 12 · 0%</span>
+            </div>
+            <div class="progress" id="fb-prog" role="progressbar" aria-valuemin="0" aria-valuemax="12" aria-valuenow="0" aria-label="上传进度：共 12 个文件">
+              <span class="progress__bar" id="fb-prog-bar" style="--progress:0"></span>
+            </div>
+            <div class="fb-tracks" id="fb-prog-list"></div>
+          </div>
+
+          <div class="fb-card">
+            <p class="fb-card__title">不确定进度 · 正在与服务器协商</p>
+            <div class="fb-row">
+              <button class="btn" type="button" id="fb-ind-run" aria-pressed="false">开始 / 停止</button>
+              <span class="chip">无 aria-valuenow</span>
+            </div>
+            <div class="progress progress--indeterminate" id="fb-ind" role="progressbar" aria-label="正在与服务器协商，进度未知" hidden>
+              <span class="progress__bar"></span>
+            </div>
+            <p class="fb-note" id="fb-ind-status">当前：空闲。</p>
+          </div>
+
+          <p class="fb-note"><strong>判断标准：</strong>任务总量已知且可分步 → 确定进度；连接建立、等待第三方、批处理排队 → 不确定进度。<code>linear</code> 缓动在本站只允许用在进度条与 marquee 上。</p>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click；确定态由 rAF 推进 12 个文件，不确定态由 CSS 动画驱动</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">每文件 260ms ≈ --dur-base；不确定态 1500ms / 循环</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（步进）/ --ease-in-out-quart + linear 用于不确定态</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: scaleX(--progress) / translate3d（不确定态）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时确定态直接跳到每一档；不确定态改为静态 45% 不透明度条</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-08">
+        <header class="demo__label">
+          <span class="demo__index">08</span>
+          <h3 class="demo__title">成功反馈：勾选绘制动画</h3>
+          <p class="demo__desc">手写 SVG，圆环与勾各用一段 stroke-dashoffset 绘制。这种"画出来"的动作对确认类操作特别有效。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="fb-success">
+            <svg class="fb-success__svg" viewBox="0 0 84 84" role="img" aria-label="操作成功" id="fb-success-svg">
+              <circle class="fb-success__circle" cx="42" cy="42" r="38" id="fb-success-circle" transform="rotate(-90 42 42)"></circle>
+              <path class="fb-success__mark" d="M24 43.5 36.5 56 60 30" id="fb-success-mark"></path>
+            </svg>
+            <p class="fb-success__title" id="fb-success-title">已发布到预览环境</p>
+            <p class="fb-success__desc" id="fb-success-desc">构建 #412 · 38 项检查通过 · 用时 4 分 12 秒</p>
+            <div class="fb-row">
+              <button class="btn btn--primary" type="button" id="fb-success-run">重播绘制</button>
+              <button class="btn btn--ghost" type="button" id="fb-success-copy">复制构建号</button>
+            </div>
+          </div>
+          <p class="fb-note">绘制时长刻意压到 620ms 以内：成功反馈超过一秒就会从"确认"变成"等待"。<code>ML.reduced</code> 为真时直接显示最终路径。</p>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click / 进入视口自动播放一次</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">圆环 360ms（--dur-slow）+ 勾 260ms，总计 620ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（两段同曲线，勾比环晚 200ms，形成"先框后勾"）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">stroke-dashoffset（属性和 = 周长 238.76 / 勾长 47.5）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时 dashoffset 直接设为 0，勾与环同时完整显示</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-09">
+        <header class="demo__label">
+          <span class="demo__index">09</span>
+          <h3 class="demo__title">错误恢复：给出三条出路</h3>
+          <p class="demo__desc">"操作失败"不是反馈，是死路。这一屏同时提供重试、编辑与帮助，并把焦点送到真正能解决问题的地方。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="fb-recover">
+            <div class="fb-recover__error" id="fb-recover-error">
+              <p class="fb-recover__title">
+                <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+                提交失败：项目名已被占用
+              </p>
+              <p class="fb-recover__meta" id="fb-recover-meta">错误 ID err-2024-11-08-7741 · 时间 10:24:38 · 已重试 1 次（退避 400ms）</p>
+            </div>
+
+            <div class="field" id="fb-recover-field">
+              <label class="label" for="fb-recover-input">项目名</label>
+              <input class="input" type="text" id="fb-recover-input" value="Atlas" aria-describedby="fb-recover-hint fb-recover-error-msg" aria-invalid="true">
+              <p class="hint" id="fb-recover-hint">只能包含小写字母、数字与连字符；同名项目不可重复创建。</p>
+              <p class="error" id="fb-recover-error-msg">
+                <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+                <span>「atlas」已被项目 Atlas（创建于 09-12）占用。</span>
+              </p>
+            </div>
+
+            <div class="fb-row">
+              <button class="btn btn--primary" type="button" id="fb-recover-retry">重试提交</button>
+              <button class="btn" type="button" id="fb-recover-edit">去修改名称</button>
+              <button class="btn btn--ghost" type="button" id="fb-recover-help" aria-expanded="false" aria-controls="fb-recover-helpbox">为什么失败</button>
+              <span class="chip" id="fb-recover-status" role="status">等待你的选择。</span>
+            </div>
+
+            <div class="fb-help" id="fb-recover-helpbox" hidden>
+              <p class="fb-note"><strong>409 Conflict</strong>：服务端拒绝了创建请求，因为唯一索引 <code class="mono">project_name</code> 上已存在同名记录。这不是网络问题，直接重试大概率仍然失败。</p>
+              <p class="fb-note">建议：改成 <code class="mono">atlas-2</code> 或 <code class="mono">atlas-2024</code>，或者先在项目列表里找到已有项目申请协作权限。</p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">三个恢复按钮各自 click；重试按 400 / 800 / 1600ms 退避并递增计数</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms（帮助区展开、错误区出现）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity / transform: translate3d(0,-4px,0)；“去修改名称”直接 focus() 输入框</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时帮助区直接展开；焦点转移与角色 status 播报不变</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 04 持续通知 ===================== -->
+  <section class="section shell" id="persistent">
+    <div class="section-head">
+      <p class="eyebrow">04 · 别丢掉</p>
+      <h2 class="h2">持续通知与撤销</h2>
+      <p class="lede">有些反馈不该消失，那就必须能累积、能标记已读、能空掉；有些反馈不该马上生效，那就必须能撤销。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-10">
+        <header class="demo__label">
+          <span class="demo__index">10</span>
+          <h3 class="demo__title">通知中心：未读徽标与空状态</h3>
+          <p class="demo__desc">徽标数字来自<strong>真实未读条目数</strong>；全部标记已读后会进入空状态而不是留一片空白。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="fb-row">
+            <button class="fb-bell" type="button" id="fb-bell" aria-expanded="false" aria-controls="fb-notify-panel" aria-label="通知中心">
+              <svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+              <span class="fb-bell__count" id="fb-bell-count" aria-hidden="true">0</span>
+            </button>
+            <span class="chip" id="fb-bell-readout" role="status">未读 3 条 · 共 5 条</span>
+            <button class="btn" type="button" id="fb-notify-readall">全部标记已读</button>
+            <button class="btn btn--ghost" type="button" id="fb-notify-reset">恢复未读</button>
+            <button class="btn btn--ghost" type="button" id="fb-notify-add">新增一条未读</button>
+          </div>
+          <div class="fb-card" id="fb-notify-panel">
+            <p class="fb-card__title">通知（未读条目同时有圆点、左侧色边与 UNREAD 文字三种标记）</p>
+            <ul class="fb-notify" id="fb-notify-list"></ul>
+            <div class="fb-empty" id="fb-notify-empty" hidden>
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="m4 4 16 16"/></svg>
+              <p>全部已读。新的构建结果会自动出现在这里。</p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">铃铛 click 展开 / 标记已读 click / 新增 click</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms（面板与条目状态切换）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-spring-soft（徽标变化时轻微过冲 ≤5%）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: scale + opacity（徽标）；背景与边框颜色过渡</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时徽标不缩放，只做颜色切换；计数与播报不变</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-11">
+        <header class="demo__label">
+          <span class="demo__index">11</span>
+          <h3 class="demo__title">撤销 Toast：删除后的后悔药</h3>
+          <p class="demo__desc">删除后弹出一条带"撤销"的 toast，它比普通 toast 活得久。撤销后列表真的恢复，不是只把提示关掉。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="fb-undo">
+            <div class="fb-row">
+              <button class="btn" type="button" id="fb-undo-delete">删除「项目 Atlas」</button>
+              <button class="btn btn--ghost" type="button" id="fb-undo-restore">恢复全部</button>
+              <span class="chip" id="fb-undo-status" role="status">当前 3 个项目，0 个已删除。</span>
+            </div>
+            <ul class="fb-undo__list" id="fb-undo-list"></ul>
+            <div class="fb-card">
+              <p class="fb-card__title">为什么撤销 toast 必须更长寿</p>
+              <p class="fb-note">普通 toast 的 3–5 秒只是"告知"；撤销 toast 的窗口期是用户<strong>发现问题</strong>的时间，通常需要 8–12 秒，而且在悬停与聚焦时必须暂停。更稳妥的做法是把删除结果先做成"待确认"，或在列表里保留一条带恢复入口的已删除占位。</p>
+              <p class="fb-note mono" id="fb-undo-timer" aria-live="off">撤销窗口：未激活</p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">删除 click → ML.UI.toast({ action })；撤销按钮 click 回滚</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">9000ms（明显长于普通 toast 的 3–5s）；悬停 / 聚焦时暂停</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（列表项恢复）/ --ease-in-quad（移除）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity、transform: translate3d(-8px,0,0)；删除态用删除线 + 降透明度双重表达</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时列表项直接切换状态；倒计时读数照常更新</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-12">
+        <header class="demo__label">
+          <span class="demo__index">12</span>
+          <h3 class="demo__title">声音与触觉：永远是补充通道</h3>
+          <p class="demo__desc">三个通道开关。视觉不可关闭，声音与触觉默认关闭，并且真实检测当前浏览器是否支持震动 API。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="fb-channels" id="fb-channels">
+            <div class="fb-channel">
+              <span class="fb-switch">
+                <input type="checkbox" id="ch-visual" checked disabled aria-describedby="ch-visual-desc">
+                <span class="fb-switch__track"><span class="fb-switch__thumb"></span></span>
+              </span>
+              <span>
+                <span class="fb-channel__name">
+                  <svg class="icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.5"/></svg>
+                  视觉
+                </span>
+                <span class="fb-channel__desc" id="ch-visual-desc">不可关闭：界面文字与图标是唯一在静音、震动失效、读屏关闭时都还在的通道。</span>
+              </span>
+              <span class="chip">必需</span>
+            </div>
+
+            <div class="fb-channel">
+              <span class="fb-switch">
+                <input type="checkbox" id="ch-sound" aria-describedby="ch-sound-desc">
+                <span class="fb-switch__track"><span class="fb-switch__thumb"></span></span>
+              </span>
+              <span>
+                <span class="fb-channel__name">
+                  <svg class="icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+                  声音
+                </span>
+                <span class="fb-channel__desc" id="ch-sound-desc">默认关闭。开启后本页也不会播放任何音频文件（全站零外部请求），只演示开关与状态接线。</span>
+              </span>
+              <span class="chip" id="ch-sound-chip">关闭</span>
+            </div>
+
+            <div class="fb-channel">
+              <span class="fb-switch">
+                <input type="checkbox" id="ch-haptic" aria-describedby="ch-haptic-desc">
+                <span class="fb-switch__track"><span class="fb-switch__thumb"></span></span>
+              </span>
+              <span>
+                <span class="fb-channel__name">
+                  <svg class="icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 11V6.5a1.5 1.5 0 0 0-3 0V11M15 10.5V4.5a1.5 1.5 0 0 0-3 0V11M12 11V5.5a1.5 1.5 0 0 0-3 0V13"/><path d="M9 12.5 7.6 11a1.6 1.6 0 0 0-2.3 2.2l4 5.1A6 6 0 0 0 14 21h1a6 6 0 0 0 6-6v-4"/></svg>
+                  触觉（haptics）
+                </span>
+                <span class="fb-channel__desc" id="ch-haptic-desc">使用 <code class="mono">navigator.vibrate</code>。下方是本机真实检测结果，不是写死的文案。</span>
+              </span>
+              <span class="chip" id="ch-haptic-chip">关闭</span>
+            </div>
+          </div>
+
+          <div class="fb-row">
+            <button class="btn" type="button" id="fb-haptic-test">测试一次震动（若支持）</button>
+            <button class="btn btn--ghost" type="button" id="fb-channel-announce">用当前通道发一条成功反馈</button>
+          </div>
+          <pre class="fb-note mono" id="fb-channel-log" aria-live="polite">通道检测中…</pre>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">开关 change；测试按钮 click → navigator.vibrate(30)（仅在支持且已开启时）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms（开关位移）/ 振动 30ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-snap（开关滑块）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d（滑块）、background-color（轨道）；不使用 left/width</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时开关瞬时到位；声音与触觉是否可用与动效档位无关</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <nav class="page-nav shell" aria-label="展厅导航">
+    <a class="page-nav__link" href="gestures.html">
+      <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4M11 5l-7 7 7 7"/></svg>
+      上一站：手势与拖拽
+    </a>
+    <a class="page-nav__link" href="accessibility.html">
+      下一站：无障碍交互
+      <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7"/></svg>
+    </a>
+  </nav>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="site-overlays"></div>
+
+<script src="assets/js/site.js"></script>
+<script src="assets/js/pages/feedback.js"></script>
+</body>
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-motion="on" data-theme="dark" data-page="design-system">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>设计系统 · MOTION LAB</title>
+  <meta name="description" content="展厅 L：MOTION LAB 设计系统文档。色彩 token 表（每个色块的对比度由本页实时计算）、字体阶梯、间距与 12 列栅格可视化、圆角与暗色下的「光」、z-index 层级表、可点击播放的动效 token、八态组件矩阵、带实时自检结果的无障碍清单，以及明确写出「本站不做什么」的旗帜与反例。">
+  <meta name="theme-color" content="#0A0B0D">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/pages/design-system.css">
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/pages/design-system.inline.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主内容</a>
+<div id="site-header"></div>
+
+<main id="main" class="page">
+
+  <header class="page-head shell">
+    <p class="eyebrow">展厅 L · DESIGN SYSTEM</p>
+    <h1 class="h1">设计系统</h1>
+    <p class="lede">这一页展示的不是截图，是正在跑的那套代码本身。表里的每个数值都由本页脚本从 <code class="mono">getComputedStyle</code> 读出或按公式算出。</p>
+    <ul class="meta-chips">
+      <li class="chip">9 个区块</li>
+      <li class="chip">对比度实时计算</li>
+      <li class="chip">动效可点击播放</li>
+      <li class="chip">含反例清单</li>
+    </ul>
+  </header>
+
+  <!-- ===================== 01 色彩 ===================== -->
+  <section class="section shell" id="color">
+    <div class="section-head">
+      <p class="eyebrow">01</p>
+      <h2 class="h2">色彩 token</h2>
+      <p class="lede">对比度一栏不是抄来的数字：脚本读取 token 的<strong>真实计算值</strong>，按 WCAG 2.1 相对亮度公式算出比值并给出判定。切换右上角的明暗主题，整张表会重算。</p>
+      <div class="ds-row">
+        <button class="btn btn--ghost" type="button" id="ds-recalc">重新计算全部数值</button>
+        <span class="chip" id="ds-recalc-state" role="status">等待首次计算</span>
+      </div>
+    </div>
+
+    <div class="ds-tablewrap" tabindex="0" role="region" aria-label="色彩 token 表（可横向滚动）">
+      <table class="ds-table" id="ds-colors">
+        <caption>色彩 token：色块、变量名、取到的十六进制值、用途与实测对比度（相对 <span class="mono">--ink-900</span>）</caption>
+        <thead>
+          <tr>
+            <th scope="col">样本</th>
+            <th scope="col">Token</th>
+            <th scope="col">值</th>
+            <th scope="col">用途</th>
+            <th scope="col">对比度 / 判定</th>
+          </tr>
+        </thead>
+        <tbody id="ds-colors-body">
+          <tr><td colspan="5" class="ds-muted">正在读取 token…</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="ds-note" id="ds-color-note">若某个 token 取不到值，表格会显示「未定义」而不是编造数字。</p>
+  </section>
+
+  <!-- ===================== 02 字体 ===================== -->
+  <section class="section shell" id="type">
+    <div class="section-head">
+      <p class="eyebrow">02</p>
+      <h2 class="h2">字体阶梯</h2>
+      <p class="lede">每一级都渲染真实文本。字号一列是脚本从渲染结果里量出来的 px 值，不是文档里的 clamp() 表达式。</p>
+    </div>
+
+    <div class="ds-type" id="ds-type"></div>
+
+    <div class="ds-grid2">
+      <div class="ds-card">
+        <h3 class="ds-card__title">数字对齐：tabular-nums</h3>
+        <p class="ds-note">开启 <code class="mono">.tnum</code> 后，每行数字等宽，纵向扫视不会左右跳。</p>
+        <div class="ds-tnum">
+          <div>
+            <p class="ds-tnum__label">未开启（proportional）</p>
+            <ul class="ds-tnum__list" id="ds-tnum-off"></ul>
+          </div>
+          <div>
+            <p class="ds-tnum__label">已开启（.tnum）</p>
+            <ul class="ds-tnum__list tnum" id="ds-tnum-on"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-card">
+        <h3 class="ds-card__title">三套字体栈</h3>
+        <p class="ds-note">实际解析出的 font-family（断网时会回落到系统字体，排版不塌）。</p>
+        <ul class="ds-stacks" id="ds-stacks"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 03 间距与栅格 ===================== -->
+  <section class="section shell" id="space">
+    <div class="section-head">
+      <p class="eyebrow">03</p>
+      <h2 class="h2">间距与栅格</h2>
+      <p class="lede">4pt 基准的十级阶梯，以及一个真的可以开关的 12 列栅格覆盖层。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-01">
+        <header class="demo__label">
+          <span class="demo__index">01</span>
+          <h3 class="demo__title">4pt 间距阶梯与 12 列栅格</h3>
+          <p class="demo__desc">条宽由 var(--space-N) 驱动；开关打开后覆盖层按 var(--col-gap) 排布 12 列，宽度与间隙都由 token 决定。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="ds-space" id="ds-space"></div>
+
+          <div class="ds-row">
+            <button class="btn" type="button" id="ds-grid-toggle" aria-pressed="false">显示 12 列栅格</button>
+            <span class="chip" id="ds-grid-state" role="status">栅格覆盖层：关闭</span>
+          </div>
+          <div class="ds-gridviz" id="ds-gridviz">
+            <span class="ds-gridviz__cols" id="ds-gridviz-cols" aria-hidden="true"></span>
+            <p class="ds-gridviz__text">12 列 · 列间距 var(--col-gap) · 容器 max-width var(--container)</p>
+          </div>
+          <div class="ds-loadlist" id="ds-layout-tokens"></div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">栅格按钮 click（aria-pressed 同步）/ 主题切换后重算全部尺寸</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity（覆盖层）；条宽为静态布局值，不参与动画</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时覆盖层瞬时显示</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 04 圆角与光影 ===================== -->
+  <section class="section shell" id="shape">
+    <div class="section-head">
+      <p class="eyebrow">04</p>
+      <h2 class="h2">圆角、阴影，以及暗色下的「光」</h2>
+      <p class="lede">这一节的核心论点只有一句：暗色底上的阴影几乎不可见，所以抬升必须改用光或描边。</p>
+    </div>
+
+    <div class="ds-grid2">
+      <div class="ds-card">
+        <h3 class="ds-card__title">圆角</h3>
+        <div class="ds-radii" id="ds-radii"></div>
+      </div>
+
+      <div class="ds-card">
+        <h3 class="ds-card__title">阴影与光</h3>
+        <div class="ds-shadows" id="ds-shadows"></div>
+      </div>
+    </div>
+
+    <div class="ds-grid2">
+      <div class="ds-card ds-card--dark">
+        <h3 class="ds-card__title">同样一张卡片铺在 --ink-900 上</h3>
+        <div class="ds-elev ds-elev--onink900">
+          <span class="ds-elev__sample ds-elev__sample--shadow">--shadow-3</span>
+          <span class="ds-elev__sample ds-elev__sample--glow">--glow-accent</span>
+          <span class="ds-elev__sample ds-elev__sample--line">仅描边</span>
+        </div>
+        <p class="ds-note">阴影几乎消失：黑底上的黑色投影没有参照物。</p>
+      </div>
+      <div class="ds-card ds-card--lift">
+        <h3 class="ds-card__title">铺在 --ink-800 上（更亮的面）</h3>
+        <div class="ds-elev ds-elev--onink800">
+          <span class="ds-elev__sample ds-elev__sample--shadow">--shadow-3</span>
+          <span class="ds-elev__sample ds-elev__sample--glow">--glow-accent</span>
+          <span class="ds-elev__sample ds-elev__sample--line">仅描边</span>
+        </div>
+        <p class="ds-note">底色一变，阴影才勉强可见；但仍然不如光来得明确。</p>
+      </div>
+    </div>
+
+    <div class="ds-tablewrap" tabindex="0" role="region" aria-label="抬升手段选择表（可横向滚动）">
+      <table class="ds-table">
+        <caption>抬升手段的判断表</caption>
+        <thead>
+          <tr><th scope="col">场景</th><th scope="col">用什么</th><th scope="col">为什么</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">暗色主题下的卡片</th><td>提亮背景 + 描边</td><td>黑底上的黑阴影没有参照物，读者看不出层次</td></tr>
+          <tr><th scope="row">暗色主题下的聚焦元素</th><td>--glow-accent</td><td>光晕同时表达"主动作"与"当前层次"，且不产生模糊边缘</td></tr>
+          <tr><th scope="row">亮色主题下的浮层</th><td>--shadow-2 / --shadow-3</td><td>浅色底上阴影有参照物，是成本最低的层次手段</td></tr>
+          <tr><th scope="row">模态框</th><td>遮罩 + 阴影（亮）或光（暗）</td><td>遮罩已经把背景压暗，浮层本身只需要一点点提示</td></tr>
+          <tr><th scope="row">粘性表头</th><td>描边 + 不透明度渐变</td><td>避免滚动时出现硬阴影切边</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================== 05 层级 ===================== -->
+  <section class="section shell" id="zindex">
+    <div class="section-head">
+      <p class="eyebrow">05</p>
+      <h2 class="h2">层级 z-index</h2>
+      <p class="lede">九层，每一层都有明确的归属。下面三个方块真的会改变叠放顺序——点按钮看谁在上面。</p>
+    </div>
+
+    <div class="ds-grid2">
+      <div class="ds-card">
+        <h3 class="ds-card__title">实时叠放演示</h3>
+        <div class="ds-zstage" id="ds-zstage">
+          <span class="ds-zbox" data-zbox="a" style="--z:var(--z-sticky)">A · --z-sticky</span>
+          <span class="ds-zbox" data-zbox="b" style="--z:var(--z-header)">B · --z-header</span>
+          <span class="ds-zbox" data-zbox="c" style="--z:var(--z-overlay)">C · --z-overlay</span>
+        </div>
+        <div class="ds-row">
+          <button class="btn" type="button" data-zpick="a">把 A 提到 --z-modal</button>
+          <button class="btn" type="button" data-zpick="b">把 B 提到 --z-modal</button>
+          <button class="btn" type="button" data-zpick="c">把 C 提到 --z-modal</button>
+          <button class="btn btn--ghost" type="button" id="ds-zreset">复位</button>
+        </div>
+        <p class="ds-note mono" id="ds-zstate" role="status">当前最上层：C（--z-overlay）</p>
+      </div>
+
+      <div class="ds-tablewrap" tabindex="0" role="region" aria-label="z-index 层级表（可横向滚动）">
+        <table class="ds-table ds-table--compact">
+          <caption>层级表：值、归属与谁盖住谁</caption>
+          <thead>
+            <tr><th scope="col">Token</th><th scope="col">值</th><th scope="col">归属</th></tr>
+          </thead>
+          <tbody id="ds-zbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 06 动效 ===================== -->
+  <section class="section shell" id="motion">
+    <div class="section-head">
+      <p class="eyebrow">06</p>
+      <h2 class="h2">动效 token</h2>
+      <p class="lede">时长、缓动、弹簧预设，每一行都有一个可以按下去的播放按钮，并且会显示真实测得的耗时。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-02">
+        <header class="demo__label">
+          <span class="demo__index">02</span>
+          <h3 class="demo__title">时长与缓动播放器</h3>
+          <p class="demo__desc">同一个位移量，换不同的时长与曲线。播放后右侧显示 performance.now() 实测耗时——它应当接近但不等于 token 值。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="ds-row">
+            <button class="btn btn--primary" type="button" id="ds-motion-playall">全部播一遍</button>
+            <span class="chip" id="ds-motion-state" role="status">等待播放</span>
+            <span class="chip" id="ds-motion-mode">动效档位：读取中</span>
+          </div>
+
+          <h4 class="ds-subtitle">时长阶梯</h4>
+          <div class="ds-durlist" id="ds-durations"></div>
+
+          <h4 class="ds-subtitle">缓动曲线</h4>
+          <div class="ds-easelist" id="ds-easings"></div>
+
+          <h4 class="ds-subtitle">弹簧预设</h4>
+          <div class="ds-springlist" id="ds-springs"></div>
+
+          <p class="ds-note">退出永远快于进入：<code class="mono">--exit-factor: 0.68</code>。所有位移动画只写 <code class="mono">transform</code>，因此不会触发布局重排。</p>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">每行播放按钮 click / 全部播放 click / hover 不触发（避免误触）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">80 / 150 / 240 / 360 / 560ms 五档，来自 var(--dur-*)</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">六条 var(--ease-*) 与四个弹簧预设（stiffness / damping / mass 已标注）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d（时长与缓动行）；弹簧行用 ML.springTo(el,'x',…)</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.motion.get() !== 'on' 时按钮禁用并显示「已降级：瞬时」，鼠标悬停不再有任何位移</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 07 组件状态 ===================== -->
+  <section class="section shell" id="states">
+    <div class="section-head">
+      <p class="eyebrow">07</p>
+      <h2 class="h2">组件状态矩阵</h2>
+      <p class="lede">八种状态，渲染的是真实组件而不是画出来的状态图。用 Tab 走到矩阵里，focus 一列会真的亮起来。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-03">
+        <header class="demo__label">
+          <span class="demo__index">03</span>
+          <h3 class="demo__title">按钮八态矩阵</h3>
+          <p class="demo__desc">default / hover / active / focus / disabled / loading / error / readonly。前四态真实可交互，后四态是强制演示态。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="ds-matrix" id="ds-matrix"></div>
+
+          <div class="ds-tablewrap" tabindex="0" role="region" aria-label="组件状态语义表（可横向滚动）">
+            <table class="ds-table">
+              <caption>每一态的视觉线索、语义线索与可操作性</caption>
+              <thead>
+                <tr>
+                  <th scope="col">状态</th><th scope="col">视觉线索</th><th scope="col">语义线索</th>
+                  <th scope="col">可点击</th><th scope="col">可聚焦</th><th scope="col">会被播报</th>
+                </tr>
+              </thead>
+              <tbody id="ds-matrix-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">真实 :hover / :active / :focus-visible；后四态由 class 与 aria 属性强制演示</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-fast 150ms（颜色与边框）/ --dur-instant 80ms（按压缩放）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（进入）/ --ease-snap（按压回弹）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: scale(0.97) 按压、opacity、颜色；不改尺寸、不产生布局位移</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时去掉缩放，只保留颜色变化；disabled / loading 的语义完全不变</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 08 无障碍清单 ===================== -->
+  <section class="section shell" id="a11y">
+    <div class="section-head">
+      <p class="eyebrow">08</p>
+      <h2 class="h2">无障碍清单</h2>
+      <p class="lede">左侧是可勾选的交付清单，右侧是对<strong>当前这一页</strong>的实时自检——测不出来就写「无法测量」，不编数据。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-04">
+        <header class="demo__label">
+          <span class="demo__index">04</span>
+          <h3 class="demo__title">交付清单与实时自检</h3>
+          <p class="demo__desc">勾选项不会被保存，刷新即重置——它是一份思考清单，不是一份配置。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="ds-grid2">
+            <div>
+              <h4 class="ds-subtitle">交付清单（勾选 <span id="ds-check-count">0 / 10</span>）</h4>
+              <ul class="ds-checklist" id="ds-checklist"></ul>
+            </div>
+            <div>
+              <h4 class="ds-subtitle">本页实时自检</h4>
+              <div class="ds-audit" id="ds-audit" aria-live="polite">
+                <p class="ds-note">正在测量…</p>
+              </div>
+              <button class="btn btn--ghost" type="button" id="ds-audit-run">重新测量本页</button>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">勾选 change / 重新测量 click / 主题切换后自动重测</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">同步计算（0ms）；结果区 --dur-base 240ms 淡入</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity；勾选标记用描边 stroke-dashoffset 绘制</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时勾选标记直接显示，结果区不做淡入</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 09 旗帜与反例 ===================== -->
+  <section class="section shell" id="flags">
+    <div class="section-head">
+      <p class="eyebrow">09</p>
+      <h2 class="h2">旗帜与反例</h2>
+      <p class="lede">一套设计系统真正的约束力，来自它明确<strong>不做什么</strong>。以下是本站的负面清单，每条都配了理由与替代方案。</p>
+    </div>
+
+    <div class="ds-flags" id="ds-flags"></div>
+
+    <div class="ds-pledge">
+      <p class="eyebrow">本站的承诺</p>
+      <p class="ds-pledge__text">丝滑不是感觉，是可复现的参数。任何一个动效都能被写进规格表：谁触发、多久、什么曲线、动了哪些属性、用户关掉动效之后变成什么样。</p>
+    </div>
+  </section>
+
+  <nav class="page-nav shell" aria-label="展厅导航">
+    <a class="page-nav__link" href="data-viz.html">
+      <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4M11 5l-7 7 7 7"/></svg>
+      上一站：数据可视化
+    </a>
+    <a class="page-nav__link" href="index.html">
+      回到首页
+      <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7"/></svg>
+    </a>
+  </nav>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="site-overlays"></div>
+
+<script src="assets/js/site.js"></script>
+<script src="assets/js/pages/design-system.js"></script>
+</body>
+</html>

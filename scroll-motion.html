@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-motion="on" data-theme="dark" data-page="scroll-motion">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>滚动与视差叙事 · MOTION LAB</title>
+  <meta name="description" content="展厅 C · 滚动与视差叙事：10 个真实可交互 demo —— 滚动揭示与错开、4 层视差、视差文字位移、粘性堆叠卡片、滚动时间轴、章节背景色过渡、分段滚动进度、scroll-snap 章节、横向滚动区，以及「为什么不做 scroll-jacking」的对照反例。每个 demo 附规格标注。">
+  <meta name="theme-color" content="#0A0B0D">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/pages/scroll-motion.css">
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/pages/scroll-motion.inline.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主内容</a>
+<div id="site-header"></div>
+
+<main id="main" class="page">
+
+  <header class="page-head shell">
+    <p class="eyebrow">展厅 C · SCROLL &amp; PARALLAX</p>
+    <h1 class="h1">滚动与视差叙事</h1>
+    <p class="lede">滚动是用户唯一自己掌握时间轴的交互。这一厅只做两件事：把滚动位移翻译成有意义的运动，以及在自建滚动容器里也不夺走键盘。</p>
+    <ul class="meta-chips">
+      <li class="chip">10 个可交互 demo</li>
+      <li class="chip">只用 transform / opacity</li>
+      <li class="chip">内部滚动区全部键盘可用</li>
+      <li class="chip">不使用 scroll-jacking</li>
+    </ul>
+    <nav class="sm-toc" aria-label="本页目录">
+      <a class="sm-toc__link" href="#sec-reveal"><span class="sm-toc__num tnum">01</span>揭示与视差</a>
+      <a class="sm-toc__link" href="#sec-narrative"><span class="sm-toc__num tnum">02</span>滚动叙事</a>
+      <a class="sm-toc__link" href="#sec-control"><span class="sm-toc__num tnum">03</span>滚动控制</a>
+      <a class="sm-toc__link" href="#sec-boundary"><span class="sm-toc__num tnum">04</span>边界与取舍</a>
+    </nav>
+  </header>
+
+  <!-- ========== 01 揭示与视差 ========== -->
+  <section class="section shell" id="sec-reveal">
+    <div class="section-head">
+      <p class="eyebrow">01</p>
+      <h2 class="h2">揭示与视差</h2>
+      <p class="lede">进入视口才出现，是为了让内容被"读完"而不是被"扫完"；错开是为了让眼睛有顺序。视差则只允许一个目的：制造深度。</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <article class="demo reveal" id="demo-01">
+        <header class="demo__label">
+          <span class="demo__index">01</span>
+          <h3 class="demo__title">滚动揭示（含 stagger）</h3>
+          <p class="demo__desc">进入视口 12% 时触发，6 个卡片按 45ms 逐张错开；可重播观察全过程。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sm-demo">
+            <div class="stagger-seq sm-reveal" data-sm-reveal>
+              <span class="sm-reveal__cell">01 触发阈值 12%</span>
+              <span class="sm-reveal__cell">02 位移 16px</span>
+              <span class="sm-reveal__cell">03 错开 45ms</span>
+              <span class="sm-reveal__cell">04 只动 transform</span>
+              <span class="sm-reveal__cell">05 只动 opacity</span>
+              <span class="sm-reveal__cell">06 一次性</span>
+            </div>
+            <div class="sm-row">
+              <button class="btn btn--primary" type="button" data-sm-reveal-replay>重播揭示</button>
+              <button class="btn btn--ghost" type="button" data-sm-reveal-jump>滚动到本节</button>
+            </div>
+            <p class="sm-readout mono tnum">状态 <span data-sm-reveal-state>已揭示</span> · 内核已扫描 <span data-sm-reveal-count>0</span> 个 .reveal / .stagger-seq 节点</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">IntersectionObserver：threshold 0.12，rootMargin 0 0 -12% 0</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">var(--dur-slower) 560ms；子项延迟 i × var(--stagger) 45ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">opacity var(--ease-out-quint)，位移 var(--ease-out-expo)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity + transform: translate3d(0, 16px, 0) → 0</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：内核把位移换成纯淡入且 --stagger 归零，内容一次性出现、不丢信息</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-02">
+        <header class="demo__label">
+          <span class="demo__index">02</span>
+          <h3 class="demo__title">4 层视差</h3>
+          <p class="demo__desc">0.04 / 0.08 / 0.12 / 0.18 四层不同速率；右侧读数逐帧显示每层位移，可暂停对比。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sm-demo">
+            <div class="sm-para" data-sm-para>
+              <span class="sm-para__layer sm-para__layer--1" data-parallax="0.04" aria-hidden="true"></span>
+              <span class="sm-para__layer sm-para__layer--2" data-parallax="0.08" aria-hidden="true"></span>
+              <span class="sm-para__layer sm-para__layer--3" data-parallax="0.12" aria-hidden="true"></span>
+              <span class="sm-para__layer sm-para__layer--4" data-parallax="0.18" aria-hidden="true"></span>
+              <span class="sm-para__caption">L1 0.04 · L2 0.08 · L3 0.12 · L4 0.18</span>
+            </div>
+            <div class="sm-row">
+              <button class="btn btn--ghost" type="button" data-sm-para-toggle aria-pressed="false">暂停视差（对照）</button>
+              <button class="btn btn--ghost" type="button" data-sm-para-jump>滚动到本节</button>
+            </div>
+            <p class="sm-readout mono tnum">位移 <span data-sm-para-out>0 / 0 / 0 / 0</span> px（相对视口中心）</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">内核 ML.parallax()：document 上的 [data-parallax]，滚动时在 rAF 内统一写入</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">无固定时长，直接跟随滚动位置（0ms 插值）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">无（线性映射滚动位置 → 位移），避免二次缓动造成"水面漂移"</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d(0, -offset × speed × 100px, 0)，仅合成层</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：内核清空所有 parallax-layer 的 transform，画面变成纯静态分层插画</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-03">
+        <header class="demo__label">
+          <span class="demo__index">03</span>
+          <h3 class="demo__title">视差文字位移</h3>
+          <p class="demo__desc">六个词各用不同速率横移，滚动时形成"透视滑动"的排版；关闭后立即回到规整基线。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sm-demo">
+            <p class="sm-kinetic" data-sm-kinetic>
+              <span class="sm-kinetic__w" data-parallax="0.04">滚动</span>
+              <span class="sm-kinetic__w" data-parallax="0.07">不是</span>
+              <span class="sm-kinetic__w" data-parallax="0.1">装饰</span>
+              <span class="sm-kinetic__w" data-parallax="0.13">而是</span>
+              <span class="sm-kinetic__w" data-parallax="0.16">阅读</span>
+              <span class="sm-kinetic__w sm-kinetic__w--accent" data-parallax="0.19">的节拍</span>
+            </p>
+            <div class="sm-row">
+              <button class="btn btn--primary" type="button" data-sm-kinetic-toggle aria-pressed="true">文字视差：开</button>
+              <button class="btn btn--ghost" type="button" data-sm-kinetic-jump>滚动到本节</button>
+            </div>
+            <p class="sm-readout mono tnum">速率区间 0.04 – 0.19 · 共 <span data-sm-kinetic-n>6</span> 段 · 状态 <span data-sm-kinetic-state>运行中</span></p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">同 demo 02（内核 ML.parallax），每个词一个 data-parallax 速率</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">随滚动即时；入场词用 var(--dur-slower)</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">滚动映射无缓动；入场 var(--ease-out-expo)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">词的 transform: translate3d(0, ·, 0)；<b>绝不</b>改 font-size / letter-spacing（会重排）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：关闭按钮同时把整行归位；即使脚本失效，文字仍在正常基线上可读</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ========== 02 滚动叙事 ========== -->
+  <section class="section shell" id="sec-narrative">
+    <div class="section-head">
+      <p class="eyebrow">02</p>
+      <h2 class="h2">滚动叙事</h2>
+      <p class="lede">粘性堆叠、时间轴、章节变色——三种把"线性滚动"翻译成"章节感"的做法。它们全部在受限容器内运行，不会夺走页面的滚动条。</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <article class="demo reveal" id="demo-04">
+        <header class="demo__label">
+          <span class="demo__index">04</span>
+          <h3 class="demo__title">粘性堆叠卡片</h3>
+          <p class="demo__desc">卡片用 position: sticky 逐张盖上去，后一张压住前一张；内部滚动区可键盘操作。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sm-demo">
+            <div class="sm-scroller sm-stack" data-sm-stack tabindex="0" role="region" aria-label="粘性堆叠卡片演示，使用方向键或 PageUp/PageDown 滚动">
+              <article class="sm-stack__card">
+                <p class="sm-stack__num mono tnum">01</p>
+                <h4 class="sm-stack__title">收集</h4>
+                <p class="sm-stack__text">滚动位置换算成卡片堆叠顺序，不需要 JS 监听滚动。</p>
+              </article>
+              <article class="sm-stack__card">
+                <p class="sm-stack__num mono tnum">02</p>
+                <h4 class="sm-stack__title">分层</h4>
+                <p class="sm-stack__text">每张卡 top 递增 12px，视觉上像一叠纸被逐张压下。</p>
+              </article>
+              <article class="sm-stack__card">
+                <p class="sm-stack__num mono tnum">03</p>
+                <h4 class="sm-stack__title">交给用户</h4>
+                <p class="sm-stack__text">sticky 由浏览器合成，滚动条拖到哪儿，章节就停在哪儿。</p>
+              </article>
+              <article class="sm-stack__card">
+                <p class="sm-stack__num mono tnum">04</p>
+                <h4 class="sm-stack__title">收束</h4>
+                <p class="sm-stack__text">最后一张滚完后换成普通文档流，下一节自然出现。</p>
+              </article>
+            </div>
+            <div class="sm-row">
+              <button class="btn btn--ghost" type="button" data-sm-stack-top>回到顶部</button>
+              <button class="btn btn--ghost" type="button" data-sm-stack-end>跳到最后一张</button>
+            </div>
+            <p class="sm-readout mono tnum">容器滚动 <span data-sm-stack-y>0</span> px / <span data-sm-stack-max>0</span> px · 当前可见卡片 <span data-sm-stack-now>1</span> / 4</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">原生滚动容器（含滚轮 / 触摸 / 方向键 / PageUp·Down / 拖动滚动条）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">由滚动速度决定；卡片升起用 var(--dur-base) 240ms 的 transform</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-quint)（仅卡片自身的轻微缩放/抬升）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: scale() / translate3d() + opacity（sticky 本身不产生动画）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：卡片不再缩放抬升，sticky 行为保留（它是布局能力，不是动画）</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-05">
+        <header class="demo__label">
+          <span class="demo__index">05</span>
+          <h3 class="demo__title">滚动时间轴</h3>
+          <p class="demo__desc">一条随滚动生长的进度线（scaleY，不改 height），节点越过阅读线即点亮并播报。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sm-demo">
+            <div class="sm-scroller sm-tl" data-sm-tl tabindex="0" role="region" aria-label="滚动时间轴演示，使用方向键或 PageUp/PageDown 滚动">
+              <div class="sm-tl__track" aria-hidden="true"><i class="sm-tl__fill" data-sm-tl-fill></i></div>
+              <ol class="sm-tl__list">
+                <li class="sm-tl__item" data-sm-tl-item><span class="sm-tl__dot" aria-hidden="true"></span><span class="sm-tl__time mono tnum">09:12</span><span class="sm-tl__label">发现读取路径是瓶颈</span></li>
+                <li class="sm-tl__item" data-sm-tl-item><span class="sm-tl__dot" aria-hidden="true"></span><span class="sm-tl__time mono tnum">10:40</span><span class="sm-tl__label">拆出 12 张表并标注主键</span></li>
+                <li class="sm-tl__item" data-sm-tl-item><span class="sm-tl__dot" aria-hidden="true"></span><span class="sm-tl__time mono tnum">13:05</span><span class="sm-tl__label">读取切换完成，双跑开始</span></li>
+                <li class="sm-tl__item" data-sm-tl-item><span class="sm-tl__dot" aria-hidden="true"></span><span class="sm-tl__time mono tnum">15:22</span><span class="sm-tl__label">发现一处时区偏差</span></li>
+                <li class="sm-tl__item" data-sm-tl-item><span class="sm-tl__dot" aria-hidden="true"></span><span class="sm-tl__time mono tnum">17:48</span><span class="sm-tl__label">修复并补回归用例</span></li>
+                <li class="sm-tl__item" data-sm-tl-item><span class="sm-tl__dot" aria-hidden="true"></span><span class="sm-tl__time mono tnum">19:30</span><span class="sm-tl__label">写入切流，保留一周回滚位</span></li>
+              </ol>
+            </div>
+            <p class="sm-readout mono tnum">进度 <span data-sm-tl-pct>0</span>% · 已越过节点 <span data-sm-tl-done>0</span> / 6 · 阅读线 40%</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">内部滚动容器的 scroll 事件（rAF 节流），节点位置与阅读线比较</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">进度线随滚动即时；节点点亮 var(--dur-base) 240ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-quint)；进度线本身无缓动（避免虚假进度）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">进度线 transform: scaleY(var(--sm-tl))，transform-origin: top；节点 opacity + scale</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：节点不再缩放，仅用颜色与文字「已越过」标记；进度线仍跟随滚动</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-06">
+        <header class="demo__label">
+          <span class="demo__index">06</span>
+          <h3 class="demo__title">章节背景色随滚动过渡</h3>
+          <p class="demo__desc">四个章节各自带一层主题底色，越过分界线时整块背景 360ms 过渡；当前章节另有文字标签，不靠颜色单独传达。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sm-demo">
+            <div class="sm-chapters" data-sm-chapters tabindex="0" role="region" aria-label="章节背景色过渡演示，使用方向键或 PageUp/PageDown 滚动">
+              <div class="sm-chapters__inner" data-sm-chapters-inner>
+                <section class="sm-chapter" data-sm-chapter data-bg="surface" data-name="概览"><h4 class="sm-chapter__t">概览</h4><p class="sm-chapter__p">底色 = --surface。章节标题始终可读。</p></section>
+                <section class="sm-chapter" data-sm-chapter data-bg="accent" data-name="问题"><h4 class="sm-chapter__t">问题</h4><p class="sm-chapter__p">底色 = --accent-soft，表示需要关注。</p></section>
+                <section class="sm-chapter" data-sm-chapter data-bg="info" data-name="方案"><h4 class="sm-chapter__t">方案</h4><p class="sm-chapter__p">底色 = --info-soft，表示信息性内容。</p></section>
+                <section class="sm-chapter" data-sm-chapter data-bg="warning" data-name="风险"><h4 class="sm-chapter__t">风险</h4><p class="sm-chapter__p">底色 = --warning-soft，表示需要决策。</p></section>
+              </div>
+            </div>
+            <p class="sm-readout mono tnum">当前章节 <span data-sm-chapters-name>概览</span> · 索引 <span data-sm-chapters-idx>1</span> / 4 · 越过次数 <span data-sm-chapters-hits>0</span></p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">内部滚动：章节中心进入容器中间 60% 区间即切换底色</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">var(--dur-slow) 360ms（比一般状态切换略慢，避免快速滚动时频闪）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-quint)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">background-color（颜色过渡是允许的动画属性）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：颜色瞬间切换；章节名与索引始终以文字播报，信息不依赖颜色</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ========== 03 滚动控制 ========== -->
+  <section class="section shell" id="sec-control">
+    <div class="section-head">
+      <p class="eyebrow">03</p>
+      <h2 class="h2">滚动控制</h2>
+      <p class="lede">进度条、吸附、横向轨道——三者共同的要求是：用户随时能停下来、能用键盘走完、能知道自己在哪儿。</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <article class="demo reveal" id="demo-07">
+        <header class="demo__label">
+          <span class="demo__index">07</span>
+          <h3 class="demo__title">分段滚动进度指示</h3>
+          <p class="demo__desc">读取根元素上的 --scroll-progress（内核逐帧写入），同时给出百分比、章节刻度和可点击的定位点。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sm-demo">
+            <div class="sm-seg">
+              <span class="sm-seg__track" aria-hidden="true"><i class="sm-seg__fill"></i></span>
+              <ol class="sm-seg__marks" data-sm-seg-marks>
+                <li><button class="sm-seg__mark" type="button" data-sm-seg-mark="#sec-reveal">01 揭示与视差</button></li>
+                <li><button class="sm-seg__mark" type="button" data-sm-seg-mark="#sec-narrative">02 滚动叙事</button></li>
+                <li><button class="sm-seg__mark" type="button" data-sm-seg-mark="#sec-control">03 滚动控制</button></li>
+                <li><button class="sm-seg__mark" type="button" data-sm-seg-mark="#sec-boundary">04 边界与取舍</button></li>
+              </ol>
+            </div>
+            <div class="sm-row">
+              <button class="btn btn--primary" type="button" data-sm-seg-top>回到页面顶部</button>
+              <button class="btn btn--ghost" type="button" data-sm-seg-bottom>跳到页尾</button>
+            </div>
+            <p class="sm-readout mono tnum">页面进度 <span data-sm-seg-pct>0</span>% · 当前章节 <span data-sm-seg-now>—</span> · 滚动位置 <span data-sm-seg-y>0</span> px</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">页面 scroll（内核 ML.scroll.onScroll，rAF 节流）；刻度按钮走 ML.scroll.to</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">进度条 0ms 跟手；点击定位 var(--dur-slower) 级别的平滑滚动</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">进度条无缓动（真实位置）；定位由浏览器原生 smooth 处理</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: scaleX(var(--scroll-progress))，transform-origin: left</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：定位变成瞬时跳转（HTML 的 scroll-behavior 由内核切到 auto）；百分比读数照常</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-08">
+        <header class="demo__label">
+          <span class="demo__index">08</span>
+          <h3 class="demo__title">scroll-snap 章节</h3>
+          <p class="demo__desc">强制吸附 vs 关闭吸附可实时对比；容器可聚焦，因此方向键、PageUp/Down、Home/End 全部可用。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sm-demo">
+            <div class="sm-snap" data-sm-snap tabindex="0" role="region" aria-label="scroll-snap 章节演示，使用方向键或 PageUp/PageDown 滚动">
+              <section class="sm-snap__page"><h4 class="sm-snap__t">第一屏 · 对齐肩线</h4><p class="sm-snap__p">scroll-snap-align: start，滚动停下时上边缘自动对齐。</p></section>
+              <section class="sm-snap__page"><h4 class="sm-snap__t">第二屏 · 不做全屏劫持</h4><p class="sm-snap__p">高度固定为容器高度，但绝不锁定整页滚动。</p></section>
+              <section class="sm-snap__page"><h4 class="sm-snap__t">第三屏 · 触摸惯性优先</h4><p class="sm-snap__p">proximity 让轻扫仍能连滚多屏，mandatory 会强制停靠。</p></section>
+              <section class="sm-snap__page"><h4 class="sm-snap__t">第四屏 · 键盘同样对齐</h4><p class="sm-snap__p">方向键滚动后同样触发吸附，键盘用户体验一致。</p></section>
+            </div>
+            <div class="sm-row">
+              <button class="btn btn--primary" type="button" data-sm-snap-toggle aria-pressed="true">吸附：强制（mandatory）</button>
+              <button class="btn btn--ghost" type="button" data-sm-snap-prev>上一屏</button>
+              <button class="btn btn--ghost" type="button" data-sm-snap-next>下一屏</button>
+            </div>
+            <p class="sm-readout mono tnum">当前屏 <span data-sm-snap-idx>1</span> / 4 · scroll-snap-type <span data-sm-snap-type>y mandatory</span></p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">原生滚动 + scroll-snap-type；按钮调用 scrollTo 对齐，键盘走浏览器原生吸附</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">吸附由浏览器合成器完成（约 200–400ms，不可也不应自定义）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">浏览器原生；按钮触发时用 scroll-behavior: smooth</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">scrollTop（浏览器合成层动画，不写 DOM 样式）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：吸附本身不受动效档位影响（它是滚动行为）；关闭按钮随时可切回自由滚动</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-09">
+        <header class="demo__label">
+          <span class="demo__index">09</span>
+          <h3 class="demo__title">横向滚动区（键盘可用）</h3>
+          <p class="demo__desc">横向轨道带吸附与进度读数；左右按钮 + 方向键 + Home/End 三种走法都能到达每一项。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sm-demo">
+            <div class="sm-rail" data-sm-rail tabindex="0" role="region" aria-label="横向滚动区演示，使用左右方向键或 Home/End 浏览">
+              <article class="sm-rail__item"><p class="sm-rail__k mono tnum">01</p><h4 class="sm-rail__t">仅横向 scroll-snap</h4><p class="sm-rail__p">overflow-x: auto + scroll-snap-align: center。</p></article>
+              <article class="sm-rail__item"><p class="sm-rail__k mono tnum">02</p><h4 class="sm-rail__t">不产生页面横向滚动</h4><p class="sm-rail__p">轨道自身 min-width: 0，overflow 只在轨道内。</p></article>
+              <article class="sm-rail__item"><p class="sm-rail__k mono tnum">03</p><h4 class="sm-rail__t">键盘可达每一项</h4><p class="sm-rail__p">容器可聚焦后，方向键由浏览器原生处理。</p></article>
+              <article class="sm-rail__item"><p class="sm-rail__k mono tnum">04</p><h4 class="sm-rail__t">按钮式兜底</h4><p class="sm-rail__p">触屏与鼠标用户用上一项 / 下一项按钮。</p></article>
+              <article class="sm-rail__item"><p class="sm-rail__k mono tnum">05</p><h4 class="sm-rail__t">进度可读</h4><p class="sm-rail__p">刻度条显示当前位置，不只靠"还能不能滑"。</p></article>
+            </div>
+            <div class="sm-row">
+              <button class="btn btn--ghost" type="button" data-sm-rail-prev>上一项</button>
+              <button class="btn btn--ghost" type="button" data-sm-rail-next>下一项</button>
+              <button class="btn btn--ghost" type="button" data-sm-rail-start>回到第一项</button>
+              <button class="btn btn--ghost" type="button" data-sm-rail-end>跳到末项</button>
+            </div>
+            <p class="sm-readout mono tnum">横向位置 <span data-sm-rail-x>0</span> / <span data-sm-rail-max>0</span> px · 当前项 <span data-sm-rail-idx>1</span> / 5</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">原生横向滚动；按钮 scrollBy 一屏；方向键 / Home / End 由聚焦容器原生处理</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">按钮滚动 var(--dur-slower) 级别（浏览器 smooth）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">浏览器原生 smooth；无自定义曲线</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">scrollLeft（合成层）；卡片自身只用 transform / opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：平滑滚动变瞬时跳转；吸附与按钮导航完全保留</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ========== 04 边界与取舍 ========== -->
+  <section class="section shell" id="sec-boundary">
+    <div class="section-head">
+      <p class="eyebrow">04</p>
+      <h2 class="h2">边界与取舍</h2>
+      <p class="lede">这一节回答一个必须写进文档的问题：为什么全站不做 scroll-jacking。答案不是"不好看"，而是"它拿走了用户唯一完全掌握的东西"。</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <article class="demo reveal" id="demo-10">
+        <header class="demo__label">
+          <span class="demo__index">10</span>
+          <h3 class="demo__title">为什么不做 scroll-jacking（含反例对照）</h3>
+          <p class="demo__desc">左侧原生滚动、右侧用按钮触发的"接管"对照：接管期间你的输入会被丢弃，且全程可一键中止。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="sm-demo">
+            <div class="sm-compare">
+              <div class="sm-compare__col">
+                <p class="sm-compare__head mono">原生（本站在用）</p>
+                <div class="sm-compare__box" data-sm-native tabindex="0" role="region" aria-label="原生滚动对照区，使用方向键滚动">
+                  <p class="sm-compare__line">滚动条跟着手指走。</p>
+                  <p class="sm-compare__line">键盘 Home / End / PageUp 原生可用。</p>
+                  <p class="sm-compare__line">触摸惯性由系统提供，帧率稳定。</p>
+                  <p class="sm-compare__line">锚点深链接、浏览器"回到上次位置"正常工作。</p>
+                  <p class="sm-compare__line">动效档位为 lite/off 时无需任何特殊处理。</p>
+                </div>
+              </div>
+              <div class="sm-compare__col">
+                <p class="sm-compare__head mono">接管（反例）</p>
+                <div class="sm-compare__box sm-compare__box--hijack" data-sm-hijack tabindex="0" role="region" aria-label="接管滚动反例区，注意输入会被丢弃">
+                  <p class="sm-compare__line" data-sm-hijack-note>点击下面的按钮开始，然后试着用滚轮或方向键打断它。</p>
+                </div>
+              </div>
+            </div>
+            <div class="sm-row">
+              <button class="btn btn--danger" type="button" data-sm-hijack-run>演示接管滚动 2.4s</button>
+              <button class="btn btn--ghost" type="button" data-sm-hijack-stop disabled>中止接管</button>
+            </div>
+            <p class="sm-readout mono tnum">接管状态 <span data-sm-hijack-state>未接管</span> · 你的输入被丢弃 <span data-sm-hijack-lost>0</span> 次</p>
+            <ul class="sm-notes">
+              <li><b>输入延迟</b>：接管用插值追赶目标，滚轮停下后画面还在动——这是"卡"的错觉，不是丝滑。</li>
+              <li><b>可达性</b>：键盘的 Home / End / PageUp 依赖原生滚动，接管后必须逐一重写，漏一个就断。</li>
+              <li><b>无障碍</b>：屏幕阅读器与"减少动态效果"用户最依赖原生滚动语义，接管会直接破坏它。</li>
+              <li><b>成本</b>：接管要自己处理触摸惯性、边界回弹、滚动条同步、移动端地址栏高度变化——全是风险。</li>
+              <li><b>本站在用</b>：锚点用 <code class="mono">scroll-behavior: smooth</code>，进度用 <code class="mono">--scroll-progress</code>，视差只在 rAF 内写 transform。</li>
+            </ul>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮触发的 2.4s 示范（绝不监听滚轮，因此不会真的接管你的滚动）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">反例 2400ms（插值追赶）；原生侧无时长概念</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">反例用 ML.lerp 0.12/帧 —— 越接近目标越慢，正是"拖不动的感觉"来源</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">反例写 scrollTop（会触发布局与合成，成本高于 transform）；原生侧浏览器自行调度</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：反例按钮直接跳到目标位置并说明「降级下不做插值」，对照结论不变</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+    </div>
+  </section>
+
+  <nav class="page-nav shell" aria-label="展厅导航">
+    <a class="page-nav__link" href="states-feedback.html">
+      <span class="eyebrow">上一站 · 展厅 B</span>
+      <span class="page-nav__title">状态与反馈</span>
+    </a>
+    <a class="page-nav__link page-nav__link--next" href="page-transitions.html">
+      <span class="eyebrow">下一站 · 展厅 D</span>
+      <span class="page-nav__title">页面转场</span>
+    </a>
+  </nav>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="site-overlays"></div>
+
+<script src="assets/js/site.js"></script>
+<script src="assets/js/pages/scroll-motion.js"></script>
+</body>
+</html>

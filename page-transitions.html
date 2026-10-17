@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-motion="on" data-theme="dark" data-page="page-transitions">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>页面转场 · MOTION LAB</title>
+  <meta name="description" content="展厅 D · 页面转场：8 个真实可交互 demo —— 跨文档 View Transitions 前进/后退方向、共享元素卡片→详情、模态从触发源展开、左右抽屉、全屏转场、列表与网格视图切换、FLIP 排序，以及路由动画原理与参数表（含 exit 快于 enter 的 0.68 系数）。">
+  <meta name="theme-color" content="#0A0B0D">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/pages/page-transitions.css">
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/pages/page-transitions.inline.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主内容</a>
+<div id="site-header"></div>
+
+<main id="main" class="page">
+
+  <header class="page-head shell">
+    <p class="eyebrow">展厅 D · PAGE TRANSITIONS</p>
+    <h1 class="h1">页面转场</h1>
+    <p class="lede">转场的作用不是"炫"，而是回答一个问题：我从哪儿来、现在在哪儿。这一厅把跨文档、共享元素、模态、抽屉、全屏、视图切换与排序统一到同一套参数上。</p>
+    <ul class="meta-chips">
+      <li class="chip">8 个可交互 demo</li>
+      <li class="chip">前进 / 后退方向可辨</li>
+      <li class="chip">不支持 VT 的浏览器有明确降级</li>
+      <li class="chip">exit = 0.68 × enter</li>
+    </ul>
+    <nav class="pt-toc" aria-label="本页目录">
+      <a class="pt-toc__link" href="#sec-document"><span class="pt-toc__num tnum">01</span>跨文档转场</a>
+      <a class="pt-toc__link" href="#sec-element"><span class="pt-toc__num tnum">02</span>元素级过渡</a>
+      <a class="pt-toc__link" href="#sec-view"><span class="pt-toc__num tnum">03</span>视图切换</a>
+      <a class="pt-toc__link" href="#sec-theory"><span class="pt-toc__num tnum">04</span>原理与参数</a>
+    </nav>
+  </header>
+
+  <!-- ========== 01 跨文档转场 ========== -->
+  <section class="section shell" id="sec-document">
+    <div class="section-head">
+      <p class="eyebrow">01</p>
+      <h2 class="h2">跨文档转场</h2>
+      <p class="lede">同一个站点里的两次点击，应该能被"看出来"是向前还是向后。这一节用真实的站内链接演示，不做任何假跳转。</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <article class="demo reveal" id="demo-01">
+        <header class="demo__label">
+          <span class="demo__index">01</span>
+          <h3 class="demo__title">跨文档 View Transitions</h3>
+          <p class="demo__desc">属性级开启（@view-transition: navigation auto），前进自右进入、后退反向；不支持时静默降级为普通跳转并给出提示。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="pt-demo">
+            <div class="pt-support" data-pt-support>
+              <span class="pt-support__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM12 11v5M12 8h.01"/></svg>
+              </span>
+              <span class="pt-support__yes">当前浏览器支持 View Transitions：跨页跳转会走方向动画（前进 360ms / 后退 245ms）。</span>
+              <span class="pt-support__no">当前浏览器不支持 View Transitions：跨页跳转会立即完成，不播放方向动画——内容和导航完全不受影响。</span>
+            </div>
+            <div class="pt-links">
+              <a class="pt-links__a" href="states-feedback.html">
+                <span class="mono">→ 展厅 B 状态与反馈</span>
+                <span class="pt-links__hint">前进方向：新页面自右滑入</span>
+              </a>
+              <a class="pt-links__a" href="scroll-motion.html">
+                <span class="mono">→ 展厅 C 滚动与叙事</span>
+                <span class="pt-links__hint">同样标记为 forward</span>
+              </a>
+              <a class="pt-links__a" href="index.html">
+                <span class="mono">→ 首页</span>
+                <span class="pt-links__hint">回到站点入口</span>
+              </a>
+            </div>
+            <div class="pt-row">
+              <button class="btn btn--primary" type="button" data-pt-back>返回上一页（后退方向）</button>
+              <button class="btn btn--ghost" type="button" data-pt-same>同文档过渡（startViewTransition）</button>
+            </div>
+            <p class="pt-readout mono tnum">data-nav-dir = <span data-pt-dir>forward（默认）</span> · 本次会话已前进 <span data-pt-depth>0</span> 次</p>
+            <div class="pt-swap" data-pt-swap>A 版内容：点击按钮，观察同文档阶段的旧内容如何淡出、新内容如何进入。</div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">站内 <code class="mono">&lt;a&gt;</code> 点击（内核记 data-nav-dir=forward）/ popstate（back）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">进入 var(--dur-slow) 360ms；退出 calc(360ms × 0.68) = 245ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">进入 var(--ease-out-quint)；退出 var(--ease-in-quad)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">::view-transition-old/new(root) 的 transform: translate3d(±24px) + opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">无 VT 支持 / prefers-reduced-motion：内核把 animation-name 设为 none，退化为瞬时切换</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ========== 02 元素级过渡 ========== -->
+  <section class="section shell" id="sec-element">
+    <div class="section-head">
+      <p class="eyebrow">02</p>
+      <h2 class="h2">元素级过渡</h2>
+      <p class="lede">页面级之外，元素也能"跨状态存在"：一张卡片变成详情、一个按钮长出对话框、一次点击推出抽屉、一张图铺满全屏。</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <article class="demo reveal" id="demo-02">
+        <header class="demo__label">
+          <span class="demo__index">02</span>
+          <h3 class="demo__title">共享元素：卡片 → 详情</h3>
+          <p class="demo__desc">卡片缩略图与详情大图共用一个 view-transition-name，浏览器自动补出中间的位移与缩放。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="pt-demo">
+            <div class="pt-cards" data-pt-cards>
+              <button class="pt-card" type="button" data-pt-card data-title="迁移评估" data-body="覆盖 4 个服务与 12 张表，先切读取路径，写入双跑一周。" data-tone="a">
+                <span class="pt-card__art" aria-hidden="true"></span>
+                <span class="pt-card__name">迁移评估</span>
+                <span class="pt-card__meta mono">4 服务 · 12 表</span>
+              </button>
+              <button class="pt-card" type="button" data-pt-card data-title="性能预算" data-body="首屏 JS ≤ 120KB，LCP ≤ 2.0s，超过即阻断合并。" data-tone="b">
+                <span class="pt-card__art" aria-hidden="true"></span>
+                <span class="pt-card__name">性能预算</span>
+                <span class="pt-card__meta mono">预算 · 阻断</span>
+              </button>
+              <button class="pt-card" type="button" data-pt-card data-title="设计走查" data-body="对照 12 条无障碍基线逐条截图留证，问题进同一张表。" data-tone="c">
+                <span class="pt-card__art" aria-hidden="true"></span>
+                <span class="pt-card__name">设计走查</span>
+                <span class="pt-card__meta mono">12 条基线</span>
+              </button>
+              <button class="pt-card" type="button" data-pt-card data-title="发布节奏" data-body="每周二、四各一次窗口，回滚位保留一周。" data-tone="d">
+                <span class="pt-card__art" aria-hidden="true"></span>
+                <span class="pt-card__name">发布节奏</span>
+                <span class="pt-card__meta mono">周二 / 周四</span>
+              </button>
+            </div>
+            <p class="pt-readout mono tnum">状态 <span data-pt-card-state>列表</span> · 共享名 <span>pt-hero</span> · 同一页内同名元素 <span data-pt-card-count>1</span> 个（必须唯一）</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">点击卡片 / Enter；关闭按钮、Esc、点击遮罩均可返回列表</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">var(--dur-slow) 360ms；不支持 VT 时退化为 240ms 淡入</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">进入 var(--ease-out-expo)；退出 calc(360 × 0.68) 配 var(--ease-in-quad)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">共享元素由浏览器在 ::view-transition-group(pt-hero) 内插值；其余内容 opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">无 VT：直接显示详情 + 240ms 不透明度过渡；键盘与焦点管理完全一致</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-03">
+        <header class="demo__label">
+          <span class="demo__index">03</span>
+          <h3 class="demo__title">模态从触发源展开</h3>
+          <p class="demo__desc">对话框从按钮的位置与尺寸长出来，而不是从屏幕中心冒出来——它交代了「你点的是谁」。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="pt-demo">
+            <div class="pt-row">
+              <button class="btn btn--primary" type="button" data-pt-modal="发布新版本">发布新版本</button>
+              <button class="btn btn--ghost" type="button" data-pt-modal="归档这个环境">归档这个环境</button>
+              <button class="btn btn--ghost" type="button" data-pt-modal="转移负责人">转移负责人</button>
+            </div>
+            <p class="pt-readout mono tnum">状态 <span data-pt-modal-state>已关闭</span> · 起点矩形 <span data-pt-modal-rect>—</span></p>
+            <p class="hint">对话框渲染在 #site-overlays 中（脱离 .demo 的层叠上下文），因此不会被 demo 卡片的 overflow 裁掉。</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮点击；Esc / 关闭按钮 / 点击遮罩关闭，关闭后焦点回到触发按钮</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">var(--dur-slow) 360ms 进入；退出 245ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-expo) 进入；var(--ease-in-quad) 退出</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">::view-transition-new(pt-modal) 的 transform（translate + scale）+ opacity，参数由触发源矩形算出</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">无 VT：内核实现在 .enter-scale 下做 scale(0.96) 居中进入；焦点锁定与 Esc 不变</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-04">
+        <header class="demo__label">
+          <span class="demo__index">04</span>
+          <h3 class="demo__title">抽屉（左 / 右）</h3>
+          <p class="demo__desc">左右两个方向各一个抽屉，走内核 ML.UI.drawer：焦点锁定、Esc 关闭、关闭后焦点还原到触发按钮。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="pt-demo">
+            <div class="pt-row">
+              <button class="btn btn--primary" type="button" data-pt-drawer="left">从左侧推出筛选</button>
+              <button class="btn btn--ghost" type="button" data-pt-drawer="right">从右侧推出详情</button>
+              <button class="btn btn--ghost" type="button" data-pt-drawer="right" data-pt-drawer-long="1">从右侧推出长内容（可滚动）</button>
+            </div>
+            <p class="pt-readout mono tnum">最近打开 <span data-pt-drawer-out>无</span> · 内核已打开次数 <span data-pt-drawer-n>0</span></p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮点击 → ML.UI.drawer({side})；Esc / 遮罩 / 关闭按钮均可退出</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">进入 var(--dur-slow) 360ms；退出 calc(360ms × 0.68) = 245ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">进入 var(--ease-out-expo)；退出 var(--ease-in-quad)（.enter-slide-* 的 .is-closing）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">面板 transform: translate3d(±100%, 0, 0)；遮罩 opacity（.fade）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：内核把 transform 置为 none，抽屉变成瞬时出现/消失，焦点流程不变</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-05">
+        <header class="demo__label">
+          <span class="demo__index">05</span>
+          <h3 class="demo__title">全屏转场</h3>
+          <p class="demo__desc">缩略图铺满全屏时，浏览器为它插值出一整条"生长"路径；不支持 VT 时用缩放 + 淡入替代。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="pt-demo">
+            <div class="pt-figure" data-pt-figure>
+              <button class="pt-figure__thumb" type="button" data-pt-full aria-label="把图表放大到全屏">
+                <span class="pt-figure__art" aria-hidden="true"></span>
+                <span class="pt-figure__cap mono">点击放大 · 全屏转场</span>
+              </button>
+            </div>
+            <p class="pt-readout mono tnum">状态 <span data-pt-full-state>缩略图</span> · 本次过渡 <span data-pt-full-mode>—</span> · 实测 <span data-pt-full-ms>—</span> ms</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">点击缩略图 / Enter；Esc 或关闭按钮返回缩略图</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">var(--dur-slower) 560ms（位移越大越慢，避免"甩出去"）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-expo) 进入；退出 calc(560 × 0.68) = 381ms 配 var(--ease-in-quad)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">VT 阶段由浏览器对 pt-full 做几何插值；降级路径用 transform: scale() + opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">无 VT：全屏层以 scale(0.94) → 1 + opacity 240ms 出现，内容与关闭方式完全一致</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ========== 03 视图切换 ========== -->
+  <section class="section shell" id="sec-view">
+    <div class="section-head">
+      <p class="eyebrow">03</p>
+      <h2 class="h2">视图切换</h2>
+      <p class="lede">同一个数据集换一种排法时，逐个元素"飞"到新位置，比整体重绘更能让人看懂发生了什么。</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <article class="demo reveal" id="demo-06">
+        <header class="demo__label">
+          <span class="demo__index">06</span>
+          <h3 class="demo__title">列表 / 网格视图切换（FLIP）</h3>
+          <p class="demo__desc">首末两帧取矩形差、反向后播放；只动 transform，切到一半再切回来也能从当前位置续上。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="pt-demo">
+            <div class="pt-flip" data-pt-flip data-mode="grid">
+              <article class="pt-flip__item" data-pt-flip-item><span class="pt-flip__art pt-flip__art--a" aria-hidden="true"></span><span class="pt-flip__t">条目 A</span><span class="pt-flip__d mono">网格 → 列表</span></article>
+              <article class="pt-flip__item" data-pt-flip-item><span class="pt-flip__art pt-flip__art--b" aria-hidden="true"></span><span class="pt-flip__t">条目 B</span><span class="pt-flip__d mono">FLIP 反向播放</span></article>
+              <article class="pt-flip__item" data-pt-flip-item><span class="pt-flip__art pt-flip__art--c" aria-hidden="true"></span><span class="pt-flip__t">条目 C</span><span class="pt-flip__d mono">只动 transform</span></article>
+              <article class="pt-flip__item" data-pt-flip-item><span class="pt-flip__art pt-flip__art--d" aria-hidden="true"></span><span class="pt-flip__t">条目 D</span><span class="pt-flip__d mono">不改 width</span></article>
+              <article class="pt-flip__item" data-pt-flip-item><span class="pt-flip__art pt-flip__art--b" aria-hidden="true"></span><span class="pt-flip__t">条目 E</span><span class="pt-flip__d mono">可打断</span></article>
+              <article class="pt-flip__item" data-pt-flip-item><span class="pt-flip__art pt-flip__art--c" aria-hidden="true"></span><span class="pt-flip__t">条目 F</span><span class="pt-flip__d mono">可反复切换</span></article>
+            </div>
+            <div class="pt-row">
+              <button class="btn btn--primary" type="button" data-pt-flip-toggle aria-pressed="false">切换到列表</button>
+              <button class="btn btn--ghost" type="button" data-pt-flip-shuffle>随机重排（继续 FLIP）</button>
+            </div>
+            <p class="pt-readout mono tnum">当前模式 <span data-pt-flip-mode>grid</span> · 本次已位移元素 <span data-pt-flip-n>0</span> 个 · 实测时长 <span data-pt-flip-ms>—</span> ms</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">切换按钮（grid ↔ 单列列表）；重排按钮随机化 DOM 顺序</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">var(--dur-base) 240ms（同页内布局变化，比页面级短一档）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-quint)；被打断时从当前 transform 直接换目标，不回起点</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d(dx, dy, 0) → 0（First-Last-Invert-Play），opacity 辅助</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：不做反向位移，直接切换布局，仅保留 150ms 交叉淡入；grid 列数变化用 CSS 完成</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-07">
+        <header class="demo__label">
+          <span class="demo__index">07</span>
+          <h3 class="demo__title">FLIP 排序动画</h3>
+          <p class="demo__desc">按数值升降序或随机打乱，每一项沿自身最短路径滑到新位置；Chromium 也可交给 .vt-card + match-element。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="pt-demo">
+            <ol class="pt-sort" data-pt-sort>
+              <li class="pt-sort__row" data-pt-sort-row data-v="42"><span class="pt-sort__k mono tnum">01</span><span class="pt-sort__name">项目 Atlas</span><span class="pt-sort__v tnum">42</span></li>
+              <li class="pt-sort__row" data-pt-sort-row data-v="88"><span class="pt-sort__k mono tnum">02</span><span class="pt-sort__name">项目 Borealis</span><span class="pt-sort__v tnum">88</span></li>
+              <li class="pt-sort__row" data-pt-sort-row data-v="17"><span class="pt-sort__k mono tnum">03</span><span class="pt-sort__name">项目 Cirrus</span><span class="pt-sort__v tnum">17</span></li>
+              <li class="pt-sort__row" data-pt-sort-row data-v="63"><span class="pt-sort__k mono tnum">04</span><span class="pt-sort__name">项目 Delta</span><span class="pt-sort__v tnum">63</span></li>
+              <li class="pt-sort__row" data-pt-sort-row data-v="29"><span class="pt-sort__k mono tnum">05</span><span class="pt-sort__name">项目 Eos</span><span class="pt-sort__v tnum">29</span></li>
+            </ol>
+            <div class="pt-row">
+              <button class="btn btn--primary" type="button" data-pt-sort-asc>按数值升序</button>
+              <button class="btn btn--ghost" type="button" data-pt-sort-desc>按数值降序</button>
+              <button class="btn btn--ghost" type="button" data-pt-sort-shuffle>随机打乱</button>
+            </div>
+            <p class="pt-readout mono tnum">本次位移 <span data-pt-sort-n>0</span> 项 · 最大位移 <span data-pt-sort-max>0</span> px · 实测时长 <span data-pt-sort-ms>—</span> ms</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">三个排序按钮；连续点击时动画从当前位置改道，不回到起点</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">var(--dur-base) 240ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-quint)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d(0, dy, 0) → 0（DOM 顺序已变，视觉上从旧位置滑来）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：跳过反向位移，列表直接变成新顺序；顺序本身仍由 DOM 承载（读屏顺序正确）</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ========== 04 原理与参数 ========== -->
+  <section class="section shell" id="sec-theory">
+    <div class="section-head">
+      <p class="eyebrow">04</p>
+      <h2 class="h2">原理与参数</h2>
+      <p class="lede">转场的全部规则可以压成一句话：屏幕上的东西只在"位置/大小/透明度"上变化，且退出的永远比进入的快 0.68 倍。</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <article class="demo reveal" id="demo-08">
+        <header class="demo__label">
+          <span class="demo__index">08</span>
+          <h3 class="demo__title">路由动画原理与参数表</h3>
+          <p class="demo__desc">选一档时长、一个方向，按播放：脚本会实测退出与进入的真实毫秒数，验证 0.68 系数是否落地。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="pt-demo">
+            <div class="pt-routes">
+              <div class="pt-routes__phone">
+                <div class="pt-routes__frame" data-pt-route-frame>
+                  <section class="pt-routes__screen is-current" data-pt-route-a>
+                    <p class="pt-routes__k mono">路由 A / 列表</p>
+                    <p class="pt-routes__t">共享元素从这里出发</p>
+                    <p class="pt-routes__p">退出只做 translateX(-18px) + opacity，时长 = 进入 × 0.68。</p>
+                  </section>
+                  <section class="pt-routes__screen" data-pt-route-b aria-hidden="true">
+                    <p class="pt-routes__k mono">路由 B / 详情</p>
+                    <p class="pt-routes__t">新屏从右侧滑入</p>
+                    <p class="pt-routes__p">进入用 --ease-out-expo，起步快、收尾稳，避免"弹出感"。</p>
+                  </section>
+                </div>
+              </div>
+              <div class="pt-routes__ctl">
+                <div class="pt-routes__group" role="radiogroup" aria-label="进入时长">
+                  <button class="pt-chip" type="button" role="radio" aria-checked="false" data-pt-dur="240">240ms 状态切换</button>
+                  <button class="pt-chip is-on" type="button" role="radio" aria-checked="true" data-pt-dur="360">360ms 面板 / 抽屉</button>
+                  <button class="pt-chip" type="button" role="radio" aria-checked="false" data-pt-dur="560">560ms 页面级</button>
+                </div>
+                <div class="pt-row">
+                  <button class="btn btn--primary" type="button" data-pt-route-play>播放一次转场</button>
+                  <button class="btn btn--ghost" type="button" data-pt-route-dir>方向：前进</button>
+                </div>
+                <dl class="spec-table pt-routes__spec">
+                  <div class="spec-row"><dt class="spec-key">进入</dt><dd class="spec-val"><span data-pt-route-in>360</span> ms（var(--ease-out-expo)）</dd></div>
+                  <div class="spec-row"><dt class="spec-key">退出</dt><dd class="spec-val"><span data-pt-route-out>—</span> ms（var(--ease-in-quad)）</dd></div>
+                  <div class="spec-row"><dt class="spec-key">比值</dt><dd class="spec-val"><span data-pt-route-ratio>—</span>（目标 0.68 = var(--exit-factor)）</dd></div>
+                  <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d(±24px) + opacity，无其它属性参与</dd></div>
+                  <div class="spec-row"><dt class="spec-key">打断</dt><dd class="spec-val">动画进行中再点按钮：从当前 transform 直接改道，不回起点</dd></div>
+                </dl>
+              </div>
+            </div>
+            <table class="pt-table">
+              <caption class="pt-table__cap">全站转场参数表（唯一真源：tokens.css 的 --dur-* / --ease-*）</caption>
+              <thead>
+                <tr><th scope="col">场景</th><th scope="col">进入</th><th scope="col">退出（× 0.68）</th><th scope="col">缓动</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">微交互 / 按压</th><td class="tnum">150ms</td><td class="tnum">102ms</td><td class="mono">out-quint → in-quad</td></tr>
+                <tr><th scope="row">状态切换 / 列表重排</th><td class="tnum">240ms</td><td class="tnum">163ms</td><td class="mono">out-quint → in-quad</td></tr>
+                <tr><th scope="row">面板 / 抽屉 / 模态</th><td class="tnum">360ms</td><td class="tnum">245ms</td><td class="mono">out-expo → in-quad</td></tr>
+                <tr><th scope="row">页面级 / 全屏</th><td class="tnum">560ms</td><td class="tnum">381ms</td><td class="mono">out-expo → in-quad</td></tr>
+              </tbody>
+            </table>
+            <p class="pt-readout mono tnum">为什么退出更快：用户的注意力已经离开旧内容，慢退出＝阻塞等待；快退出让新内容提前获得焦点。0.68 是"可感知但不突兀"的经验值，写死为 <span>--exit-factor</span>。</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">时长单选 + 方向切换 + 播放；每次播放都会实测并写入读数</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">可选 240 / 360 / 560 ms；退出恒为 calc(进入 × var(--exit-factor))</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">进入 var(--ease-out-expo)，退出 var(--ease-in-quad)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d(±24px, 0, 0) + opacity（旧屏） / translate3d(∓24px)（新屏）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：两屏直接切换，读数标注「降级：瞬时」，比值公式仍以声明值展示</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+    </div>
+  </section>
+
+  <nav class="page-nav shell" aria-label="展厅导航">
+    <a class="page-nav__link" href="scroll-motion.html">
+      <span class="eyebrow">上一站 · 展厅 C</span>
+      <span class="page-nav__title">滚动与视差叙事</span>
+    </a>
+    <a class="page-nav__link page-nav__link--next" href="navigation.html">
+      <span class="eyebrow">下一站 · 展厅 E</span>
+      <span class="page-nav__title">导航模式</span>
+    </a>
+  </nav>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="site-overlays"></div>
+
+<script src="assets/js/site.js"></script>
+<script src="assets/js/pages/page-transitions.js"></script>
+</body>
+</html>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-motion="on" data-theme="dark" data-page="index">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>MOTION LAB · 交互设计交付展</title>
+  <meta name="description" content="MOTION LAB 是一个交互设计交付展：12 个展厅、120 个真实可交互条目、13 页静态交付。每个条目都附触发、时长、缓动、属性与降级五段规格标注，纯静态、零依赖、双击即开。">
+  <meta name="theme-color" content="#0A0B0D">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/pages/index.css">
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/pages/index.inline.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主内容</a>
+  <div id="site-header"></div>
+
+  <main id="main" class="page">
+
+    <!-- ============ 1. 动力学首屏 ============ -->
+    <section class="ix-hero" aria-labelledby="hero-title">
+      <div class="ix-hero__bg" aria-hidden="true">
+        <div class="ix-hero__grid"></div>
+        <div class="ix-hero__glow ix-hero__glow--a"></div>
+        <div class="ix-hero__glow ix-hero__glow--b"></div>
+        <div class="ix-hero__ring" data-parallax="0.12"></div>
+      </div>
+
+      <div class="shell ix-hero__inner">
+        <p class="eyebrow ix-hero__eyebrow">MOTION LAB · 交互设计交付展</p>
+
+        <h1 class="display ix-hero__title" id="hero-title">
+          <span class="ix-hw"><span class="ix-hw__in" style="--i:0">丝滑</span></span>
+          <span class="ix-hw"><span class="ix-hw__in" style="--i:1">不是</span></span>
+          <span class="ix-hw"><span class="ix-hw__in" style="--i:2">感觉</span></span>
+          <span class="ix-hw__br" aria-hidden="true"></span>
+          <span class="ix-hw"><span class="ix-hw__in" style="--i:3">是</span></span>
+          <span class="ix-hw ix-hw--accent"><span class="ix-hw__in" style="--i:4">可复现的</span></span>
+          <span class="ix-hw"><span class="ix-hw__in" style="--i:5">参数</span></span>
+        </h1>
+
+        <p class="lede ix-hero__lede">
+          把「高级感」拆成可交付的规格：缓动曲线、弹簧刚度、错开间隔、降级策略。
+          每个条目都能被复核、被复制、被写进验收单。
+        </p>
+
+        <div class="ix-hero__cta">
+          <a class="btn btn--primary" href="atlas.html">
+            打开交互地图 · 120 个条目
+            <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="design-system.html">先读设计系统</a>
+        </div>
+
+        <ul class="meta-chips ix-hero__facts">
+          <li class="chip mono">进入默认 --ease-out-quint</li>
+          <li class="chip mono">只动 transform / opacity</li>
+          <li class="chip mono">reduced-motion 三档降级</li>
+        </ul>
+
+        <a class="ix-hero__hint" href="#map">
+          <span class="mono">向下：展厅地图</span>
+          <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ 2. 丝滑宣言 · 数据条 ============ -->
+    <section class="section ix-stats" id="claim" aria-labelledby="claim-title">
+      <div class="shell">
+        <div class="section-head">
+          <p class="eyebrow">丝滑宣言</p>
+          <h2 class="h2" id="claim-title">四个数字，说明这份交付的边界</h2>
+          <p class="lede">没有估算、没有「差不多」：每个数字都对应仓库里的真实文件。</p>
+        </div>
+
+        <ul class="ix-stats__list">
+          <li class="ix-stat">
+            <p class="ix-stat__num"><span class="tnum" data-count="13">13</span><span class="ix-stat__unit">个展厅</span></p>
+            <p class="ix-stat__cap">A–L 十二个专题展区 + 设计系统文档</p>
+          </li>
+          <li class="ix-stat">
+            <p class="ix-stat__num"><span class="tnum" data-count="120" data-count-suffix="+">120+</span><span class="ix-stat__unit">条</span></p>
+            <p class="ix-stat__cap">交互地图里逐条可筛选、可跳转</p>
+          </li>
+          <li class="ix-stat">
+            <p class="ix-stat__num"><span class="tnum" data-count="60" data-count-suffix="fps">60fps</span><span class="ix-stat__unit">预算</span></p>
+            <p class="ix-stat__cap">每帧 16.7ms，只允许合成层属性</p>
+          </li>
+          <li class="ix-stat">
+            <p class="ix-stat__num"><span class="tnum" data-count="0">0</span><span class="ix-stat__unit">依赖</span></p>
+            <p class="ix-stat__cap">零构建、零框架、零网络请求</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ 3. 展厅地图 ============ -->
+    <section class="section shell" id="map" aria-labelledby="map-title">
+      <div class="section-head">
+        <p class="eyebrow">展厅地图 · A–L</p>
+        <h2 class="h2" id="map-title">12 个展厅，一条动效主线</h2>
+        <p class="lede">从一次按压的 80ms，到一次页面转场的 560ms。每个展厅只解决一个具体问题，并交出可复制的参数。</p>
+      </div>
+
+      <ul class="ix-map">
+        <li class="ix-map__item" data-reveal data-reveal-delay="0">
+          <a class="ix-card" href="micro-interactions.html">
+            <span class="ix-card__idx tnum">A</span>
+            <h3 class="ix-card__title">微交互</h3>
+            <p class="ix-card__desc">一次按压、一次切换的物理质感。</p>
+            <ul class="ix-card__pts">
+              <li>按压 0.97 缩放，出 150ms / 回 100ms</li>
+              <li>图标形变而非透明度叠加</li>
+              <li>触屏没有 hover，必须有等价动作</li>
+            </ul>
+            <span class="ix-card__foot mono">micro-interactions.html
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="ix-map__item" data-reveal data-reveal-delay="45">
+          <a class="ix-card" href="states-feedback.html">
+            <span class="ix-card__idx tnum">B</span>
+            <h3 class="ix-card__title">状态与反馈</h3>
+            <p class="ix-card__desc">空、载、错、成四态齐备，界面永远不哑。</p>
+            <ul class="ix-card__pts">
+              <li>骨架屏只在 300ms 之后出现</li>
+              <li>错误 = 颜色 + 图标 + 文字三重编码</li>
+              <li>乐观更新失败要能回滚</li>
+            </ul>
+            <span class="ix-card__foot mono">states-feedback.html
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="ix-map__item" data-reveal data-reveal-delay="90">
+          <a class="ix-card" href="scroll-motion.html">
+            <span class="ix-card__idx tnum">C</span>
+            <h3 class="ix-card__title">滚动叙事</h3>
+            <p class="ix-card__desc">让滚动本身承担信息层级，不做滚动劫持。</p>
+            <ul class="ix-card__pts">
+              <li>视差四层 0.04 / 0.08 / 0.12 / 0.18</li>
+              <li>揭晓阈值 0.15，错开 45ms</li>
+              <li>文字层永不视差，可读性优先</li>
+            </ul>
+            <span class="ix-card__foot mono">scroll-motion.html
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="ix-map__item" data-reveal data-reveal-delay="135">
+          <a class="ix-card" href="page-transitions.html">
+            <span class="ix-card__idx tnum">D</span>
+            <h3 class="ix-card__title">页面转场</h3>
+            <p class="ix-card__desc">跨页连续性：退出永远快于进入。</p>
+            <ul class="ix-card__pts">
+              <li>退出时长 = 进入 × 0.68</li>
+              <li>共享元素用 FLIP 位移，不改文档流</li>
+              <li>转场期间输入不阻塞、可打断</li>
+            </ul>
+            <span class="ix-card__foot mono">page-transitions.html
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="ix-map__item" data-reveal data-reveal-delay="180">
+          <a class="ix-card" href="navigation.html">
+            <span class="ix-card__idx tnum">E</span>
+            <h3 class="ix-card__title">导航模式</h3>
+            <p class="ix-card__desc">顶栏、抽屉、命令面板与焦点管理。</p>
+            <ul class="ix-card__pts">
+              <li>抽屉焦点锁定，Esc 关闭后归还焦点</li>
+              <li>⌘K 面板：↑↓ 选择，↵ 打开</li>
+              <li>移动端触控目标 ≥ 44px</li>
+            </ul>
+            <span class="ix-card__foot mono">navigation.html
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="ix-map__item" data-reveal data-reveal-delay="225">
+          <a class="ix-card" href="forms.html">
+            <span class="ix-card__idx tnum">F</span>
+            <h3 class="ix-card__title">表单交互</h3>
+            <p class="ix-card__desc">校验、播报与提交态，一个都不许省。</p>
+            <ul class="ix-card__pts">
+              <li>常驻 label，错误紧邻字段</li>
+              <li>提交时禁用按钮 + spinner</li>
+              <li>错误由 aria-live 播报，不只靠红框</li>
+            </ul>
+            <span class="ix-card__foot mono">forms.html
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="ix-map__item" data-reveal data-reveal-delay="270">
+          <a class="ix-card" href="gestures.html">
+            <span class="ix-card__idx tnum">G</span>
+            <h3 class="ix-card__title">手势与拖拽</h3>
+            <p class="ix-card__desc">指针事件统一鼠标与手指，速度决定手感。</p>
+            <ul class="ix-card__pts">
+              <li>位移超过 4px 才判定为拖拽</li>
+              <li>松手速度作为弹簧初速度</li>
+              <li>所有拖拽必须有键盘等价操作</li>
+            </ul>
+            <span class="ix-card__foot mono">gestures.html
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="ix-map__item" data-reveal data-reveal-delay="315">
+          <a class="ix-card" href="motion-physics.html">
+            <span class="ix-card__idx tnum">H</span>
+            <h3 class="ix-card__title">运动物理</h3>
+            <p class="ix-card__desc">弹簧、阻尼与打断策略的实验室。</p>
+            <ul class="ix-card__pts">
+              <li>四档预设：snap / standard / soft / playful</li>
+              <li>damping ≥ 2√(k·m) 时不过冲</li>
+              <li>新目标从当前速度衔接，不回起点</li>
+            </ul>
+            <span class="ix-card__foot mono">motion-physics.html
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="ix-map__item" data-reveal data-reveal-delay="360">
+          <a class="ix-card" href="feedback.html">
+            <span class="ix-card__idx tnum">I</span>
+            <h3 class="ix-card__title">反馈系统</h3>
+            <p class="ix-card__desc">Toast、确认与重试的完整生命周期。</p>
+            <ul class="ix-card__pts">
+              <li>同屏最多 4 条，hover 暂停计时</li>
+              <li>危险操作二次确认，明确后果</li>
+              <li>失败必须给可重试的出口</li>
+            </ul>
+            <span class="ix-card__foot mono">feedback.html
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="ix-map__item" data-reveal data-reveal-delay="405">
+          <a class="ix-card" href="accessibility.html">
+            <span class="ix-card__idx tnum">J</span>
+            <h3 class="ix-card__title">无障碍</h3>
+            <p class="ix-card__desc">动效的可达性不是补丁，是设计前置条件。</p>
+            <ul class="ix-card__pts">
+              <li>焦点环 2px accent + 3px 偏移</li>
+              <li>触控目标 ≥ 44×44px，间距 ≥ 8px</li>
+              <li>reduced-motion 三档可切换</li>
+            </ul>
+            <span class="ix-card__foot mono">accessibility.html
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="ix-map__item" data-reveal data-reveal-delay="450">
+          <a class="ix-card" href="data-viz.html">
+            <span class="ix-card__idx tnum">K</span>
+            <h3 class="ix-card__title">数据可视化</h3>
+            <p class="ix-card__desc">手写 SVG 图表，数据变化也有物理感。</p>
+            <ul class="ix-card__pts">
+              <li>折线 / 柱状 / 环形全部零库手绘</li>
+              <li>数值变化由弹簧驱动，不用硬切</li>
+              <li>颜色之外必须有第二编码</li>
+            </ul>
+            <span class="ix-card__foot mono">data-viz.html
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="ix-map__item" data-reveal data-reveal-delay="495">
+          <a class="ix-card" href="design-system.html">
+            <span class="ix-card__idx tnum">L</span>
+            <h3 class="ix-card__title">设计系统</h3>
+            <p class="ix-card__desc">唯一真源：token、类名、规格标注模板。</p>
+            <ul class="ix-card__pts">
+              <li>颜色 / 字号 / 间距 / 动效全 token 化</li>
+              <li>对比度逐项实测并附数值</li>
+              <li>交付验收清单可直接照着打分</li>
+            </ul>
+            <span class="ix-card__foot mono">design-system.html
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ============ 4. 横向滚动精选墙 ============ -->
+    <section class="section ix-wall" id="wall" aria-labelledby="wall-title">
+      <div class="shell ix-wall__head">
+        <div class="section-head">
+          <p class="eyebrow">精选参数墙</p>
+          <h2 class="h2" id="wall-title">六个参数，决定全站手感</h2>
+          <p class="lede">曲线是真的：缓动按贝塞尔参数求点，弹簧按 k / c / m 数值积分，过冲幅度是算出来的。</p>
+        </div>
+
+        <div class="ix-wall__ctrl">
+          <p class="ix-wall__pos mono tnum"><span id="ix-wall-cur">01</span> / <span id="ix-wall-total">06</span></p>
+          <div class="ix-wall__btns">
+            <button class="btn btn--ghost btn--icon" type="button" id="ix-wall-prev" aria-label="上一张参数卡" aria-controls="ix-wall-track">
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+            </button>
+            <button class="btn btn--ghost btn--icon" type="button" id="ix-wall-next" aria-label="下一张参数卡" aria-controls="ix-wall-track">
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ix-wall__viewport">
+        <ul class="ix-wall__track" id="ix-wall-track" tabindex="0" role="group"
+            aria-label="精选参数卡：左右方向键滚动，Home / End 跳到首尾">
+          <li class="ix-param">
+            <p class="ix-param__idx tnum">01</p>
+            <h3 class="ix-param__title">进入缓动</h3>
+            <p class="ix-param__token mono">--ease-out-quint</p>
+            <div class="ix-plot">
+              <svg viewBox="0 0 260 128" aria-hidden="true" focusable="false">
+                <path class="ix-plot__axis" d="M18,104 L242,104 M18,24 L18,104"/>
+                <path class="ix-plot__ref" d="M18,104 L242,24"/>
+                <path class="ix-plot__curve" d="M18,104 L25,93 L32,82 L39,73 L46,65 L54,58 L61,51 L69,46 L77,41 L85,37 L95,34 L105,31 L115,29 L127,27 L140,26 L153,25 L168,25 L185,24 L202,24 L221,24 L242,24"/>
+                <circle class="ix-plot__dot" cx="242" cy="24" r="3"/>
+              </svg>
+            </div>
+            <p class="ix-param__legend mono">真实贝塞尔求点 · 虚线 = linear 对照</p>
+            <p class="ix-param__desc">cubic-bezier(.22, 1, .36, 1)：前 100ms 走完全程 60%，尾段极慢收束。这是「贵」的来源。</p>
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">元素进入 / 状态切换</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite：仅 opacity · off：瞬时</dd></div>
+            </dl>
+            <a class="ix-param__link" href="motion-physics.html">展厅 H · 运动物理
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M9 7h8v8"/></svg>
+            </a>
+          </li>
+
+          <li class="ix-param">
+            <p class="ix-param__idx tnum">02</p>
+            <h3 class="ix-param__title">标准弹簧</h3>
+            <p class="ix-param__token mono">spring standard 340 / 28 / 1</p>
+            <div class="ix-plot">
+              <svg viewBox="0 0 260 128" aria-hidden="true" focusable="false">
+                <path class="ix-plot__axis" d="M18,104 L242,104 M18,24 L18,104"/>
+                <path class="ix-plot__target" d="M18,40 L242,40"/>
+                <path class="ix-plot__curve" d="M18,104 L24,94 L29,79 L35,65 L40,55 L46,47 L51,43 L57,40 L62,39 L68,39 L73,39 L78,39 L84,39 L89,40 L95,40 L100,40 L106,40 L111,40 L116,40 L122,40 L128,40 L133,40 L138,40 L144,40 L149,40 L155,40 L160,40 L166,40 L171,40 L176,40 L182,40 L188,40 L193,40 L198,40 L204,40 L210,40 L214,40 L220,40 L226,40 L231,40 L236,40 L242,40"/>
+                <circle class="ix-plot__dot" cx="62" cy="39" r="3"/>
+              </svg>
+            </div>
+            <p class="ix-param__legend mono">数值积分 dt = 1/240s · 虚线 = 目标值</p>
+            <p class="ix-param__desc">ζ = c / 2√(k·m) = 0.76，实测峰值 +1.9%：眼睛读作「有重量，但不过头」。</p>
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">卡片 / 面板位移</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">stiffness 340 · damping 28 · mass 1</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">reduced-motion：直接落位</dd></div>
+            </dl>
+            <a class="ix-param__link" href="motion-physics.html">展厅 H · 运动物理
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M9 7h8v8"/></svg>
+            </a>
+          </li>
+
+          <li class="ix-param">
+            <p class="ix-param__idx tnum">03</p>
+            <h3 class="ix-param__title">错开间隔</h3>
+            <p class="ix-param__token mono">--stagger 45ms</p>
+            <div class="ix-plot">
+              <svg viewBox="0 0 260 128" aria-hidden="true" focusable="false">
+                <path class="ix-plot__axis" d="M18,104 L242,104 M18,24 L18,104"/>
+                <path class="ix-plot__step" d="M18,104 L146,24 M34,104 L162,24 M50,104 L178,24 M66,104 L194,24 M82,104 L210,24 M98,104 L226,24"/>
+                <circle class="ix-plot__dot" cx="18" cy="104" r="3"/>
+                <circle class="ix-plot__dot" cx="34" cy="104" r="3"/>
+                <circle class="ix-plot__dot" cx="50" cy="104" r="3"/>
+                <circle class="ix-plot__dot" cx="66" cy="104" r="3"/>
+                <circle class="ix-plot__dot" cx="82" cy="104" r="3"/>
+                <circle class="ix-plot__dot" cx="98" cy="104" r="3"/>
+              </svg>
+            </div>
+            <p class="ix-param__legend mono">6 条并行位移 · 每条 360ms · 起跑差 45ms</p>
+            <p class="ix-param__desc">30–50ms 是人眼能分辨「有序」又不觉得拖沓的区间。超过 80ms 就变成排队。</p>
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">容器进入视口（阈值 0.15）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">translateY 24px → 0 · opacity 0 → 1</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">全部同时淡入，取消位移</dd></div>
+            </dl>
+            <a class="ix-param__link" href="scroll-motion.html">展厅 C · 滚动叙事
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M9 7h8v8"/></svg>
+            </a>
+          </li>
+
+          <li class="ix-param">
+            <p class="ix-param__idx tnum">04</p>
+            <h3 class="ix-param__title">时长阶梯</h3>
+            <p class="ix-param__token mono">--dur-instant → --dur-slower</p>
+            <div class="ix-plot">
+              <svg viewBox="0 0 260 128" aria-hidden="true" focusable="false">
+                <path class="ix-plot__axis" d="M18,104 L242,104 M18,24 L18,104"/>
+                <path class="ix-plot__step" d="M18,104 H31 V88 H55 V72 H94 V56 H152 V40 H242 V24"/>
+                <circle class="ix-plot__dot" cx="242" cy="24" r="3"/>
+              </svg>
+            </div>
+            <p class="ix-param__legend mono">累计完成度阶梯 · 由 5 个 --dur-* 实测值算点</p>
+            <ul class="ix-param__legend-list mono">
+              <li><span class="tnum">80ms</span> instant · 按压收尾</li>
+              <li><span class="tnum">150ms</span> fast · hover / 颜色</li>
+              <li><span class="tnum">240ms</span> base · 通用微交互</li>
+              <li><span class="tnum">360ms</span> slow · 抽屉 / 面板</li>
+              <li><span class="tnum">560ms</span> slower · 页面级揭示</li>
+            </ul>
+            <p class="ix-param__desc">阶跃而非连续：固定档位让 13 个页面手感一致，退出统一取 0.68×。</p>
+            <a class="ix-param__link" href="design-system.html">展厅 L · 设计系统
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M9 7h8v8"/></svg>
+            </a>
+          </li>
+
+          <li class="ix-param">
+            <p class="ix-param__idx tnum">05</p>
+            <h3 class="ix-param__title">降级三档</h3>
+            <p class="ix-param__token mono">data-motion = on / lite / off</p>
+            <div class="ix-plot">
+              <svg viewBox="0 0 260 128" aria-hidden="true" focusable="false">
+                <path class="ix-plot__axis" d="M18,104 L242,104 M18,24 L18,104"/>
+                <path class="ix-plot__target" d="M18,24 L242,24"/>
+                <path class="ix-plot__curve" d="M18,104 L30,86 L42,70 L54,58 L66,48 L80,40 L95,34 L112,30 L131,27 L153,25 L179,24 L208,24 L242,24"/>
+                <path class="ix-plot__curve2" d="M18,104 L96,76 L96,24 L242,24"/>
+                <path class="ix-plot__curve3" d="M18,104 L242,104 L242,24"/>
+              </svg>
+            </div>
+            <ul class="ix-param__legend-list mono">
+              <li>on · 全量位移 + 缓动</li>
+              <li>lite · 仅 opacity 与颜色</li>
+              <li>off · 全部瞬时完成</li>
+            </ul>
+            <p class="ix-param__desc">跟随系统 prefers-reduced-motion，也可手动锁定。降级不是关灯，是换一种同样体面的表达。</p>
+            <a class="ix-param__link" href="accessibility.html">展厅 J · 无障碍
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M9 7h8v8"/></svg>
+            </a>
+          </li>
+
+          <li class="ix-param">
+            <p class="ix-param__idx tnum">06</p>
+            <h3 class="ix-param__title">只动合成属性</h3>
+            <p class="ix-param__token mono">transform · opacity · filter</p>
+            <div class="ix-plot">
+              <svg viewBox="0 0 260 128" aria-hidden="true" focusable="false">
+                <path class="ix-plot__axis" d="M18,104 L242,104 M18,24 L18,104"/>
+                <path class="ix-plot__curve" d="M18,104 L32,82 L46,65 L61,51 L77,41 L95,34 L115,29 L140,26 L168,25 L202,24 L242,24"/>
+                <path class="ix-plot__curve3" d="M18,104 L46,94 L74,84 L102,74 L130,64 L158,54 L186,44 L214,34 L242,24"/>
+              </svg>
+            </div>
+            <ul class="ix-param__legend-list mono">
+              <li>transform / opacity · 合成层，无重排</li>
+              <li>width / top · 每帧重排，掉帧来源</li>
+            </ul>
+            <p class="ix-param__desc">平滑曲线的台阶就是掉帧。位移交给 transform，尺寸交给不变形的方式表达。</p>
+            <a class="ix-param__link" href="motion-physics.html">展厅 H · 运动物理
+              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M9 7h8v8"/></svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="shell ix-wall__progress">
+        <div class="ix-wall__bar"><span class="ix-wall__fill" id="ix-wall-fill"></span></div>
+        <p class="visually-hidden" id="ix-wall-help">横向滚动区域：使用左右方向键切换参数卡，Home 与 End 跳到首尾。</p>
+      </div>
+    </section>
+
+    <!-- ============ 5. 交付流程五步 ============ -->
+    <section class="section shell ix-flow-sec" id="process" aria-labelledby="process-title">
+      <div class="section-head">
+        <p class="eyebrow">交付流程 · 5 STEP</p>
+        <h2 class="h2" id="process-title">从研究到验收，每一步都有产物</h2>
+        <p class="lede">右侧这条线随滚动生长：它是流程的进度，也是我们对「可视化交付」的态度。</p>
+      </div>
+
+      <div class="ix-flow" id="ix-flow">
+        <div class="ix-flow__rail" aria-hidden="true">
+          <span class="ix-flow__rail-base"></span>
+          <span class="ix-flow__rail-fill"></span>
+        </div>
+
+        <ol class="ix-flow__list">
+          <li class="ix-flow__step" data-reveal data-reveal-delay="0">
+            <span class="ix-flow__marker tnum" aria-hidden="true">01</span>
+            <div class="ix-flow__body panel">
+              <h3 class="h3">研究</h3>
+              <p>先看真实痛点：哪里卡顿、哪里让人猜、哪里点不到。产出问题清单与成功判据。</p>
+              <ul class="ix-flow__out mono">
+                <li>产物 · 交互问题清单</li>
+                <li>判据 · 每个问题对应可测指标</li>
+              </ul>
+            </div>
+          </li>
+          <li class="ix-flow__step" data-reveal data-reveal-delay="45">
+            <span class="ix-flow__marker tnum" aria-hidden="true">02</span>
+            <div class="ix-flow__body panel">
+              <h3 class="h3">规格</h3>
+              <p>把感觉翻译成参数：触发事件、时长 token、缓动曲线或弹簧三参数、动画属性、降级行为。</p>
+              <ul class="ix-flow__out mono">
+                <li>产物 · 五段规格标注</li>
+                <li>约束 · 只用 transform / opacity / filter</li>
+              </ul>
+            </div>
+          </li>
+          <li class="ix-flow__step" data-reveal data-reveal-delay="90">
+            <span class="ix-flow__marker tnum" aria-hidden="true">03</span>
+            <div class="ix-flow__body panel">
+              <h3 class="h3">实现</h3>
+              <p>零依赖手写：CSS 变量驱动，JS 走 rAF 与弹簧内核，所有 DOM 写入都在帧内完成。</p>
+              <ul class="ix-flow__out mono">
+                <li>产物 · 可双击运行的真实 demo</li>
+                <li>标准 · 无 console 报错、无位图</li>
+              </ul>
+            </div>
+          </li>
+          <li class="ix-flow__step" data-reveal data-reveal-delay="135">
+            <span class="ix-flow__marker tnum" aria-hidden="true">04</span>
+            <div class="ix-flow__body panel">
+              <h3 class="h3">验证</h3>
+              <p>四个宽度实测无横向滚动与重叠；键盘全流程走通；三档动效与双主题都不破版。</p>
+              <ul class="ix-flow__out mono">
+                <li>宽度 · 375 / 768 / 1024 / 1440</li>
+                <li>检查 · 焦点环、对比度、reduced-motion</li>
+              </ul>
+            </div>
+          </li>
+          <li class="ix-flow__step" data-reveal data-reveal-delay="180">
+            <span class="ix-flow__marker tnum" aria-hidden="true">05</span>
+            <div class="ix-flow__body panel">
+              <h3 class="h3">交付验收</h3>
+              <p>按清单逐项打分，附截图与测量数据。跑不通的项不许打勾，带条件交付要写明条件。</p>
+              <ul class="ix-flow__out mono">
+                <li>产物 · 验收清单 + 测量记录</li>
+                <li>边界 · 已知限制逐条列出</li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ 6. 结尾 CTA + 页内导航 ============ -->
+    <section class="section shell ix-final" aria-labelledby="final-title">
+      <div class="ix-final__box">
+        <div class="ix-final__deco" aria-hidden="true" data-parallax="-0.06"></div>
+        <p class="eyebrow">下一步</p>
+        <h2 class="h2" id="final-title">先看条目，再看规格</h2>
+        <p class="lede">交互地图把 120 个条目摊开：按展厅筛选、按关键词搜索，每个条目都能跳到它所在的展厅。</p>
+        <div class="ix-final__cta">
+          <a class="btn btn--primary" href="atlas.html">打开交互地图
+            <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="design-system.html">阅读设计系统</a>
+        </div>
+        <p class="ix-final__note mono">静态站点 · 零依赖 · 全部 demo 真实可交互</p>
+      </div>
+    </section>
+
+    <nav class="page-nav shell" aria-label="页面导航">
+      <a class="page-nav__link" href="design-system.html">
+        <span class="page-nav__dir">先读标准</span>
+        <span class="page-nav__title">设计系统</span>
+        <span class="page-nav__desc">token、对比度实测与验收清单</span>
+      </a>
+      <a class="page-nav__link page-nav__link--next" href="atlas.html">
+        <span class="page-nav__dir">下一站</span>
+        <span class="page-nav__title">交互地图</span>
+        <span class="page-nav__desc">120 个条目 · 可筛选可搜索</span>
+      </a>
+    </nav>
+  </main>
+
+  <div id="site-footer"></div>
+  <div id="site-overlays"></div>
+
+  <script src="assets/js/site.js"></script>
+  <script src="assets/js/pages/index.js"></script>
+</body>
+</html>

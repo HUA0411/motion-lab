@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-motion="on" data-theme="dark" data-page="gestures">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>手势与拖拽 · MOTION LAB</title>
+  <meta name="description" content="手势与拖拽展厅：FLIP 拖拽排序、带阈值可视化的滑动删除与撤销、橡皮筋边界、下拉刷新、双指缩放画布、长按菜单、模拟拖拽文件区、滑动切换卡片、自定义滑块、44px 触摸目标、手势阈值与冲突避免。每个手势都配键盘替代方案。">
+  <meta name="theme-color" content="#0A0B0D">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/pages/gestures.css">
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/pages/gestures.inline.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主内容</a>
+  <div id="site-header"></div>
+
+  <main id="main" class="page">
+    <header class="page-head shell">
+      <p class="eyebrow">展厅 G · GESTURES</p>
+      <h1 class="h1">手势与拖拽</h1>
+      <p class="lede">手势是「没有按钮的按钮」，因此更需要死区、阈值与替代方案。12 个 demo 全部用 Pointer Events + setPointerCapture 实现，鼠标与触屏都能拖，并且每一个手势都配了键盘等价操作。</p>
+      <ul class="meta-chips">
+        <li class="chip">12 个可交互 demo</li>
+        <li class="chip">Pointer Events + 指针捕获</li>
+        <li class="chip">每项手势均有键盘替代</li>
+      </ul>
+    </header>
+
+    <section class="section shell" id="gp-sec-drag">
+      <div class="section-head">
+        <p class="eyebrow">01</p>
+        <h2 class="h2">排序与删除</h2>
+        <p class="lede">移动一条数据的位置或把它删掉，是列表里最危险的两个动作；两者都需要可视化阈值与退路。</p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo reveal" id="demo-sort">
+          <header class="demo__label">
+            <span class="demo__index">01</span>
+            <h3 class="demo__title">拖拽排序（FLIP + 键盘移动）</h3>
+            <p class="demo__desc">拖动时其它项用 FLIP 让位（记录矩形 → 重排 → transform 播放差值），键盘用 Alt/⌘ + ↑↓ 移动并播报位置。</p>
+          </header>
+          <div class="demo__stage gp-sort">
+            <ul class="gp-sort__list" id="gp-sort-list"></ul>
+            <p class="gp-status mono tnum" id="gp-sort-status" aria-live="polite">顺序：01 → 02 → 03 → 04 → 05</p>
+            <p class="gp-hint mono">拖动任意行，或聚焦某行后按 Alt + ↑ / Alt + ↓（Ctrl + ↑ / ↓ 同样可用）</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown + pointermove（setPointerCapture）· Alt+↑↓ 键盘移动</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms（FLIP 让位）· 拖起 --dur-fast 150ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d + scale · opacity（禁止 top/left）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：重排瞬时生效；键盘替代始终可用并 aria-live 播报</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-swipe">
+          <header class="demo__label">
+            <span class="demo__index">02</span>
+            <h3 class="demo__title">滑动删除（阈值可视化 + 回弹 + 撤销）</h3>
+            <p class="demo__desc">跟手位移，未过阈值松手用弹簧回弹；过阈值滑出并给出 5 秒撤销条。</p>
+          </header>
+          <div class="demo__stage gp-swipe" id="gp-swipe">
+            <div class="gp-swipe__row" id="gp-swipe-row">
+              <span class="gp-swipe__bg" id="gp-swipe-bg" aria-hidden="true"><span data-gp-icon="trash"></span><span id="gp-swipe-bglabel">删除</span></span>
+              <span class="gp-swipe__front" id="gp-swipe-front" tabindex="0" role="button" aria-label="条目：交互规格卡 A，左右拖动可删除，按 Delete 键同样可删除">
+                <span class="gp-swipe__title">交互规格卡 A</span>
+                <span class="gp-swipe__meta mono">阈值 40% · 当前 0px</span>
+              </span>
+              <span class="gp-swipe__thresh" aria-hidden="true"></span>
+            </div>
+            <div class="gp-row">
+              <button class="btn btn--danger" id="gp-swipe-del" type="button"><span data-gp-icon="trash"></span>删除（键盘替代）</button>
+              <button class="btn btn--ghost" id="gp-swipe-undo" type="button" hidden><span data-gp-icon="undo"></span>撤销</button>
+            </div>
+            <p class="gp-status mono tnum" id="gp-swipe-status" aria-live="polite">向右或向左拖动卡片（鼠标/触屏皆可）</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown/move/up · Delete 键 · 删除按钮</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">回弹 --dur-slow 360ms 等效弹簧 · 滑出 --dur-base 240ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.presets.standard 340/28/1（回弹）· --ease-in-quad（滑出）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d · opacity</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：删除瞬时生效 + 撤销条文字倒计时；键盘替代不变</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-rubber">
+          <header class="demo__label">
+            <span class="demo__index">03</span>
+            <h3 class="demo__title">橡皮筋边界</h3>
+            <p class="demo__desc">超出边界后位移按 0.35 系数衰减，越拖越难；松手用 standard 弹簧回到边界内。</p>
+          </header>
+          <div class="demo__stage gp-rubber">
+            <div class="gp-rubber__area" id="gp-rubber-area">
+              <span class="gp-rubber__mark mono" aria-hidden="true">边界</span>
+              <span class="gp-rubber__box" id="gp-rubber-box" tabindex="0" role="application" aria-label="可拖动方块，方向键可移动，超出边界会被橡皮筋衰减">拖我</span>
+            </div>
+            <dl class="gp-readout mono tnum">
+              <div><dt>指针位移</dt><dd id="gp-rubber-raw">0 px</dd></div>
+              <div><dt>实际位移</dt><dd id="gp-rubber-shown">0 px</dd></div>
+              <div><dt>衰减系数</dt><dd id="gp-rubber-factor">1.00</dd></div>
+            </dl>
+            <p class="gp-status mono tnum" id="gp-rubber-status" aria-live="polite">向左右拖动方块撞边界；键盘用 ←→ 移动</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown/move/up · ←→ 键（Shift 加速 4×）</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">回弹 --dur-slow 360ms 等效弹簧</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.presets.standard 340/28/1 · 越界位移 = 原始 × 0.35</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：松手直接落回边界（瞬时），键盘替代不变</dd></div>
+            </dl>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell" id="gp-sec-pointer">
+      <div class="section-head">
+        <p class="eyebrow">02</p>
+        <h2 class="h2">指针与上下文</h2>
+        <p class="lede">拖文件、长按出菜单、下拉刷新：三者都必须区分「误触」与「意图」。</p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo reveal" id="demo-drop">
+          <header class="demo__label">
+            <span class="demo__index">04</span>
+            <h3 class="demo__title">拖拽文件区（DOM 事件模拟）</h3>
+            <p class="demo__desc">既支持真实拖放（dragover/drop），也支持用指针把「文件芯片」拖进投放区；投放后进度条用 scaleX 模拟上传。</p>
+          </header>
+          <div class="demo__stage gp-drop">
+            <div class="gp-row">
+              <span class="gp-file" id="gp-file-chip" tabindex="0" role="button" aria-label="文件芯片：拖到投放区，或按 Enter 直接加入">规格表-2024.pdf</span>
+              <button class="btn btn--ghost" id="gp-file-add" type="button"><span data-gp-icon="plus"></span>选择文件（键盘替代）</button>
+            </div>
+            <div class="gp-dropzone" id="gp-dropzone" tabindex="0" aria-label="文件投放区，可聚焦后按 Enter 加入示例文件">
+              <p class="gp-dropzone__title">把文件拖到这里</p>
+              <p class="gp-dropzone__hint mono">支持真实文件拖放；键盘：Enter 加入示例文件</p>
+            </div>
+            <ul class="gp-filelist" id="gp-filelist"></ul>
+            <p class="gp-status mono tnum" id="gp-drop-status" aria-live="polite">等待投放（指针拖动或真实文件拖放）</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown/move/up · dragover/dragleave/drop · Enter</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">高亮 --dur-fast 150ms · 上传进度 1600ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint · 进度条 linear（允许）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: scale(1.02) + translate3d · opacity · scaleX（进度）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：不放大只变色，进度瞬时到 100%，键盘与按钮路径不变</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-longpress">
+          <header class="demo__label">
+            <span class="demo__index">05</span>
+            <h3 class="demo__title">长按上下文菜单</h3>
+            <p class="demo__desc">按住 450ms 出菜单，移动超过 8px 取消；菜单可用 ↑↓ / Enter / Esc，也可按 Shift+F10 唤起。</p>
+          </header>
+          <div class="demo__stage gp-longpress">
+            <div class="gp-lp__area" id="gp-lp-area">
+              <span class="gp-lp__target" id="gp-lp-target" tabindex="0" role="button" aria-haspopup="menu" aria-expanded="false" aria-controls="gp-lp-menu">长按我 450ms</span>
+              <div class="gp-lp__menu" id="gp-lp-menu" role="menu" aria-label="条目的上下文菜单" hidden></div>
+            </div>
+            <div class="gp-row">
+              <button class="btn btn--ghost" id="gp-lp-open" type="button"><span data-gp-icon="more-horizontal"></span>打开菜单（键盘替代）</button>
+            </div>
+            <p class="gp-status mono tnum" id="gp-lp-status" aria-live="polite">等待长按（移动超过 8px 会取消）</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown 450ms · 移动 &gt;8px 取消 · Shift+F10 / 菜单键 / 按钮</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">长按判定 450ms · 菜单出现 --dur-fast 150ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（缩放 + 位移）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d + scale(.96→1) · opacity</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：菜单瞬时出现；键盘唤起路径完全不变</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-refresh">
+          <header class="demo__label">
+            <span class="demo__index">06</span>
+            <h3 class="demo__title">下拉刷新</h3>
+            <p class="demo__desc">仅在列表顶部下拉，超过 72px 触发；未过阈值回弹；触底用 overscroll-behavior 防止误触发系统刷新。</p>
+          </header>
+          <div class="demo__stage gp-refresh">
+            <div class="gp-refresh__viewport" id="gp-refresh-viewport" tabindex="0" aria-label="可下拉刷新的列表，也可聚焦后按 Enter 刷新">
+              <div class="gp-refresh__ind" id="gp-refresh-ind" aria-hidden="true"><span class="gp-refresh__spinner" id="gp-refresh-spinner"></span></div>
+              <ul class="gp-refresh__list" id="gp-refresh-list"></ul>
+            </div>
+            <div class="gp-row">
+              <button class="btn btn--primary" id="gp-refresh-btn" type="button"><span data-gp-icon="refresh"></span>刷新（键盘替代）</button>
+            </div>
+            <p class="gp-status mono tnum" id="gp-refresh-status" aria-live="polite">在列表顶部向下拖动（阈值 72px）</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown/move/up（列表顶部）· Enter / 按钮</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">加载 1200ms · 指示器位移 --dur-fast 150ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint · 下拉位移 ×0.5 阻尼</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d + rotate · opacity</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：指示器不旋转（改为文字「刷新中」），按钮路径不变</dd></div>
+            </dl>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell" id="gp-sec-zoom">
+      <div class="section-head">
+        <p class="eyebrow">03</p>
+        <h2 class="h2">缩放、切换与数值</h2>
+        <p class="lede">双指缩放、滑动切换、拖动滑块——三个最容易被做成「只能触屏」的组件，这里全部有键盘路径。</p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo reveal" id="demo-pinch">
+          <header class="demo__label">
+            <span class="demo__index">07</span>
+            <h3 class="demo__title">双指缩放画布（含 +/- 按钮）</h3>
+            <p class="demo__desc">两指距离比驱动 scale（0.2×–4×），单指平移；键盘 +/-/0 与方向键平移提供等价能力。</p>
+          </header>
+          <div class="demo__stage gp-pinch">
+            <div class="gp-canvas" id="gp-canvas-zoom" tabindex="0" role="application" aria-label="可缩放画布：双指缩放或单指拖动，键盘用加号减号缩放、方向键平移">
+              <div class="gp-canvas__inner" id="gp-canvas-inner">
+                <span class="gp-canvas__grid" aria-hidden="true"></span>
+                <span class="gp-canvas__card" aria-hidden="true">画布内容</span>
+              </div>
+            </div>
+            <div class="gp-row">
+              <button class="btn btn--ghost btn--icon" id="gp-zoom-out" type="button" aria-label="缩小"><span data-gp-icon="minus"></span></button>
+              <button class="btn btn--ghost btn--icon" id="gp-zoom-in" type="button" aria-label="放大"><span data-gp-icon="plus"></span></button>
+              <button class="btn btn--ghost" id="gp-zoom-reset" type="button">重置 100%</button>
+            </div>
+            <dl class="gp-readout mono tnum">
+              <div><dt>缩放</dt><dd id="gp-zoom-scale">1.00×</dd></div>
+              <div><dt>平移</dt><dd id="gp-zoom-pos">0, 0</dd></div>
+              <div><dt>指针数</dt><dd id="gp-zoom-pointers">0</dd></div>
+            </dl>
+            <p class="gp-status mono tnum" id="gp-pinch-status" aria-live="polite">画布已聚焦 · 可用 + / − / 0 与方向键</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown/move/up（双指针跟踪）· 方向键 · +/−/0 按钮</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">按钮缩放 --dur-fast 150ms · 手指缩放跟手 0ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（按钮）· 无缓动（跟手）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d + scale（单一合成层）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：按钮缩放瞬时生效，跟手仍可用；读数照常</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-cards">
+          <header class="demo__label">
+            <span class="demo__index">08</span>
+            <h3 class="demo__title">滑动切换卡片</h3>
+            <p class="demo__desc">阈值 25% 或 60px，超过吸附到下一张，未超过回弹；圆点指示器与 ←→ 键等价。</p>
+          </header>
+          <div class="demo__stage gp-cards">
+            <div class="gp-cards__viewport" id="gp-cards-viewport" tabindex="0" role="group" aria-label="可滑动切换的卡片，方向键左右切换">
+              <div class="gp-cards__track" id="gp-cards-track"></div>
+            </div>
+            <div class="gp-cards__dots" id="gp-cards-dots" aria-hidden="true"></div>
+            <div class="gp-row">
+              <button class="btn btn--ghost" id="gp-cards-prev" type="button">上一张</button>
+              <button class="btn btn--primary" id="gp-cards-next" type="button">下一张</button>
+            </div>
+            <p class="gp-status mono tnum" id="gp-cards-status" aria-live="polite">第 1 / 3 张 · 拖动或按 ← →</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown/move/up · ←→ / Home / End · 按钮</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">吸附 --dur-slow 360ms 等效弹簧 · 回弹最快</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.presets.snap 520/30/0.7</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d · opacity（圆点）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：切换瞬时到位（不滑动），指示器与计数文字照常</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-slider">
+          <header class="demo__label">
+            <span class="demo__index">09</span>
+            <h3 class="demo__title">拖动滑块（含方向键）</h3>
+            <p class="demo__desc">自建滑块：拖动与点击轨道都可用；键盘 ←→ ±1、PageUp/Down ±10、Home/End 首末，完整 ARIA 数值语义。</p>
+          </header>
+          <div class="demo__stage gp-slider">
+            <div class="gp-slider__head">
+              <label class="label" id="gp-slider-label">动效强度阈值</label>
+              <span class="gp-slider__value mono tnum" id="gp-slider-value">45</span>
+            </div>
+            <div class="gp-slider__track" id="gp-slider-track" role="slider" tabindex="0" aria-labelledby="gp-slider-label" aria-valuemin="0" aria-valuemax="100" aria-valuenow="45" aria-valuetext="45 分">
+              <span class="gp-slider__fill" id="gp-slider-fill" aria-hidden="true"></span>
+              <span class="gp-slider__thumb" id="gp-slider-thumb" aria-hidden="true"></span>
+            </div>
+            <p class="gp-status mono tnum" id="gp-slider-status" aria-live="polite">拖动滑块或聚焦后按方向键（PageUp/Down 步进 10）</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown/move/up · 轨道 click · ←→↑↓ Home End PageUp/PageDown</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">键盘步进 --dur-fast 150ms · 拖动跟手 0ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-snap（等效 ML.presets.snap）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d（滑块）+ scaleX（填充）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：键盘步进瞬时生效；aria-valuenow / valuetext 始终同步</dd></div>
+            </dl>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell" id="gp-sec-threshold">
+      <div class="section-head">
+        <p class="eyebrow">04</p>
+        <h2 class="h2">阈值与替代</h2>
+        <p class="lede">手指导航的物理约束：目标要够大、死区要够宽、手势之间不能抢。</p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo reveal" id="demo-target">
+          <header class="demo__label">
+            <span class="demo__index">10</span>
+            <h3 class="demo__title">触摸目标尺寸可视化（44px 阈值线）</h3>
+            <p class="demo__desc">32 / 44 / 56px 三种目标并排，44px 参考线可切换；每次点击同时用文字与计数反馈命中。</p>
+          </header>
+          <div class="demo__stage gp-target">
+            <p class="gp-row">
+              <button class="btn btn--ghost" id="gp-target-toggle" type="button" aria-pressed="true">隐藏 44px 参考线</button>
+            </p>
+            <div class="gp-target__strip" id="gp-target-strip">
+              <div class="gp-target__cell">
+                <button class="gp-hit gp-hit--32" type="button" data-size="32" aria-label="32 像素目标，点击计数">32</button>
+                <p class="gp-target__cap mono tnum" id="gp-hit-32">命中 0 次</p>
+              </div>
+              <div class="gp-target__cell">
+                <button class="gp-hit gp-hit--44" type="button" data-size="44" aria-label="44 像素目标，点击计数">44</button>
+                <p class="gp-target__cap mono tnum" id="gp-hit-44">命中 0 次</p>
+              </div>
+              <div class="gp-target__cell">
+                <button class="gp-hit gp-hit--56" type="button" data-size="56" aria-label="56 像素目标，点击计数">56</button>
+                <p class="gp-target__cap mono tnum" id="gp-hit-56">命中 0 次</p>
+              </div>
+            </div>
+            <p class="gp-status mono tnum" id="gp-target-status" aria-live="polite">点按三个目标对比命中反馈；44px 以下建议加内边距</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">click / Enter / Space · 参考线切换按钮</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">按压反馈 --dur-instant 80ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: scale(0.96→1) · opacity（参考线开合）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：无缩放，仅颜色与计数文字变化</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-threshold">
+          <header class="demo__label">
+            <span class="demo__index">11</span>
+            <h3 class="demo__title">手势阈值与防误触</h3>
+            <p class="demo__desc">0–8px 死区不识别、8–40px 待定、超过 40px 确认；同时做主方向锁（水平或垂直），避免斜向抖动误判。</p>
+          </header>
+          <div class="demo__stage gp-thresh">
+            <div class="gp-thresh__area" id="gp-thresh-area">
+              <span class="gp-thresh__box" id="gp-thresh-box" tabindex="0" role="application" aria-label="拖动以观察阈值区间，方向键亦可移动">拖我</span>
+            </div>
+            <div class="gp-thresh__zones" aria-hidden="true">
+              <span class="gp-thresh__zone gp-thresh__zone--dead">死区 0–8px</span>
+              <span class="gp-thresh__zone gp-thresh__zone--maybe">待定 8–40px</span>
+              <span class="gp-thresh__zone gp-thresh__zone--on">已确认 &gt;40px</span>
+            </div>
+            <dl class="gp-readout mono tnum">
+              <div><dt>位移</dt><dd id="gp-thresh-dist">0 px</dd></div>
+              <div><dt>判定</dt><dd id="gp-thresh-state">未识别</dd></div>
+              <div><dt>主方向</dt><dd id="gp-thresh-axis">—</dd></div>
+            </dl>
+            <p class="gp-status mono tnum" id="gp-thresh-status" aria-live="polite">拖动方块观察三区间切换（文字 + 颜色双通道）</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown/move/up · ←→↑↓ 键</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">阈值 8px / 40px 即时判定 · 界面反馈 --dur-fast 150ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（区间高亮）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d · opacity · border-color</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：区间高亮只做颜色切换；方向键移动与判定文字不变</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-conflict">
+          <header class="demo__label">
+            <span class="demo__index">12</span>
+            <h3 class="demo__title">手势冲突避免（touch-action 对比）</h3>
+            <p class="demo__desc">左栏 touch-action: pan-y 时纵向滚动让给页面、横向滑动由卡片接管；右栏 none 则完全接管，可现场切换取值对比。</p>
+          </header>
+          <div class="demo__stage gp-conflict">
+            <div class="gp-ctl">
+              <label class="label" for="gp-conflict-select">左栏 touch-action</label>
+              <select class="gp-select" id="gp-conflict-select">
+                <option value="pan-y">pan-y（推荐：纵向滚动 + 横向手势）</option>
+                <option value="none">none（完全接管，纵向也不滚动）</option>
+                <option value="manipulation">manipulation（仅去掉双击缩放）</option>
+                <option value="auto">auto（浏览器默认，手势冲突高发）</option>
+              </select>
+            </div>
+            <div class="gp-conflict__panes">
+              <div class="gp-conflict__pane">
+                <p class="gp-conflict__cap mono">左栏 · 可纵向滚动</p>
+                <div class="gp-conflict__scroll" id="gp-conflict-scroll">
+                  <div class="gp-conflict__card" id="gp-conflict-card" tabindex="0" role="button" aria-label="横向滑动卡片，方向键左右也能移动">
+                    <span class="gp-conflict__cc">横向拖我</span>
+                  </div>
+                  <p class="gp-conflict__text">纵向拖动这块区域会滚动内容，横向拖动则由卡片接管。当前 touch-action：<span class="mono" id="gp-conflict-value">pan-y</span></p>
+                  <p class="gp-conflict__text">再补一段文本让容器确实可以滚动，用来验证纵向手势没有被卡片抢走。</p>
+                  <p class="gp-conflict__text">手势冲突的根因是「同一个方向被两个处理器认领」，解法是提前用 touch-action 声明归属。</p>
+                </div>
+              </div>
+              <div class="gp-conflict__pane">
+                <p class="gp-conflict__cap mono">右栏 · touch-action: none</p>
+                <div class="gp-conflict__none" id="gp-conflict-none" tabindex="0" role="application" aria-label="完全接管指针的区域，方向键可移动标记">
+                  <span class="gp-conflict__dot" id="gp-conflict-dot">0</span>
+                  <p class="gp-conflict__hint mono">此区域完全接管指针：纵向手势不会滚动页面。</p>
+                </div>
+              </div>
+            </div>
+            <p class="gp-status mono tnum" id="gp-conflict-status" aria-live="polite">在左栏纵向滚动、横向拖卡片；键盘用 ←→ 与 ↑↓ 分别操作两栏</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown/move/up · select change · ←→↑↓ 键</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">卡片回弹 --dur-base 240ms · 切换即时生效</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-snap（吸附）· --ease-in-out-quart（回弹）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d（卡片与标记点）· opacity</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：卡片瞬时归位，键盘路径与 touch-action 说明不变</dd></div>
+            </dl>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <nav class="page-nav shell" aria-label="展厅导航">
+      <a class="page-nav__link" href="forms.html">上一站 · 展厅 F 表单交互</a>
+      <a class="page-nav__link" href="index.html">返回首页</a>
+      <a class="page-nav__link" href="motion-physics.html">下一站 · 展厅 H 运动物理</a>
+    </nav>
+  </main>
+
+  <div id="site-footer"></div>
+  <div id="site-overlays"></div>
+
+  <script src="assets/js/site.js"></script>
+  <script src="assets/js/pages/gestures.js"></script>
+</body>
+</html>

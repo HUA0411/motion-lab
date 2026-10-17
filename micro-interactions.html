@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-motion="on" data-theme="dark" data-page="micro-interactions">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>微交互 · MOTION LAB</title>
+  <meta name="description" content="展厅 A · 微交互：16 个真实可交互 demo —— 按压物理、涟漪、磁吸悬停、开关拖动、复选框画勾、滑动指示器、点赞爆发、半星评分、滑块、分段控件、复制形变、进度环、防重复提交、步进器、图标形变。每个 demo 都附触发 / 时长 / 缓动 / 属性 / 降级规格标注。">
+  <meta name="theme-color" content="#0A0B0D">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/pages/micro-interactions.css">
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/pages/micro-interactions.inline.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主内容</a>
+<div id="site-header"></div>
+
+<main id="main" class="page">
+
+  <header class="page-head shell">
+    <p class="eyebrow">展厅 A · MICRO-INTERACTIONS</p>
+    <h1 class="h1">微交互</h1>
+    <p class="lede">高级感的最小单位：一次按压、一圈涟漪、一次形变。本节 16 个 demo 全部可点、可拖、可键盘操作，并给出可复现的参数。</p>
+    <ul class="meta-chips">
+      <li class="chip">16 个可交互 demo</li>
+      <li class="chip">全部含规格标注</li>
+      <li class="chip">支持 reduced-motion</li>
+      <li class="chip">键盘等效操作</li>
+    </ul>
+    <nav class="mi-toc" aria-label="本页目录">
+      <a class="mi-toc__link" href="#sec-pointer"><span class="mi-toc__num tnum">01</span>按钮与指针反馈</a>
+      <a class="mi-toc__link" href="#sec-select"><span class="mi-toc__num tnum">02</span>选择与切换</a>
+      <a class="mi-toc__link" href="#sec-state"><span class="mi-toc__num tnum">03</span>反馈与状态</a>
+      <a class="mi-toc__link" href="#sec-numeric"><span class="mi-toc__num tnum">04</span>数值与图标形变</a>
+    </nav>
+  </header>
+
+  <!-- ========== 01 按钮与指针反馈 ========== -->
+  <section class="section shell" id="sec-pointer">
+    <div class="section-head">
+      <p class="eyebrow">01</p>
+      <h2 class="h2">按钮与指针反馈</h2>
+      <p class="lede">指针一落下，界面就得回答。这一组解决「按下有没有反应」「反应跟不跟手」「触摸设备上是否仍然成立」。</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <article class="demo reveal" id="demo-01">
+        <header class="demo__label">
+          <span class="demo__index">01</span>
+          <h3 class="demo__title">按钮按压物理</h3>
+          <p class="demo__desc">按下压缩本体，松开由弹簧带速度回弹；键盘 Space / Enter 等效。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="mi-demo">
+            <div class="mi-pressrow">
+              <button class="btn btn--primary mi-press" type="button" data-mi-press>主要动作</button>
+              <button class="btn btn--ghost mi-press" type="button" data-mi-press>次要动作</button>
+              <button class="btn btn--danger mi-press" type="button" data-mi-press>危险动作</button>
+            </div>
+            <p class="mi-readout mono tnum">压缩 <span data-mi-press-out>1.000</span>× · 峰值 <span data-mi-press-peak>1.000</span>× · 触发 <span data-mi-press-ev>—</span></p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown / pointerup / pointercancel，键盘 keydown(Space·Enter)</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">无固定时长，由弹簧自然收敛（≈180ms 稳定）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.spring 预设 snap（stiffness 520 / damping 30 / mass 0.7，无过冲）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: scale(var(--mi-press-scale)) + filter: brightness()</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：不写弹簧，仅 filter + border-color 颜色反馈</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-02">
+        <header class="demo__label">
+          <span class="demo__index">02</span>
+          <h3 class="demo__title">涟漪扩散</h3>
+          <p class="demo__desc">从指针落点长出的圆形波；键盘触发时从表面中心扩散。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="mi-demo">
+            <button class="mi-ripple-surface ripple-host" type="button" data-mi-ripple>
+              <span class="mi-ripple-surface__label">点按此表面产生涟漪</span>
+              <span class="mi-ripple-surface__sub mono">pointerdown · 内核 .ripple-host · 键盘 Enter 从中心扩散</span>
+            </button>
+            <p class="mi-readout mono tnum">已生成 <span data-mi-ripple-count>0</span> 圈 · 此刻 DOM 内 <span data-mi-ripple-live>0</span> 圈</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">内核 .ripple-host 监听 pointerdown；键盘 Enter / Space 派发合成 pointerdown 走同一条路径</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">var(--dur-slower) 560ms，一次性，animationend 后内核自动移除节点</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-quint)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">.ripple 的 transform: translate3d(-50%,-50%,0) scale() + opacity（仅绘制层）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：内核 .ripple 直接 display:none，页面改为 180ms 背景色闪烁 + 计数</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-03">
+        <header class="demo__label">
+          <span class="demo__index">03</span>
+          <h3 class="demo__title">磁吸悬停</h3>
+          <p class="demo__desc">指针进入磁场后滑块朝指针偏移，最多 10px；离开后归位。方向键可等效移动。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="mi-demo">
+            <div class="mi-magnet__field" tabindex="0" role="group" aria-label="磁吸演示区，使用方向键移动滑块，Home 键归位" data-mi-magnet-field>
+              <span class="mi-magnet__puck" data-mi-magnet-puck>MAGNET</span>
+              <span class="mi-magnet__hint mono">← ↑ ↓ → 移动 · Home 归位</span>
+            </div>
+            <p class="mi-readout mono tnum">偏移 x <span data-mi-magnet-x>0.0</span> px · y <span data-mi-magnet-y>0.0</span> px · 强度 <span data-mi-magnet-k>10</span> px</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointermove / pointerleave；键盘 ArrowUp·Down·Left·Right / Home</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">rAF 逐帧，缓动系数 0.18/帧（≈8 帧到位）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.lerp 线性插值追帧（ML.schedule 驱动，到位自动停表）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d(var(--mi-mx),var(--mi-my),0)</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：关闭追随，仅悬停时 opacity 描边点亮，键盘仍可移动</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-04">
+        <header class="demo__label">
+          <span class="demo__index">04</span>
+          <h3 class="demo__title">悬停下划线绘制</h3>
+          <p class="demo__desc">三种描线方向；Tab 聚焦触发同一套绘制，触摸设备用点击也能看到。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="mi-demo">
+            <ul class="mi-underline">
+              <li class="mi-underline__item" data-mi-ul="left">
+                <a class="mi-underline__link" href="#demo-04">左 → 右<i class="mi-underline__bar" aria-hidden="true"></i></a>
+              </li>
+              <li class="mi-underline__item" data-mi-ul="center">
+                <a class="mi-underline__link" href="#demo-04">中心展开<i class="mi-underline__bar" aria-hidden="true"></i></a>
+              </li>
+              <li class="mi-underline__item" data-mi-ul="right">
+                <a class="mi-underline__link" href="#demo-04">右 → 左<i class="mi-underline__bar" aria-hidden="true"></i></a>
+              </li>
+            </ul>
+            <p class="mi-readout mono tnum">当前聚焦 <span data-mi-ul-out>无</span></p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">:hover / :focus-visible（键盘 Tab 与鼠标共享同一动效）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">var(--dur-base) 240ms 进入，退出 calc(var(--dur-base) * .68) ≈163ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">进入 var(--ease-out-quint)，退出 var(--ease-in-quad)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: scaleX() + transform-origin，颜色过渡</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：下划线直接显示，仅保留颜色变化</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ========== 02 选择与切换 ========== -->
+  <section class="section shell" id="sec-select">
+    <div class="section-head">
+      <p class="eyebrow">02</p>
+      <h2 class="h2">选择与切换</h2>
+      <p class="lede">开关、勾选、单选、分段——四种「状态改变」的形态。它们共同的功课是：状态必须能被看见，也要能被读屏软件听见。</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <article class="demo reveal" id="demo-05">
+        <header class="demo__label">
+          <span class="demo__index">05</span>
+          <h3 class="demo__title">开关（含拖动）</h3>
+          <p class="demo__desc">68×44px 触控靶面；可直接拖动滑块，位移过半即吸附。角色为 switch，含 aria-checked。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="mi-demo">
+            <div class="mi-switchrow">
+              <button class="mi-switch" type="button" role="switch" aria-checked="false" aria-label="接收构建通知" data-mi-switch>
+                <span class="mi-switch__thumb" aria-hidden="true"></span>
+              </button>
+              <span class="mi-switch__state mono" data-mi-switch-state aria-hidden="true">OFF</span>
+            </div>
+            <p class="mi-readout mono tnum">拖动位移 <span data-mi-switch-drag>0</span> / <span data-mi-switch-travel>22</span> px · 最近事件 <span data-mi-switch-ev>—</span></p>
+            <p class="hint">键盘：Tab 聚焦后 Space / Enter 切换，← → 也可切换。</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown → pointermove → pointerup（setPointerCapture）；keydown Space·Enter·←·→</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">弹簧自然收敛；轨道底色用 var(--dur-base) 240ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.spring 预设 snap（520 / 30 / 0.7）；底色 var(--ease-out-quint)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d(var(--mi-switch-x),0,0) + background-color</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：滑块瞬移到目标位（1ms），拖动仍实时跟手</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-06">
+        <header class="demo__label">
+          <span class="demo__index">06</span>
+          <h3 class="demo__title">复选框画勾</h3>
+          <p class="demo__desc">勾是一次矢量描边，不是图片切换；含已选中与禁用两种参照状态。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="mi-demo">
+            <div class="mi-checkgroup">
+              <label class="mi-check">
+                <input class="mi-check__input" type="checkbox" data-mi-check checked>
+                <span class="mi-check__box" aria-hidden="true">
+                  <svg class="mi-check__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="mi-check__path" d="M4.5 12.6 9.6 17.7 19.5 6.6"/></svg>
+                </span>
+                <span class="mi-check__text">订阅发布说明</span>
+              </label>
+              <label class="mi-check">
+                <input class="mi-check__input" type="checkbox" data-mi-check>
+                <span class="mi-check__box" aria-hidden="true">
+                  <svg class="mi-check__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="mi-check__path" d="M4.5 12.6 9.6 17.7 19.5 6.6"/></svg>
+                </span>
+                <span class="mi-check__text">接收周报（未选中）</span>
+              </label>
+              <label class="mi-check mi-check--disabled">
+                <input class="mi-check__input" type="checkbox" disabled>
+                <span class="mi-check__box" aria-hidden="true">
+                  <svg class="mi-check__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="mi-check__path" d="M4.5 12.6 9.6 17.7 19.5 6.6"/></svg>
+                </span>
+                <span class="mi-check__text">企业套餐（由管理员锁定）</span>
+              </label>
+            </div>
+            <p class="mi-readout mono tnum">已选 <span data-mi-check-out>1</span> / 2 项可选项</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">原生 input:checked（鼠标点击 / Space），焦点环由 :focus-visible 驱动</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">描边 var(--dur-base) 240ms；盒子 var(--dur-fast) 150ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-quint)；回弹 var(--ease-spring-soft)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">变量 --mi-check(number, @property 注册) 驱动 stroke-dashoffset；盒子 transform + opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：勾瞬时完整显示（无描边过程），盒子不做缩放</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-07">
+        <header class="demo__label">
+          <span class="demo__index">07</span>
+          <h3 class="demo__title">单选滑动指示器</h3>
+          <p class="demo__desc">指示块在选项之间滑移，而不是每个选项各自亮灭；radiogroup + 方向键。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="mi-demo">
+            <div class="mi-radio" role="radiogroup" aria-label="交付时段" data-mi-radio>
+              <span class="mi-radio__ind" aria-hidden="true"></span>
+              <button class="mi-radio__opt" type="button" role="radio" aria-checked="true" data-mi-radio-opt>09:00 — 12:00 · 上午场</button>
+              <button class="mi-radio__opt" type="button" role="radio" aria-checked="false" data-mi-radio-opt>13:00 — 16:00 · 下午场</button>
+              <button class="mi-radio__opt" type="button" role="radio" aria-checked="false" data-mi-radio-opt>19:00 — 22:00 · 夜间场</button>
+            </div>
+            <p class="mi-readout mono tnum">指示块位移 <span data-mi-radio-out>0</span> px · 选中 <span data-mi-radio-name>上午场</span></p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">点击选项；键盘 ↑ ↓ 移动并即时选中（roving tabindex）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">var(--dur-base) 240ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-snap) —— 快速吸附、末端干脆</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d(0, calc(var(--mi-idx) * 48px), 0)</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：位移瞬时完成（1ms），选中态改用底色与描边表达</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-08">
+        <header class="demo__label">
+          <span class="demo__index">08</span>
+          <h3 class="demo__title">分段控件</h3>
+          <p class="demo__desc">tablist + 滑块指示器；三个标签真实切换面板内容，方向键移动。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="mi-demo">
+            <div class="tabbar" role="tablist" aria-label="列表密度" data-mi-seg>
+              <button class="tabbar__item" type="button" role="tab" id="mi-seg-t0" aria-selected="true" aria-controls="mi-seg-p0" data-mi-seg-btn>紧凑</button>
+              <button class="tabbar__item" type="button" role="tab" id="mi-seg-t1" aria-selected="false" aria-controls="mi-seg-p1" data-mi-seg-btn>标准</button>
+              <button class="tabbar__item" type="button" role="tab" id="mi-seg-t2" aria-selected="false" aria-controls="mi-seg-p2" data-mi-seg-btn>宽松</button>
+            </div>
+            <div class="mi-seg__panel" role="tabpanel" id="mi-seg-p0" aria-labelledby="mi-seg-t0" data-mi-seg-panel>
+              <p class="mi-seg__row"><span class="mono tnum">行高 32px</span> · 单屏可见 14 行 · 适合高密度监控</p>
+              <p class="mi-seg__bar" aria-hidden="true"></p><p class="mi-seg__bar" aria-hidden="true"></p><p class="mi-seg__bar" aria-hidden="true"></p>
+            </div>
+            <div class="mi-seg__panel" role="tabpanel" id="mi-seg-p1" aria-labelledby="mi-seg-t1" data-mi-seg-panel hidden>
+              <p class="mi-seg__row"><span class="mono tnum">行高 44px</span> · 单屏可见 10 行 · 默认密度</p>
+              <p class="mi-seg__bar mi-seg__bar--md" aria-hidden="true"></p><p class="mi-seg__bar mi-seg__bar--md" aria-hidden="true"></p><p class="mi-seg__bar mi-seg__bar--md" aria-hidden="true"></p>
+            </div>
+            <div class="mi-seg__panel" role="tabpanel" id="mi-seg-p2" aria-labelledby="mi-seg-t2" data-mi-seg-panel hidden>
+              <p class="mi-seg__row"><span class="mono tnum">行高 64px</span> · 单屏可见 7 行 · 触控优先</p>
+              <p class="mi-seg__bar mi-seg__bar--lg" aria-hidden="true"></p><p class="mi-seg__bar mi-seg__bar--lg" aria-hidden="true"></p>
+            </div>
+            <p class="mi-readout mono tnum">当前标签 <span data-mi-seg-out>紧凑</span> · 指示器由 ML.UI.tabs 驱动（--tab-x + width）</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">内核 ML.UI.tabs：点击 / Enter·Space 激活，← → Home End 在 tablist 内移动</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">var(--dur-slow) 360ms（指示器）；面板淡入 var(--dur-fast) 150ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-snap)；面板 var(--ease-out-quint)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">.tabbar__indicator 的 transform: translate3d(var(--tab-x)) + width；面板 opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：内核把指示器过渡换成 opacity，面板直接切换不淡入</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ========== 03 反馈与状态 ========== -->
+  <section class="section shell" id="sec-state">
+    <div class="section-head">
+      <p class="eyebrow">03</p>
+      <h2 class="h2">反馈与状态</h2>
+      <p class="lede">用户做了一件事之后，界面必须交代结果。这一组处理「进行中」「完成了」「失败了」和「别重复点」。</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <article class="demo reveal" id="demo-09">
+        <header class="demo__label">
+          <span class="demo__index">09</span>
+          <h3 class="demo__title">点赞爆发</h3>
+          <p class="demo__desc">欠阻尼弹簧（约 6% 过冲）+ 6 颗粒子；再点一次取消，计数实时更新。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="mi-demo">
+            <div class="mi-likerow">
+              <button class="mi-like" type="button" aria-pressed="false" aria-label="点赞" data-mi-like>
+                <span class="mi-like__burst" aria-hidden="true" data-mi-like-burst></span>
+                <span class="mi-like__glyph" aria-hidden="true">
+                  <svg class="mi-like__heart mi-like__heart--line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 20.4S4.6 15.7 4.6 10.7A4.6 4.6 0 0 1 12 7.7a4.6 4.6 0 0 1 7.4 3c0 5-7.4 9.7-7.4 9.7Z"/></svg>
+                  <svg class="mi-like__heart mi-like__heart--fill" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 20.4S4.6 15.7 4.6 10.7A4.6 4.6 0 0 1 12 7.7a4.6 4.6 0 0 1 7.4 3c0 5-7.4 9.7-7.4 9.7Z"/></svg>
+                </span>
+                <span class="mi-like__count tnum" data-mi-like-count>128</span>
+              </button>
+              <button class="btn btn--ghost" type="button" data-mi-like-reset>重置计数</button>
+            </div>
+            <p class="mi-readout mono tnum">状态 <span data-mi-like-state>未点赞</span> · 弹簧过冲峰值 <span data-mi-like-peak>1.000</span>×</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">点击 / Enter·Space（原生 button），aria-pressed 同步</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">弹簧收敛 ≈420ms；粒子 var(--dur-slower) 560ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.spring 预设 playful（420 / 17 / 1，过冲 ~6%）；粒子 var(--ease-out-quint)</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">心形 transform: scale()；粒子 transform: translate3d() + opacity；两层心形 opacity 交叉</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：不发散粒子、不做弹簧；心形只做 150ms 不透明度与颜色切换</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-10">
+        <header class="demo__label">
+          <span class="demo__index">10</span>
+          <h3 class="demo__title">星级评分（半星）</h3>
+          <p class="demo__desc">支持 0.5 步进；指针滑过即时预览，离开后回到已选值。方向键增减半星。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="mi-demo">
+            <div class="mi-rating" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="5" aria-valuenow="3.5" aria-valuetext="3.5 星" aria-label="评分，支持半星，方向键调整" data-mi-rating data-value="3.5">
+              <span class="mi-rating__stars" data-mi-rating-stars></span>
+              <output class="mi-rating__out mono tnum" data-mi-rating-out>3.5 / 5</output>
+            </div>
+            <p class="mi-readout mono tnum">预览值 <span data-mi-rating-hover>—</span> · 已选值 <span data-mi-rating-val>3.5</span></p>
+            <p class="hint">键盘：Tab 聚焦后用 ← → 调整 0.5 星，Home = 0，End = 5。</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointermove 预览 / pointerleave 复位 / click 落定；键盘 ← → Home End</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">预览即时（0ms）；落定弹跳 var(--dur-fast) 150ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-spring-soft)（轻微过冲 ≤5%）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">填充层 clip-path: inset(静态值) 表示半星；落定仅做 transform: scale() 与 opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：不做落定弹跳，半星靠 clip-path 与数值文本表达（信息不丢失）</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-11">
+        <header class="demo__label">
+          <span class="demo__index">11</span>
+          <h3 class="demo__title">复制成功形变</h3>
+          <p class="demo__desc">图标从「副本」形变为「对勾」，标签交叉淡入；1.6s 后自动复位。走内核 ML.copy。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="mi-demo">
+            <div class="mi-copy">
+              <code class="mi-copy__code mono" data-mi-copy-text>cubic-bezier(.22,1,.36,1)</code>
+              <button class="btn btn--ghost mi-copy__btn" type="button" data-mi-copy>
+                <span class="mi-copy__icon" data-mi-copy-icon aria-hidden="true"></span>
+                <span class="mi-copy__label" data-mi-copy-label>复制</span>
+              </button>
+            </div>
+            <p class="mi-readout mono tnum">结果 <span data-mi-copy-out>待操作</span> · 复位倒计时 <span data-mi-copy-cd>—</span></p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">点击 / Enter（原生 button），成功后立即形变；失败保留原图标并由内核 toast 报错</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">形变 var(--dur-fast) 150ms；成功态驻留 1600ms 后复位</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">进入 var(--ease-out-quint)，退出 var(--ease-in-quad)（退出≈0.68×）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">两层图标 opacity 交叉 + transform: scale()/rotate()</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：两层图标直接切换（1ms），只有文字与颜色变化</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-12">
+        <header class="demo__label">
+          <span class="demo__index">12</span>
+          <h3 class="demo__title">进度环</h3>
+          <p class="demo__desc">确定进度逐帧推进（可选暂停），也可切到不确定态；数值同时用文本与 aria 播报。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="mi-demo mi-ringwrap">
+            <div class="mi-ring" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0%" aria-label="导出进度" data-mi-ring>
+              <svg class="mi-ring__svg" viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="mi-ring__track" cx="60" cy="60" r="52" fill="none" stroke-width="8"/>
+                <circle class="mi-ring__bar" cx="60" cy="60" r="52" fill="none" stroke-width="8" stroke-linecap="round" data-mi-ring-bar/>
+              </svg>
+              <span class="mi-ring__val mono tnum" data-mi-ring-val>0%</span>
+            </div>
+            <div class="mi-ringctl">
+              <button class="btn btn--primary" type="button" data-mi-ring-start>开始导出</button>
+              <button class="btn btn--ghost" type="button" data-mi-ring-pause disabled>暂停</button>
+              <button class="btn btn--ghost" type="button" data-mi-ring-reset>重置</button>
+              <button class="btn btn--ghost" type="button" data-mi-ring-indet aria-pressed="false">不确定态</button>
+            </div>
+            <p class="mi-readout mono tnum">状态 <span data-mi-ring-state>idle</span> · 帧耗时上限 <span data-mi-ring-dt>—</span> ms</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮点击驱动 ML.raf 逐帧写 --mi-ring；不确定态由 class 切换</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">全程 2400ms 匀速；不确定态 1100ms/圈（loader，允许无限循环）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">确定态 linear（进度类唯一允许 linear 的场景）；不确定态 linear</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">变量 --mi-ring → stroke-dashoffset（纯绘制属性，不触发布局）；不确定态 transform: rotate()</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：不确定态停止旋转并显示静态 3/4 弧；确定态仍逐帧推进（状态必需）</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ========== 04 数值与图标形变 ========== -->
+  <section class="section shell" id="sec-numeric">
+    <div class="section-head">
+      <p class="eyebrow">04</p>
+      <h2 class="h2">数值与图标形变</h2>
+      <p class="lede">连续量（滑块、步进器）要跟手且可微调；图标形变要用最少的属性换来最清楚的语义翻转。</p>
+    </div>
+
+    <div class="demo-grid">
+
+      <article class="demo reveal" id="demo-13">
+        <header class="demo__label">
+          <span class="demo__index">13</span>
+          <h3 class="demo__title">滑块（含键盘）</h3>
+          <p class="demo__desc">拖动跟手，键盘 ← → 微调、PageUp/PageDown 大步、Home/End 到端点；role=slider。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="mi-demo">
+            <div class="mi-slider" data-mi-slider data-min="0" data-max="100" data-step="1" data-value="42">
+              <div class="mi-slider__head">
+                <span class="label" id="mi-slider-label">遮罩不透明度</span>
+                <output class="mi-slider__val mono tnum" data-mi-slider-out>42%</output>
+              </div>
+              <div class="mi-slider__hit" role="slider" tabindex="0" aria-labelledby="mi-slider-label" aria-valuemin="0" aria-valuemax="100" aria-valuenow="42" aria-valuetext="42%" data-mi-slider-hit>
+                <span class="mi-slider__track"><i class="mi-slider__fill" aria-hidden="true" data-mi-slider-fill></i></span>
+                <span class="mi-slider__thumb" aria-hidden="true" data-mi-slider-thumb></span>
+                <span class="mi-slider__cap mi-slider__cap--min mono" aria-hidden="true">0</span>
+                <span class="mi-slider__cap mi-slider__cap--max mono" aria-hidden="true">100</span>
+              </div>
+              <p class="mi-readout mono tnum">轨道宽 <span data-mi-slider-w>0</span> px · 行程 <span data-mi-slider-travel>0</span> px · 最近事件 <span data-mi-slider-ev>—</span></p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">pointerdown/move/up（含 setPointerCapture）；键盘 ← → ↑ ↓ / PageUp PageDown / Home End</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">拖动为逐帧即时；键盘调整后 var(--dur-fast) 150ms 收敛</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">键盘收敛 var(--ease-out-quint)；拖动为 0ms 跟手</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">填充 transform: scaleX(var(--mi-val))（不改 width）；滑块 transform: translate3d()</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：键盘收敛瞬时，拖动仍逐帧跟手（操作必需）</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-14">
+        <header class="demo__label">
+          <span class="demo__index">14</span>
+          <h3 class="demo__title">加载按钮（防重复提交）</h3>
+          <p class="demo__desc">点击后按钮 disabled + aria-busy，重复点击被计数拦截；成功后再驻留 1.2s 复位。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="mi-demo">
+            <div class="mi-submit">
+              <button class="btn btn--primary mi-submit__btn" type="button" data-mi-submit>
+                <span class="mi-submit__icon" data-mi-submit-icon aria-hidden="true"></span>
+                <span class="mi-submit__label" data-mi-submit-label>提交订单</span>
+              </button>
+              <button class="btn btn--ghost" type="button" data-mi-submit-reset>恢复初始态</button>
+            </div>
+            <p class="mi-readout mono tnum">状态 <span data-mi-submit-state>idle</span> · 拦截重复点击 <span data-mi-submit-blocked>0</span> 次 · 提交次数 <span data-mi-submit-runs>0</span></p>
+            <p class="hint">刻意留了 1400ms 模拟延迟：这段时间内再点不会触发第二次提交。</p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">click / Enter；进入 loading 后置 disabled + aria-busy="true"</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">模拟请求 1400ms；成功态驻留 1200ms；spinner 900ms/圈</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">图标形变 var(--ease-out-quint)；spinner linear（loader 例外）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">图标 opacity + transform: rotate()；文字 opacity；按钮尺寸不变</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：图标瞬时切换，spinner 降速到 2400ms/圈但保留（状态必需）</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-15">
+        <header class="demo__label">
+          <span class="demo__index">15</span>
+          <h3 class="demo__title">数值增减步进器</h3>
+          <p class="demo__desc">点按单步、长按加速连发；键盘 ↑ ↓ / Home / End；到达边界时按钮禁用而不隐藏。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="mi-demo">
+            <div class="mi-stepper" data-mi-stepper data-min="1" data-max="12" data-value="3" data-step="1">
+              <button class="btn btn--ghost btn--icon" type="button" value="-1" data-mi-step aria-label="减少席位数">
+                <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <div class="mi-stepper__field" role="spinbutton" tabindex="0" aria-valuemin="1" aria-valuemax="12" aria-valuenow="3" aria-label="席位数" data-mi-step-field>
+                <span class="mi-stepper__num tnum" data-mi-step-num>3</span>
+              </div>
+              <button class="btn btn--ghost btn--icon" type="button" value="1" data-mi-step aria-label="增加席位数">
+                <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+            </div>
+            <p class="mi-readout mono tnum">值 <span data-mi-step-out>3</span> / 12 · 长按加速 <span data-mi-step-accel>关闭</span> · 连发次数 <span data-mi-step-burst>0</span></p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">click 单步；pointerdown 持续 500ms 后进入 80ms 连发；键盘 ↑ ↓ PageUp PageDown Home End</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">数字翻动 var(--dur-fast) 150ms；连发间隔 80ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-quint)（数字上/下移方向随增减翻转）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">数字 wrap 的 transform: translate3d(0, ±6px, 0) + opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：数字直接替换（无位移），数值与 ARIA 依旧实时更新</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-16">
+        <header class="demo__label">
+          <span class="demo__index">16</span>
+          <h3 class="demo__title">图标形变</h3>
+          <p class="demo__desc">播放↔暂停（两层交叉旋转缩放）与菜单↔关闭（三线折叠成 X），都只用 transform / opacity。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="mi-demo">
+            <div class="mi-morphrow">
+              <button class="btn btn--ghost btn--icon mi-morphbtn" type="button" aria-pressed="false" aria-label="播放或暂停预览" data-mi-morph-play>
+                <span class="mi-morph__stack" aria-hidden="true">
+                  <span class="mi-morph__glyph mi-morph__glyph--a">
+                    <svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M8.5 5.6v12.8L19 12z"/></svg>
+                  </span>
+                  <span class="mi-morph__glyph mi-morph__glyph--b">
+                    <svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 5.5v13M15 5.5v13"/></svg>
+                  </span>
+                </span>
+              </button>
+              <span class="mi-morph__tag mono" data-mi-morph-state>paused</span>
+              <span class="mi-morph__sep" aria-hidden="true"></span>
+              <button class="btn btn--ghost btn--icon mi-burger" type="button" aria-expanded="false" aria-label="打开菜单" data-mi-burger>
+                <span class="mi-burger__lines" aria-hidden="true"><span></span><span></span><span></span></span>
+              </button>
+              <span class="mi-morph__tag mono" data-mi-burger-state>closed</span>
+            </div>
+            <p class="mi-readout mono tnum">形变层数 <span data-mi-morph-layers>5</span> · 动画属性 <span class="mono">transform, opacity</span></p>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">点击 / Enter·Space；aria-pressed、aria-expanded 同步</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">var(--dur-base) 240ms；三线中段淡出 var(--dur-fast) 150ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">var(--ease-out-quint)；退出用 calc(var(--dur-base) * .68) ≈163ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d / rotate / scaleX + opacity（共 5 个动效层）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：两层图标直接换显（1ms），三线仍以颜色与位置表达展开/关闭</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+    </div>
+  </section>
+
+  <nav class="page-nav shell" aria-label="展厅导航">
+    <a class="page-nav__link" href="atlas.html">
+      <span class="eyebrow">上一站</span>
+      <span class="page-nav__title">交互地图</span>
+    </a>
+    <a class="page-nav__link page-nav__link--next" href="states-feedback.html">
+      <span class="eyebrow">下一站 · 展厅 B</span>
+      <span class="page-nav__title">状态与反馈</span>
+    </a>
+  </nav>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="site-overlays"></div>
+
+<script src="assets/js/site.js"></script>
+<script src="assets/js/pages/micro-interactions.js"></script>
+</body>
+</html>

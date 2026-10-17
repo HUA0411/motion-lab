@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-motion="on" data-theme="dark" data-page="forms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>表单交互 · MOTION LAB</title>
+  <meta name="description" content="表单交互展厅：浮动标签、blur 后内联校验、错误位置与汇总锚点、首个错误自动聚焦、密码强度与显示切换、自动填充属性、可回退多步进度、草稿自动保存、提交 loading→成功、超时重试恢复、危险操作二次确认与撤销删除。">
+  <meta name="theme-color" content="#0A0B0D">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/pages/forms.css">
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/pages/forms.inline.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主内容</a>
+  <div id="site-header"></div>
+
+  <main id="main" class="page">
+    <header class="page-head shell">
+      <p class="eyebrow">展厅 F · FORMS</p>
+      <h1 class="h1">表单交互</h1>
+      <p class="lede">表单是最容易失败、也最值得打磨的界面。15 个 demo 覆盖「标签始终可见 → 失焦校验不打断输入 → 错误紧邻并汇总 → 首错聚焦 → 草稿与重试 → 危险操作可撤销」的完整链路。</p>
+      <ul class="meta-chips">
+        <li class="chip">15 个可交互 demo</li>
+        <li class="chip">错误 role="alert" 播报</li>
+        <li class="chip">全部 keyboard-first</li>
+      </ul>
+    </header>
+
+    <section class="section shell" id="fp-sec-input">
+      <div class="section-head">
+        <p class="eyebrow">01</p>
+        <h2 class="h2">标签、帮助与分组</h2>
+        <p class="lede">标签始终可见，帮助文本随字段绑定，分组用语义元素而不是 div 假装。</p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo reveal" id="demo-float">
+          <header class="demo__label">
+            <span class="demo__index">01</span>
+            <h3 class="demo__title">浮动标签（label 始终存在）</h3>
+            <p class="demo__desc">label 用 transform 上浮，占位符不承担标签职责；自动化填充与浏览器自动填充都能正确进入上浮态。</p>
+          </header>
+          <div class="demo__stage fp-float">
+            <div class="fp-field">
+              <div class="fp-floatbox">
+                <input class="fp-input" id="fp-float-name" type="text" placeholder=" " autocomplete="name">
+                <label class="fp-floatlabel" for="fp-float-name">收货人姓名</label>
+              </div>
+            </div>
+            <div class="fp-field">
+              <div class="fp-floatbox">
+                <input class="fp-input" id="fp-float-mail" type="email" placeholder=" " autocomplete="email">
+                <label class="fp-floatlabel" for="fp-float-mail">邮箱地址</label>
+              </div>
+            </div>
+            <p class="fp-status mono tnum" id="fp-float-status" aria-live="polite">聚焦或输入后标签上浮（translate + scale）</p>
+            <div class="fp-row">
+              <button class="btn btn--ghost" id="fp-float-fill" type="button"><span data-fp-icon="wand"></span>模拟自动填充</button>
+              <button class="btn btn--ghost" id="fp-float-clear" type="button">清空</button>
+            </div>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">focus · input · change（含自动填充）</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-fast 150ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: translate3d + scale · color</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：标签瞬时跳位，仍是可见 label 与 for 绑定</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-hints">
+          <header class="demo__label">
+            <span class="demo__index">02</span>
+            <h3 class="demo__title">帮助文本与 required 标记</h3>
+            <p class="demo__desc">每个字段的 .hint 用 aria-describedby 绑定，必填用文字标记（不只星号与颜色）；帮助文本可整组收起。</p>
+          </header>
+          <div class="demo__stage fp-hints">
+            <p class="fp-row">
+              <button class="btn btn--ghost" id="fp-hints-toggle" type="button" aria-pressed="true"><span data-fp-icon="info"></span>隐藏帮助文本</button>
+            </p>
+            <div class="fp-field">
+              <label class="label" for="fp-hint-user">用户名 <span class="fp-req">必填</span></label>
+              <input class="fp-input" id="fp-hint-user" type="text" required aria-describedby="fp-hint-user-h">
+              <p class="hint" id="fp-hint-user-h">3–16 个字符，允许中文、字母、数字与下划线。</p>
+            </div>
+            <div class="fp-field">
+              <label class="label" for="fp-hint-org">团队 <span class="fp-opt">可选</span></label>
+              <input class="fp-input" id="fp-hint-org" type="text" aria-describedby="fp-hint-org-h">
+              <p class="hint" id="fp-hint-org-h">留空则归入「未分组」，可稍后在设置里补填。</p>
+            </div>
+            <p class="fp-status mono tnum" id="fp-hints-status" aria-live="polite">帮助文本：显示中（aria-describedby 已接线）</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click（aria-pressed 切换）</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-fast 150ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity · transform: translateY(-2px)</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：瞬时显隐；帮助文本与 aria-describedby 同步增删</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-readonly">
+          <header class="demo__label">
+            <span class="demo__index">03</span>
+            <h3 class="demo__title">只读 vs 禁用</h3>
+            <p class="demo__desc">只读字段可聚焦、可选中、可复制，只是不可编辑；禁用字段不可聚焦、不参与提交，也不被读屏软件读取。</p>
+          </header>
+          <div class="demo__stage fp-ro">
+            <div class="fp-grid2">
+              <div class="fp-field">
+                <label class="label" for="fp-ro-1"><span data-fp-icon="lock"></span>订单号 · 只读</label>
+                <input class="fp-input" id="fp-ro-1" type="text" value="ML-2024-0918-042" readonly aria-describedby="fp-ro-1-h">
+                <p class="hint" id="fp-ro-1-h">readonly：可聚焦、可复制，Tab 顺序仍包含它。</p>
+              </div>
+              <div class="fp-field">
+                <label class="label" for="fp-ro-2"><span data-fp-icon="lock"></span>结算状态 · 禁用</label>
+                <input class="fp-input" id="fp-ro-2" type="text" value="不可编辑（未结算）" disabled aria-describedby="fp-ro-2-h">
+                <p class="hint" id="fp-ro-2-h">disabled：无法聚焦，读屏软件会跳过，提交时不会带上该字段。</p>
+              </div>
+            </div>
+            <p class="fp-row">
+              <button class="btn btn--ghost" id="fp-ro-copy" type="button"><span data-fp-icon="copy"></span>复制只读值</button>
+              <button class="btn btn--ghost" id="fp-ro-focus" type="button">聚焦只读字段</button>
+            </p>
+            <p class="fp-status mono tnum" id="fp-ro-status" aria-live="polite">试试 Tab 键：只读字段会获得焦点，禁用字段会被跳过</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">Tab 遍历 · 复制按钮 click · 聚焦按钮 click</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">焦点环 0ms（即时）· 状态文字 --dur-fast 150ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity · color（无位移，避免误读为可交互）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">不涉及动效；图标 + 文字双通道区分两种状态</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-fieldset">
+          <header class="demo__label">
+            <span class="demo__index">04</span>
+            <h3 class="demo__title">字段分组 fieldset / legend</h3>
+            <p class="demo__desc">用 fieldset + legend 表达分组，读屏软件会播报组名；视觉分组只是副产品。</p>
+          </header>
+          <div class="demo__stage fp-group">
+            <form id="fp-group-form" novalidate>
+              <fieldset class="fp-fieldset">
+                <legend class="fp-legend">账户信息</legend>
+                <div class="fp-grid2">
+                  <div class="fp-field">
+                    <label class="label" for="fp-g-user">用户名</label>
+                    <input class="fp-input" id="fp-g-user" type="text" autocomplete="username">
+                  </div>
+                  <div class="fp-field">
+                    <label class="label" for="fp-g-mail">邮箱</label>
+                    <input class="fp-input" id="fp-g-mail" type="email" autocomplete="email">
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset class="fp-fieldset">
+                <legend class="fp-legend">偏好设置</legend>
+                <div class="fp-grid2">
+                  <div class="fp-field">
+                    <label class="label" for="fp-g-lang">界面语言</label>
+                    <select class="fp-input" id="fp-g-lang">
+                      <option>简体中文</option>
+                      <option>English</option>
+                      <option>日本語</option>
+                    </select>
+                  </div>
+                  <div class="fp-field">
+                    <label class="label" for="fp-g-tz">时区</label>
+                    <select class="fp-input" id="fp-g-tz">
+                      <option>UTC+08:00 北京</option>
+                      <option>UTC+00:00 伦敦</option>
+                      <option>UTC-08:00 洛杉矶</option>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+            <p class="fp-status mono tnum" id="fp-group-status" aria-live="polite">共 2 个 fieldset / 4 个字段，Tab 会按视觉顺序遍历</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">Tab / Shift+Tab 遍历 · 读屏按组播报 legend</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">focus 时 --dur-fast 150ms（边框与底色）</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">border-color · background-color（无位移）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">不涉及动效；分组语义由 fieldset/legend 原生提供</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-autofill">
+          <header class="demo__label">
+            <span class="demo__index">05</span>
+            <h3 class="demo__title">自动填充属性 autocomplete</h3>
+            <p class="demo__desc">同一份地址表单同时服务浏览器自动填充与手动输入；按钮演示填充后的视觉高亮与键盘可用性。</p>
+          </header>
+          <div class="demo__stage fp-auto">
+            <form id="fp-auto-form" novalidate>
+              <div class="fp-grid2">
+                <div class="fp-field">
+                  <label class="label" for="fp-a-given">名</label>
+                  <input class="fp-input" id="fp-a-given" type="text" autocomplete="given-name">
+                </div>
+                <div class="fp-field">
+                  <label class="label" for="fp-a-family">姓</label>
+                  <input class="fp-input" id="fp-a-family" type="text" autocomplete="family-name">
+                </div>
+                <div class="fp-field">
+                  <label class="label" for="fp-a-tel">手机号</label>
+                  <input class="fp-input" id="fp-a-tel" type="tel" autocomplete="tel" inputmode="tel">
+                </div>
+                <div class="fp-field">
+                  <label class="label" for="fp-a-street">街道地址</label>
+                  <input class="fp-input" id="fp-a-street" type="text" autocomplete="street-address">
+                </div>
+                <div class="fp-field">
+                  <label class="label" for="fp-a-city">城市</label>
+                  <input class="fp-input" id="fp-a-city" type="text" autocomplete="address-level2">
+                </div>
+                <div class="fp-field">
+                  <label class="label" for="fp-a-zip">邮编</label>
+                  <input class="fp-input" id="fp-a-zip" type="text" autocomplete="postal-code" inputmode="numeric">
+                </div>
+              </div>
+            </form>
+            <dl class="fp-maplist mono tnum" id="fp-auto-map"></dl>
+            <p class="fp-row">
+              <button class="btn btn--primary" id="fp-auto-fill" type="button"><span data-fp-icon="wand"></span>模拟自动填充</button>
+              <button class="btn btn--ghost" id="fp-auto-clear" type="button">清空</button>
+            </p>
+            <p class="fp-status mono tnum" id="fp-auto-status" aria-live="polite">浏览器自动填充不可由脚本伪造，此处演示填充后的视觉与焦点行为</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click · 浏览器原生自动填充</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-slow 360ms（高亮消退）</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">background-color · opacity</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：高亮瞬时生效，autocomplete 属性与语义不变</dd></div>
+            </dl>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell" id="fp-sec-validate">
+      <div class="section-head">
+        <p class="eyebrow">02</p>
+        <h2 class="h2">校验与错误</h2>
+        <p class="lede">失焦才校验，输入时不打断；错误紧跟字段，同时提供汇总入口与首错聚焦。</p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo reveal" id="demo-inline">
+          <header class="demo__label">
+            <span class="demo__index">06</span>
+            <h3 class="demo__title">内联校验（blur 后校验，不打断输入）</h3>
+            <p class="demo__desc">失焦时校验并播报；一旦字段进入错误态，边输入边清除错误，但绝不打断输入或抖动布局。</p>
+          </header>
+          <div class="demo__stage fp-inline">
+            <div class="fp-field" id="fp-in-user-field">
+              <label class="label" for="fp-in-user">用户名</label>
+              <input class="fp-input" id="fp-in-user" type="text" autocomplete="username" aria-describedby="fp-in-user-h">
+              <p class="hint" id="fp-in-user-h">至少 3 个字符，可含中文。</p>
+              <p class="error" id="fp-in-user-err" role="alert" hidden></p>
+            </div>
+            <div class="fp-field" id="fp-in-mail-field">
+              <label class="label" for="fp-in-mail">邮箱</label>
+              <input class="fp-input" id="fp-in-mail" type="email" autocomplete="email" aria-describedby="fp-in-mail-h">
+              <p class="hint" id="fp-in-mail-h">用于接收交付通知。</p>
+              <p class="error" id="fp-in-mail-err" role="alert" hidden></p>
+            </div>
+            <p class="fp-status mono tnum" id="fp-inline-status" aria-live="polite">等待失焦校验（输入过程中不会打断）</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">blur 校验 · input 仅在错误态下清除错误</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-fast 150ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity · transform: translateY(-2px)（错误行）· border-color</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：错误行瞬时出现；aria-invalid 与 role="alert" 不受影响</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-summary">
+          <header class="demo__label">
+            <span class="demo__index">07</span>
+            <h3 class="demo__title">错误位置与错误汇总锚点</h3>
+            <p class="demo__desc">提交失败时顶部汇总列出全部错误，每条都是指向字段的锚点；字段旁仍有紧邻的错误文本。</p>
+          </header>
+          <div class="demo__stage fp-sum">
+            <form id="fp-sum-form" novalidate>
+              <div class="fp-alert" id="fp-sum-alert" role="alert" hidden>
+                <p class="fp-alert__title"><span data-fp-icon="alert"></span>有 <span class="tnum" id="fp-sum-count">0</span> 处需要修正：</p>
+                <ul class="fp-alert__list" id="fp-sum-list"></ul>
+              </div>
+              <div class="fp-grid2">
+                <div class="fp-field">
+                  <label class="label" for="fp-s-name">姓名</label>
+                  <input class="fp-input" id="fp-s-name" type="text">
+                  <p class="error" id="fp-s-name-err" role="alert" hidden></p>
+                </div>
+                <div class="fp-field">
+                  <label class="label" for="fp-s-mail">邮箱</label>
+                  <input class="fp-input" id="fp-s-mail" type="email">
+                  <p class="error" id="fp-s-mail-err" role="alert" hidden></p>
+                </div>
+                <div class="fp-field">
+                  <label class="label" for="fp-s-age">年龄</label>
+                  <input class="fp-input" id="fp-s-age" type="text" inputmode="numeric">
+                  <p class="error" id="fp-s-age-err" role="alert" hidden></p>
+                </div>
+                <div class="fp-field">
+                  <label class="label" for="fp-s-note">备注</label>
+                  <input class="fp-input" id="fp-s-note" type="text">
+                  <p class="error" id="fp-s-note-err" role="alert" hidden></p>
+                </div>
+              </div>
+              <p class="fp-row">
+                <button class="btn btn--primary" id="fp-sum-submit" type="submit">提交校验</button>
+                <button class="btn btn--ghost" id="fp-sum-reset" type="button">重置</button>
+              </p>
+            </form>
+            <p class="fp-status mono tnum" id="fp-sum-status" aria-live="polite">点击提交查看汇总（备注为必填，年龄需为 18–99）</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">submit · 汇总链接 click / Enter（定位并聚焦字段）</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">汇总进入 --dur-base 240ms · 锚点跳转 360ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint · ML.scroll.to 平滑滚动</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity · transform: translate3d(0,-4px,0)</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：汇总瞬时出现，锚点改为瞬时定位（behavior auto）</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-firsterror">
+          <header class="demo__label">
+            <span class="demo__index">08</span>
+            <h3 class="demo__title">首个错误自动聚焦</h3>
+            <p class="demo__desc">提交失败时焦点移到第一个出错字段并滚动到位，键盘（Enter 提交）同样生效；成功时聚焦成功提示。</p>
+          </header>
+          <div class="demo__stage fp-first">
+            <form id="fp-first-form" novalidate>
+              <div class="fp-grid2" id="fp-first-grid"></div>
+              <p class="fp-row">
+                <button class="btn btn--primary" id="fp-first-submit" type="submit">提交</button>
+                <button class="btn btn--ghost" id="fp-first-fill" type="button">填入合法值</button>
+              </p>
+            </form>
+            <p class="fp-status mono tnum" id="fp-first-status" aria-live="polite">等待提交</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">submit（click 或表单内 Enter）</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">滚动 --dur-slower 560ms（原生 smooth）· 错误行 150ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（错误行）· 原生平滑滚动</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity · transform: translateY(-2px) · scroll 位置</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：滚动瞬时完成（behavior auto），焦点仍移动</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-password">
+          <header class="demo__label">
+            <span class="demo__index">09</span>
+            <h3 class="demo__title">密码强度与显示切换</h3>
+            <p class="demo__desc">四段强度条 + 文字结论 + 逐条规则勾选；显示切换按钮 aria-pressed，图标在 eye / eye-off 间形变。</p>
+          </header>
+          <div class="demo__stage fp-pass">
+            <div class="fp-field">
+              <label class="label" for="fp-pass">设置密码</label>
+              <div class="fp-pass__row">
+                <input class="fp-input" id="fp-pass" type="password" autocomplete="new-password" aria-describedby="fp-pass-h fp-pass-strength">
+                <button class="btn btn--ghost btn--icon" id="fp-pass-toggle" type="button" aria-pressed="false" aria-label="显示密码"><span data-fp-icon="eye"></span></button>
+              </div>
+              <p class="hint" id="fp-pass-h">至少 8 位，建议混合大小写、数字与符号。</p>
+            </div>
+            <div class="fp-pass__meter" id="fp-pass-meter" aria-hidden="true">
+              <span class="fp-pass__seg"></span><span class="fp-pass__seg"></span><span class="fp-pass__seg"></span><span class="fp-pass__seg"></span>
+            </div>
+            <p class="fp-status mono tnum" id="fp-pass-strength" aria-live="polite">强度：未输入</p>
+            <ul class="fp-rules" id="fp-pass-rules"></ul>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">input（实时规则）· 显示按钮 click / Enter</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: scaleX（强度段）· opacity · color</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：强度段瞬时填充，结论文字与规则勾选仍完整</dd></div>
+            </dl>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell" id="fp-sec-flow">
+      <div class="section-head">
+        <p class="eyebrow">03</p>
+        <h2 class="h2">流程与状态</h2>
+        <p class="lede">长表单要能被中断：自动保存、可回退、加载有反馈、失败可重试且不丢数据。</p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo reveal" id="demo-multistep">
+          <header class="demo__label">
+            <span class="demo__index">10</span>
+            <h3 class="demo__title">多步进度（可回退、显示剩余步数）</h3>
+            <p class="demo__desc">3 步表单：进度条 scaleX，上一步保留已填内容，剩余步数实时播报，步骤指示 aria-current="step"。</p>
+          </header>
+          <div class="demo__stage fp-ms">
+            <ol class="fp-ms__steps" id="fp-ms-steps"></ol>
+            <div class="fp-ms__bar" aria-hidden="true"><span class="fp-ms__fill" id="fp-ms-fill"></span></div>
+            <div id="fp-ms-body"></div>
+            <p class="fp-row">
+              <button class="btn btn--ghost" id="fp-ms-prev" type="button">上一步</button>
+              <button class="btn btn--primary" id="fp-ms-next" type="button">下一步</button>
+            </p>
+            <p class="fp-status mono tnum" id="fp-ms-status" aria-live="polite">第 1 / 3 步 · 还剩 2 步</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">上一步 / 下一步 click · Enter</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">步骤切换 --dur-base 240ms（进度条同步）</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: scaleX（进度）· translate3d + opacity（内容）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：内容瞬时替换，剩余步数用文字播报</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-draft">
+          <header class="demo__label">
+            <span class="demo__index">11</span>
+            <h3 class="demo__title">自动保存草稿（可视化保存时间）</h3>
+            <p class="demo__desc">停止输入 800ms 后写入 localStorage，状态行显示「正在保存 / 已保存 HH:MM:SS」并可一键清除。</p>
+          </header>
+          <div class="demo__stage fp-draft">
+            <div class="fp-field">
+              <label class="label" for="fp-dr-title">标题</label>
+              <input class="fp-input" id="fp-dr-title" type="text" autocomplete="off">
+            </div>
+            <div class="fp-field">
+              <label class="label" for="fp-dr-body">正文</label>
+              <textarea class="fp-input fp-textarea" id="fp-dr-body" rows="4"></textarea>
+            </div>
+            <p class="fp-status mono tnum" id="fp-draft-status" aria-live="polite">尚未保存</p>
+            <p class="fp-row">
+              <button class="btn btn--ghost" id="fp-draft-save" type="button"><span data-fp-icon="refresh"></span>立即保存</button>
+              <button class="btn btn--danger" id="fp-draft-clear" type="button">清除草稿</button>
+            </p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">input（防抖 800ms）· 按钮 click</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">防抖 800ms · 状态切换 --dur-fast 150ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity · color（禁用态与状态文字）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：状态文字瞬时更新，防抖与存储逻辑不变</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-submit">
+          <header class="demo__label">
+            <span class="demo__index">12</span>
+            <h3 class="demo__title">提交 loading → 成功态</h3>
+            <p class="demo__desc">提交按钮进入 disabled + 内联 loader 与「提交中…」，1.2s 后切成功态并播报；按钮宽度不跳动。</p>
+          </header>
+          <div class="demo__stage fp-submit">
+            <form id="fp-sub-form" novalidate>
+              <div class="fp-field">
+                <label class="label" for="fp-sub-mail">接收邮箱</label>
+                <input class="fp-input" id="fp-sub-mail" type="email" value="team@example.com">
+              </div>
+              <p class="fp-row">
+                <button class="btn btn--primary fp-submit__btn" id="fp-sub-btn" type="submit">
+                  <span class="fp-submit__icon" id="fp-sub-icon" aria-hidden="true"></span>
+                  <span id="fp-sub-text">提交申请</span>
+                </button>
+              </p>
+              <p class="fp-status mono tnum" id="fp-sub-status" aria-live="polite">等待提交</p>
+            </form>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">submit · 1.2s 模拟请求</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms（态切换）· 请求 1200ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity · transform: scale(0.98→1)（图标）· color</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：图标不做旋转（loader 仍以静态图标 + 文字表达）</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-timeout">
+          <header class="demo__label">
+            <span class="demo__index">13</span>
+            <h3 class="demo__title">超时与网络错误恢复</h3>
+            <p class="demo__desc">模拟超时（8s）与 500 错误：错误面板给出原因与重试按钮，已填数据在重试后仍完整保留。</p>
+          </header>
+          <div class="demo__stage fp-timeout">
+            <div class="fp-field">
+              <label class="label" for="fp-to-scene">故障场景</label>
+              <select class="fp-input" id="fp-to-scene">
+                <option value="ok">正常返回（1.2s）</option>
+                <option value="slow">超时（8s 无响应）</option>
+                <option value="err">服务器错误（500）</option>
+              </select>
+            </div>
+            <div class="fp-field">
+              <label class="label" for="fp-to-note">提交内容</label>
+              <textarea class="fp-input fp-textarea" id="fp-to-note" rows="3">这段文字在重试后必须原样保留。</textarea>
+            </div>
+            <p class="fp-row">
+              <button class="btn btn--primary" id="fp-to-send" type="button">提交</button>
+              <button class="btn btn--ghost" id="fp-to-retry" type="button" hidden><span data-fp-icon="refresh"></span>重试</button>
+            </p>
+            <div class="fp-banner fp-banner--danger" id="fp-to-banner" role="alert" hidden>
+              <p class="fp-banner__title" id="fp-to-title">请求失败</p>
+              <p class="fp-banner__text" id="fp-to-text">请检查网络后重试，已填内容不会丢失。</p>
+            </div>
+            <p class="fp-status mono tnum" id="fp-to-status" aria-live="polite">等待提交</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">提交 click · 重试 click / Enter（不重新填写）</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">超时阈值 8000ms · 错误面板 --dur-base 240ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity · transform: translate3d(0,-4px,0)</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：面板瞬时出现，role="alert" 播报与焦点移动不变</dd></div>
+            </dl>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell" id="fp-sec-danger">
+      <div class="section-head">
+        <p class="eyebrow">04</p>
+        <h2 class="h2">危险操作</h2>
+        <p class="lede">破坏性动作要么二次确认，要么留一条可撤销的退路。</p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo reveal" id="demo-confirm">
+          <header class="demo__label">
+            <span class="demo__index">14</span>
+            <h3 class="demo__title">危险操作二次确认</h3>
+            <p class="demo__desc">用 ML.UI.confirm 弹出危险确认（焦点锁定 + Esc 取消 + 焦点还原），取消不产生任何副作用。</p>
+          </header>
+          <div class="demo__stage fp-confirm">
+            <div class="fp-dangerbox">
+              <p class="fp-dangerbox__title">删除项目 Atlas</p>
+              <p class="fp-dangerbox__text">删除后 48 条交互条目与全部规格标注都会被移除，且无法恢复。</p>
+              <p class="fp-row">
+                <button class="btn btn--danger" id="fp-cf-del" type="button"><span data-fp-icon="trash"></span>删除项目</button>
+                <button class="btn btn--ghost" id="fp-cf-dry" type="button">先看影响范围</button>
+              </p>
+            </div>
+            <p class="fp-status mono tnum" id="fp-cf-status" aria-live="polite">尚未执行任何删除</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">按钮 click · 对话框内 Esc 取消 · Enter 确认</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">对话框 --dur-slow 360ms（内核组件）</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（内核 dialog）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform + opacity（由 ML.UI.dialog 负责）</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：内核对话框瞬时显示，焦点锁定与回焦照常</dd></div>
+            </dl>
+          </footer>
+        </article>
+
+        <article class="demo reveal" id="demo-undo">
+          <header class="demo__label">
+            <span class="demo__index">15</span>
+            <h3 class="demo__title">撤销删除（5 秒窗口）</h3>
+            <p class="demo__desc">删除后不立刻破坏数据：先给出带倒计时进度条的撤销条，5 秒内可恢复，超时才真正移除。</p>
+          </header>
+          <div class="demo__stage fp-undo">
+            <ul class="fp-undo__list" id="fp-undo-list"></ul>
+            <div class="fp-undo__bar" id="fp-undo-bar" role="status" hidden>
+              <p class="fp-undo__text" id="fp-undo-text">已删除「条目」</p>
+              <span class="fp-undo__track" aria-hidden="true"><span class="fp-undo__fill" id="fp-undo-fill"></span></span>
+              <button class="btn btn--ghost" id="fp-undo-btn" type="button"><span data-fp-icon="undo"></span>撤销</button>
+            </div>
+            <p class="fp-status mono tnum" id="fp-undo-status" aria-live="polite">3 个条目 · 删除后可撤销</p>
+          </div>
+          <footer class="demo__spec">
+            <dl class="spec-table">
+              <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">删除 click（或条目聚焦后 Delete）· 撤销 click / Enter</dd></div>
+              <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">撤销窗口 5000ms · 行移除 --dur-fast 150ms</dd></div>
+              <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint · 倒计时用 linear（进度条例外）</dd></div>
+              <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity · transform: scaleX（倒计时）· translate3d</dd></div>
+              <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">lite/off：行瞬时移除，倒计时以每 500ms 的文字秒数表达</dd></div>
+            </dl>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <nav class="page-nav shell" aria-label="展厅导航">
+      <a class="page-nav__link" href="navigation.html">上一站 · 展厅 E 导航模式</a>
+      <a class="page-nav__link" href="index.html">返回首页</a>
+      <a class="page-nav__link" href="gestures.html">下一站 · 展厅 G 手势与拖拽</a>
+    </nav>
+  </main>
+
+  <div id="site-footer"></div>
+  <div id="site-overlays"></div>
+
+  <script src="assets/js/site.js"></script>
+  <script src="assets/js/pages/forms.js"></script>
+</body>
+</html>

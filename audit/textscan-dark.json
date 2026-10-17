@@ -1,0 +1,3053 @@
+{
+  "mode": "textscan",
+  "generated": "2026-10-16T16:05:13.689Z",
+  "viewport": {
+    "w": 1440,
+    "h": 900
+  },
+  "results": {
+    "index": {
+      "theme": "dark",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "textNodes": 224,
+      "skipped": 6,
+      "groups": 25,
+      "failingCount": 0,
+      "failing": [],
+      "failingDisabled": [],
+      "bgImageGroups": 0,
+      "worst": [
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.ix-card__desc",
+              "text": "一次按压、一次切换的物理质感。"
+            },
+            {
+              "el": "p.ix-card__desc",
+              "text": "空、载、错、成四态齐备，界面永远不哑。"
+            },
+            {
+              "el": "p.ix-card__desc",
+              "text": "让滚动本身承担信息层级，不做滚动劫持。"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.ix-card__foot",
+              "text": "micro-interactions.html"
+            },
+            {
+              "el": "span.ix-card__foot",
+              "text": "states-feedback.html"
+            },
+            {
+              "el": "span.ix-card__foot",
+              "text": "scroll-motion.html"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.ix-param__token",
+              "text": "--ease-out-quint"
+            },
+            {
+              "el": "p.ix-param__token",
+              "text": "spring standard 340 / 28"
+            },
+            {
+              "el": "p.ix-param__token",
+              "text": "--stagger 45ms"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "18px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.lede",
+              "text": "交互地图把 120 个条目摊开：按展厅筛选、按关"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "18px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.lede",
+              "text": "把「高级感」拆成可交付的规格：缓动曲线、弹簧刚度"
+            },
+            {
+              "el": "p.lede",
+              "text": "没有估算、没有「差不多」：每个数字都对应仓库里的"
+            },
+            {
+              "el": "p.lede",
+              "text": "从一次按压的 80ms，到一次页面转场的 560"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "13px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.mono",
+              "text": "向下：展厅地图"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "14px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.ix-stat__cap",
+              "text": "A–L 十二个专题展区 + 设计系统文档"
+            },
+            {
+              "el": "p.ix-stat__cap",
+              "text": "交互地图里逐条可筛选、可跳转"
+            },
+            {
+              "el": "p.ix-stat__cap",
+              "text": "每帧 16.7ms，只允许合成层属性"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 5.8,
+          "pass": true,
+          "samples": [
+            {
+              "el": "dt.spec-key",
+              "text": "触发"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "时长"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "降级"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 6.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.ix-card__idx",
+              "text": "A"
+            },
+            {
+              "el": "span.ix-card__idx",
+              "text": "B"
+            },
+            {
+              "el": "span.ix-card__idx",
+              "text": "C"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 6.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.ix-param__idx",
+              "text": "01"
+            },
+            {
+              "el": "p.ix-param__idx",
+              "text": "02"
+            },
+            {
+              "el": "p.ix-param__idx",
+              "text": "03"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 6.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.eyebrow",
+              "text": "下一步"
+            }
+          ]
+        },
+        {
+          "color": "rgb(154, 157, 162)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 6.66,
+          "pass": true,
+          "samples": [
+            {
+              "el": "li.chip",
+              "text": "进入默认 --ease-out-quint"
+            },
+            {
+              "el": "li.chip",
+              "text": "只动 transform / opacity"
+            },
+            {
+              "el": "li.chip",
+              "text": "reduced-motion 三档降级"
+            }
+          ]
+        }
+      ]
+    },
+    "atlas": {
+      "theme": "dark",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "textNodes": 904,
+      "skipped": 9,
+      "groups": 17,
+      "failingCount": 2,
+      "failing": [
+        {
+          "sig": "rgb(124, 127, 132)|28,31,36|14|400",
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(28,31,36)",
+          "bgFrom": "button.atl-chip",
+          "bgImage": null,
+          "fontSize": "14px",
+          "fontWeight": 400,
+          "need": 4.5,
+          "ratio": 4.11,
+          "pass": false,
+          "disabled": false,
+          "samples": [
+            {
+              "el": "span.atl-chip__name",
+              "text": "微交互"
+            },
+            {
+              "el": "span.atl-chip__name",
+              "text": "状态与反馈"
+            },
+            {
+              "el": "span.atl-chip__name",
+              "text": "滚动叙事"
+            }
+          ],
+          "count": 12
+        },
+        {
+          "sig": "rgb(124, 127, 132)|28,31,36|11|400",
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(28,31,36)",
+          "bgFrom": "button.atl-chip",
+          "bgImage": null,
+          "fontSize": "11px",
+          "fontWeight": 400,
+          "need": 4.5,
+          "ratio": 4.11,
+          "pass": false,
+          "disabled": false,
+          "samples": [
+            {
+              "el": "span.atl-chip__n",
+              "text": "10"
+            },
+            {
+              "el": "span.atl-chip__n",
+              "text": "10"
+            },
+            {
+              "el": "span.atl-chip__n",
+              "text": "10"
+            }
+          ],
+          "count": 12
+        }
+      ],
+      "failingDisabled": [],
+      "bgImageGroups": 0,
+      "worst": [
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "14px",
+          "ratio": 4.11,
+          "pass": false,
+          "samples": [
+            {
+              "el": "span.atl-chip__name",
+              "text": "微交互"
+            },
+            {
+              "el": "span.atl-chip__name",
+              "text": "状态与反馈"
+            },
+            {
+              "el": "span.atl-chip__name",
+              "text": "滚动叙事"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "11px",
+          "ratio": 4.11,
+          "pass": false,
+          "samples": [
+            {
+              "el": "span.atl-chip__n",
+              "text": "10"
+            },
+            {
+              "el": "span.atl-chip__n",
+              "text": "10"
+            },
+            {
+              "el": "span.atl-chip__n",
+              "text": "10"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.hint",
+              "text": "按"
+            },
+            {
+              "el": "p.hint",
+              "text": "聚焦搜索框 ·"
+            },
+            {
+              "el": "p.hint",
+              "text": "在结果间移动 ·"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.atl-item__zone",
+              "text": "A 微交互"
+            },
+            {
+              "el": "span.atl-item__zone",
+              "text": "A 微交互"
+            },
+            {
+              "el": "span.atl-item__zone",
+              "text": "A 微交互"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "18px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.lede",
+              "text": "120 个条目，按 12 个展厅归档，每条一句话"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "11px",
+          "ratio": 5.82,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.atl-chip__key",
+              "text": "A"
+            },
+            {
+              "el": "span.atl-chip__key",
+              "text": "B"
+            },
+            {
+              "el": "span.atl-chip__key",
+              "text": "C"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 6.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.atl-item__id",
+              "text": "A-01"
+            },
+            {
+              "el": "span.atl-item__id",
+              "text": "A-02"
+            },
+            {
+              "el": "span.atl-item__id",
+              "text": "A-03"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 6.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.page-nav__dir",
+              "text": "回到"
+            },
+            {
+              "el": "span.page-nav__dir",
+              "text": "阅读"
+            }
+          ]
+        },
+        {
+          "color": "rgb(154, 157, 162)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 6.66,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.tnum",
+              "text": "120"
+            },
+            {
+              "el": "li.chip",
+              "text": "个条目"
+            },
+            {
+              "el": "span.tnum",
+              "text": "12"
+            }
+          ]
+        },
+        {
+          "color": "rgb(154, 157, 162)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 6.66,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.chip",
+              "text": "transform"
+            },
+            {
+              "el": "span.chip",
+              "text": "--dur-fast"
+            },
+            {
+              "el": "span.chip",
+              "text": ":active"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "11px",
+          "ratio": 6.93,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.eyebrow",
+              "text": "交互地图 · ATLAS"
+            }
+          ]
+        },
+        {
+          "color": "rgb(245, 242, 234)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "13px",
+          "ratio": 14.77,
+          "pass": true,
+          "samples": [
+            {
+              "el": "kbd.mono",
+              "text": "/"
+            },
+            {
+              "el": "kbd.mono",
+              "text": "↑"
+            },
+            {
+              "el": "kbd.mono",
+              "text": "↓"
+            }
+          ]
+        }
+      ]
+    },
+    "micro-interactions": {
+      "theme": "dark",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "textNodes": 356,
+      "skipped": 7,
+      "groups": 36,
+      "failingCount": 1,
+      "failing": [
+        {
+          "sig": "rgb(10, 11, 13)|20,22,26|14|400",
+          "color": "rgb(10, 11, 13)",
+          "bg": "rgb(20,22,26)",
+          "bgFrom": "div.tabbar",
+          "bgImage": null,
+          "fontSize": "14px",
+          "fontWeight": 400,
+          "need": 4.5,
+          "ratio": 1.09,
+          "pass": false,
+          "disabled": false,
+          "samples": [
+            {
+              "el": "button.tabbar__item",
+              "text": "紧凑"
+            }
+          ],
+          "count": 1
+        }
+      ],
+      "failingDisabled": [],
+      "bgImageGroups": 10,
+      "worst": [
+        {
+          "color": "rgb(10, 11, 13)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 1.09,
+          "pass": false,
+          "samples": [
+            {
+              "el": "button.tabbar__item",
+              "text": "紧凑"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "a.mi-toc__link",
+              "text": "按钮与指针反馈"
+            },
+            {
+              "el": "a.mi-toc__link",
+              "text": "选择与切换"
+            },
+            {
+              "el": "a.mi-toc__link",
+              "text": "反馈与状态"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.demo__desc",
+              "text": "按下压缩本体，松开由弹簧带速度回弹；键盘 Spa"
+            },
+            {
+              "el": "p.demo__desc",
+              "text": "从指针落点长出的圆形波；键盘触发时从表面中心扩散"
+            },
+            {
+              "el": "p.demo__desc",
+              "text": "指针进入磁场后滑块朝指针偏移，最多 10px；离"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.mi-readout",
+              "text": "压缩"
+            },
+            {
+              "el": "p.mi-readout",
+              "text": "× · 峰值"
+            },
+            {
+              "el": "p.mi-readout",
+              "text": "× · 触发"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "16px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.mi-check__text",
+              "text": "企业套餐（由管理员锁定）"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "16px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "button.mi-radio__opt",
+              "text": "13:00 — 16:00 · 下午场"
+            },
+            {
+              "el": "button.mi-radio__opt",
+              "text": "19:00 — 22:00 · 夜间场"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.mi-morph__tag",
+              "text": "paused"
+            },
+            {
+              "el": "span.mi-morph__tag",
+              "text": "closed"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "18px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.lede",
+              "text": "高级感的最小单位：一次按压、一圈涟漪、一次形变。"
+            },
+            {
+              "el": "p.lede",
+              "text": "指针一落下，界面就得回答。这一组解决「按下有没有"
+            },
+            {
+              "el": "p.lede",
+              "text": "开关、勾选、单选、分段——四种「状态改变」的形态"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "11px",
+          "ratio": 5.29,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.mi-ripple-surface__sub",
+              "text": "pointerdown · 内核 .ripple"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "13px",
+          "ratio": 5.29,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.mono",
+              "text": "行高 32px"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "14px",
+          "ratio": 5.29,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.mi-seg__row",
+              "text": "· 单屏可见 14 行 · 适合高密度监控"
+            }
+          ]
+        },
+        {
+          "color": "rgb(248, 113, 113)",
+          "bg": "rgb(52,35,38)",
+          "fontSize": "14px",
+          "ratio": 5.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "button.btn",
+              "text": "危险动作"
+            }
+          ]
+        }
+      ]
+    },
+    "states-feedback": {
+      "theme": "dark",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "textNodes": 355,
+      "skipped": 13,
+      "groups": 30,
+      "failingCount": 0,
+      "failing": [],
+      "failingDisabled": [],
+      "bgImageGroups": 4,
+      "worst": [
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "a.sf-toc__link",
+              "text": "加载中"
+            },
+            {
+              "el": "a.sf-toc__link",
+              "text": "空、错与超时"
+            },
+            {
+              "el": "a.sf-toc__link",
+              "text": "连接与同步"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.demo__desc",
+              "text": "骨架与真实内容共享同一套行高，切换时实测布局位移"
+            },
+            {
+              "el": "p.demo__desc",
+              "text": "确定态给百分比、已用时间与预计剩余；不确定态只描"
+            },
+            {
+              "el": "p.demo__desc",
+              "text": "不是「暂无数据」，而是说明这是什么、为什么空、下"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.sf-readout",
+              "text": "骨架高"
+            },
+            {
+              "el": "p.sf-readout",
+              "text": "px · 内容高"
+            },
+            {
+              "el": "p.sf-readout",
+              "text": "px · 布局位移"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "16px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.sf-empty__desc",
+              "text": "环境用来隔离预览与生产数据。创建第一个环境只需要"
+            },
+            {
+              "el": "p.sf-perm__desc",
+              "text": "这份报表属于「财务」组。你可以申请 24 小时临"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.sf-diff__flag",
+              "text": "两版一致"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "18px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.lede",
+              "text": "界面只有四种结局：还没好、好了、坏了、不许。这一"
+            },
+            {
+              "el": "p.lede",
+              "text": "超过 300ms 的等待必须给指示；能确定进度就"
+            },
+            {
+              "el": "p.lede",
+              "text": "空白和报错都不可怕，可怕的是没有下一步。三个 d"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "14px",
+          "ratio": 5.29,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.sf-alert__body",
+              "text": "请求在 12ms 内被拒绝。可能是代理拦截，或服"
+            },
+            {
+              "el": "span",
+              "text": "Q3 增长复盘"
+            },
+            {
+              "el": "span",
+              "text": "Q3 增长复盘（终版）"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 5.8,
+          "pass": true,
+          "samples": [
+            {
+              "el": "dt.spec-key",
+              "text": "触发"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "时长"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "缓动"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 5.8,
+          "pass": true,
+          "samples": [
+            {
+              "el": "li.sf-steps__item",
+              "text": "收集数据"
+            },
+            {
+              "el": "li.sf-steps__item",
+              "text": "生成表格"
+            },
+            {
+              "el": "li.sf-steps__item",
+              "text": "渲染图表"
+            }
+          ]
+        },
+        {
+          "color": "rgb(154, 157, 162)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "11px",
+          "ratio": 6.07,
+          "pass": true,
+          "samples": [
+            {
+              "el": "small",
+              "text": "我的版本"
+            },
+            {
+              "el": "small",
+              "text": "服务端版本"
+            },
+            {
+              "el": "small",
+              "text": "我的版本"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 6.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.sf-toc__num",
+              "text": "01"
+            },
+            {
+              "el": "span.sf-toc__num",
+              "text": "02"
+            },
+            {
+              "el": "span.sf-toc__num",
+              "text": "03"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 6.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.demo__index",
+              "text": "01"
+            },
+            {
+              "el": "span.demo__index",
+              "text": "02"
+            },
+            {
+              "el": "span.demo__index",
+              "text": "03"
+            }
+          ]
+        }
+      ]
+    },
+    "scroll-motion": {
+      "theme": "dark",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "textNodes": 336,
+      "skipped": 0,
+      "groups": 33,
+      "failingCount": 0,
+      "failing": [],
+      "failingDisabled": [],
+      "bgImageGroups": 8,
+      "worst": [
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "a.sm-toc__link",
+              "text": "揭示与视差"
+            },
+            {
+              "el": "a.sm-toc__link",
+              "text": "滚动叙事"
+            },
+            {
+              "el": "a.sm-toc__link",
+              "text": "滚动控制"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.demo__desc",
+              "text": "进入视口 12% 时触发，6 个卡片按 45ms"
+            },
+            {
+              "el": "p.demo__desc",
+              "text": "0.04 / 0.08 / 0.12 / 0.1"
+            },
+            {
+              "el": "p.demo__desc",
+              "text": "六个词各用不同速率横移，滚动时形成\"透视滑动\"的"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.sm-readout",
+              "text": "状态"
+            },
+            {
+              "el": "p.sm-readout",
+              "text": "· 内核已扫描"
+            },
+            {
+              "el": "p.sm-readout",
+              "text": "个 .reveal / .stagger-seq"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.sm-compare__head",
+              "text": "原生（本站在用）"
+            },
+            {
+              "el": "p.sm-compare__head",
+              "text": "接管（反例）"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "18px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.lede",
+              "text": "滚动是用户唯一自己掌握时间轴的交互。这一厅只做两"
+            },
+            {
+              "el": "p.lede",
+              "text": "进入视口才出现，是为了让内容被\"读完\"而不是被\""
+            },
+            {
+              "el": "p.lede",
+              "text": "粘性堆叠、时间轴、章节变色——三种把\"线性滚动\""
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "14px",
+          "ratio": 5.29,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.sm-stack__text",
+              "text": "滚动位置换算成卡片堆叠顺序，不需要 JS 监听滚"
+            },
+            {
+              "el": "p.sm-stack__text",
+              "text": "每张卡 top 递增 12px，视觉上像一叠纸被"
+            },
+            {
+              "el": "p.sm-stack__text",
+              "text": "sticky 由浏览器合成，滚动条拖到哪儿，章节"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "14px",
+          "ratio": 5.29,
+          "pass": true,
+          "samples": [
+            {
+              "el": "button.sm-seg__mark",
+              "text": "01 揭示与视差"
+            },
+            {
+              "el": "button.sm-seg__mark",
+              "text": "02 滚动叙事"
+            },
+            {
+              "el": "button.sm-seg__mark",
+              "text": "03 滚动控制"
+            }
+          ]
+        },
+        {
+          "color": "rgb(248, 113, 113)",
+          "bg": "rgb(52,35,38)",
+          "fontSize": "14px",
+          "ratio": 5.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "button.btn",
+              "text": "演示接管滚动 2.4s"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 5.8,
+          "pass": true,
+          "samples": [
+            {
+              "el": "dt.spec-key",
+              "text": "触发"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "时长"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "缓动"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 5.8,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.sm-para__caption",
+              "text": "L1 0.04 · L2 0.08 · L3 0"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 5.8,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.sm-tl__label",
+              "text": "读取切换完成，双跑开始"
+            },
+            {
+              "el": "span.sm-tl__label",
+              "text": "发现一处时区偏差"
+            },
+            {
+              "el": "span.sm-tl__label",
+              "text": "修复并补回归用例"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "11px",
+          "ratio": 5.82,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.sm-stack__num",
+              "text": "01"
+            },
+            {
+              "el": "p.sm-stack__num",
+              "text": "02"
+            },
+            {
+              "el": "p.sm-stack__num",
+              "text": "03"
+            }
+          ]
+        }
+      ]
+    },
+    "page-transitions": {
+      "theme": "dark",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "textNodes": 281,
+      "skipped": 4,
+      "groups": 34,
+      "failingCount": 1,
+      "failing": [
+        {
+          "sig": "rgb(124, 127, 132)|28,31,36|11|400",
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(28,31,36)",
+          "bgFrom": "button.pt-figure__thumb",
+          "bgImage": null,
+          "fontSize": "11px",
+          "fontWeight": 400,
+          "need": 4.5,
+          "ratio": 4.11,
+          "pass": false,
+          "disabled": false,
+          "samples": [
+            {
+              "el": "span.pt-figure__cap",
+              "text": "点击放大 · 全屏转场"
+            }
+          ],
+          "count": 1
+        }
+      ],
+      "failingDisabled": [],
+      "bgImageGroups": 6,
+      "worst": [
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "11px",
+          "ratio": 4.11,
+          "pass": false,
+          "samples": [
+            {
+              "el": "span.pt-figure__cap",
+              "text": "点击放大 · 全屏转场"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "a.pt-toc__link",
+              "text": "跨文档转场"
+            },
+            {
+              "el": "a.pt-toc__link",
+              "text": "元素级过渡"
+            },
+            {
+              "el": "a.pt-toc__link",
+              "text": "视图切换"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.demo__desc",
+              "text": "属性级开启（@view-transition: "
+            },
+            {
+              "el": "p.demo__desc",
+              "text": "卡片缩略图与详情大图共用一个 view-tran"
+            },
+            {
+              "el": "p.demo__desc",
+              "text": "对话框从按钮的位置与尺寸长出来，而不是从屏幕中心"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.pt-readout",
+              "text": "data-nav-dir ="
+            },
+            {
+              "el": "p.pt-readout",
+              "text": "· 本次会话已前进"
+            },
+            {
+              "el": "p.pt-readout",
+              "text": "次"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(16,18,22)",
+          "fontSize": "14px",
+          "ratio": 4.67,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.pt-routes__p",
+              "text": "退出只做 translateX(-18px) +"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "18px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.lede",
+              "text": "转场的作用不是\"炫\"，而是回答一个问题：我从哪儿"
+            },
+            {
+              "el": "p.lede",
+              "text": "同一个站点里的两次点击，应该能被\"看出来\"是向前"
+            },
+            {
+              "el": "p.lede",
+              "text": "页面级之外，元素也能\"跨状态存在\"：一张卡片变成"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "14px",
+          "ratio": 5.29,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.pt-support__yes",
+              "text": "当前浏览器支持 View Transitions"
+            },
+            {
+              "el": "div.pt-swap",
+              "text": "A 版内容：点击按钮，观察同文档阶段的旧内容如何"
+            },
+            {
+              "el": "span.pt-sort__v",
+              "text": "42"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "13px",
+          "ratio": 5.29,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.pt-links__hint",
+              "text": "前进方向：新页面自右滑入"
+            },
+            {
+              "el": "span.pt-links__hint",
+              "text": "同样标记为 forward"
+            },
+            {
+              "el": "span.pt-links__hint",
+              "text": "回到站点入口"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "11px",
+          "ratio": 5.29,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.pt-card__meta",
+              "text": "4 服务 · 12 表"
+            },
+            {
+              "el": "span.pt-card__meta",
+              "text": "预算 · 阻断"
+            },
+            {
+              "el": "span.pt-card__meta",
+              "text": "12 条基线"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(28,31,36)",
+          "fontSize": "14px",
+          "ratio": 5.29,
+          "pass": true,
+          "samples": [
+            {
+              "el": "button.pt-chip",
+              "text": "240ms 状态切换"
+            },
+            {
+              "el": "button.pt-chip",
+              "text": "560ms 页面级"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 5.8,
+          "pass": true,
+          "samples": [
+            {
+              "el": "dt.spec-key",
+              "text": "触发"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "时长"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "缓动"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 5.8,
+          "pass": true,
+          "samples": [
+            {
+              "el": "caption.pt-table__cap",
+              "text": "全站转场参数表（唯一真源：tokens.css "
+            }
+          ]
+        }
+      ]
+    },
+    "navigation": {
+      "theme": "dark",
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_CONNECTION_REFUSED http://127.0.0.1:8912/assets/js/pages/navigation.js"
+      ],
+      "pageErrors": [],
+      "textNodes": 209,
+      "skipped": 7,
+      "groups": 19,
+      "failingCount": 0,
+      "failing": [],
+      "failingDisabled": [],
+      "bgImageGroups": 2,
+      "worst": [
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.demo__desc",
+              "text": "分组结果、最近访问、匹配高亮；↑↓ 移动、Ent"
+            },
+            {
+              "el": "p.np-hint",
+              "text": "面板内：↑↓ 选择 · Enter 执行 · E"
+            },
+            {
+              "el": "p.demo__desc",
+              "text": "输入停止 200ms 后才查询本地 60 条索引"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.np-status",
+              "text": "等待打开（Esc 关闭）"
+            },
+            {
+              "el": "p.np-status",
+              "text": "输入关键词开始；已就绪 60 条索引"
+            },
+            {
+              "el": "p.np-status",
+              "text": "完整层级：首页 / 展厅 / 分组 / 条目"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "dt",
+              "text": "最近一次查询耗时"
+            },
+            {
+              "el": "dt",
+              "text": "防抖"
+            },
+            {
+              "el": "dt",
+              "text": "结果"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "18px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.lede",
+              "text": "导航不是菜单列表，而是「我在哪、能去哪、怎么回来"
+            },
+            {
+              "el": "p.lede",
+              "text": "键盘用户不该用鼠标找路：命令面板、防抖补全、超大"
+            },
+            {
+              "el": "p.lede",
+              "text": "同层级之间用指示器说明「在哪」，跨层级之间用向导"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "14px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.np-phone__text",
+              "text": "底部 5 个目的地始终可见，当前项同时用颜色、字"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 5.8,
+          "pass": true,
+          "samples": [
+            {
+              "el": "dt.spec-key",
+              "text": "触发"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "时长"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "缓动"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 6.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.demo__index",
+              "text": "01"
+            },
+            {
+              "el": "span.demo__index",
+              "text": "02"
+            },
+            {
+              "el": "span.demo__index",
+              "text": "03"
+            }
+          ]
+        },
+        {
+          "color": "rgb(154, 157, 162)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 6.66,
+          "pass": true,
+          "samples": [
+            {
+              "el": "li.chip",
+              "text": "12 个可交互 demo"
+            },
+            {
+              "el": "li.chip",
+              "text": "全部键盘可达"
+            },
+            {
+              "el": "li.chip",
+              "text": "支持 reduced-motion"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "11px",
+          "ratio": 6.93,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.eyebrow",
+              "text": "展厅 E · NAVIGATION"
+            },
+            {
+              "el": "p.eyebrow",
+              "text": "01"
+            },
+            {
+              "el": "p.eyebrow",
+              "text": "02"
+            }
+          ]
+        },
+        {
+          "color": "rgb(10, 11, 13)",
+          "bg": "rgb(255,107,44)",
+          "fontSize": "14px",
+          "ratio": 6.93,
+          "pass": true,
+          "samples": [
+            {
+              "el": "button.btn",
+              "text": "打开命令面板"
+            },
+            {
+              "el": "button.btn",
+              "text": "下一步"
+            },
+            {
+              "el": "button.btn",
+              "text": "打开抽屉菜单"
+            }
+          ]
+        },
+        {
+          "color": "rgb(74, 222, 128)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "13px",
+          "ratio": 11.3,
+          "pass": true,
+          "samples": [
+            {
+              "el": "pre.np-back__state",
+              "text": "{\"view\":\"list\",\"filter\":"
+            }
+          ]
+        },
+        {
+          "color": "rgb(222, 217, 205)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 12.86,
+          "pass": true,
+          "samples": [
+            {
+              "el": "dd.spec-val",
+              "text": "按钮 click / Enter · input"
+            },
+            {
+              "el": "dd.spec-val",
+              "text": "进入 --dur-slow 360ms · 退出"
+            },
+            {
+              "el": "dd.spec-val",
+              "text": "--ease-out-quint（进入）· --"
+            }
+          ]
+        }
+      ]
+    },
+    "forms": {
+      "theme": "dark",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "textNodes": 325,
+      "skipped": 17,
+      "groups": 23,
+      "failingCount": 0,
+      "failing": [],
+      "failingDisabled": [],
+      "bgImageGroups": 6,
+      "worst": [
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.demo__desc",
+              "text": "label 用 transform 上浮，占位符"
+            },
+            {
+              "el": "p.demo__desc",
+              "text": "每个字段的 .hint 用 aria-descr"
+            },
+            {
+              "el": "p.demo__desc",
+              "text": "只读字段可聚焦、可选中、可复制，只是不可编辑；禁"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "16px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "label.fp-floatlabel",
+              "text": "收货人姓名"
+            },
+            {
+              "el": "label.fp-floatlabel",
+              "text": "邮箱地址"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.fp-status",
+              "text": "聚焦或输入后标签上浮（translate + s"
+            },
+            {
+              "el": "p.hint",
+              "text": "3–16 个字符，允许中文、字母、数字与下划线。"
+            },
+            {
+              "el": "p.hint",
+              "text": "留空则归入「未分组」，可稍后在设置里补填。"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "10px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.fp-opt",
+              "text": "可选"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "18px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.lede",
+              "text": "表单是最容易失败、也最值得打磨的界面。15 个 "
+            },
+            {
+              "el": "p.lede",
+              "text": "标签始终可见，帮助文本随字段绑定，分组用语义元素"
+            },
+            {
+              "el": "p.lede",
+              "text": "失焦才校验，输入时不打断；错误紧跟字段，同时提供"
+            }
+          ]
+        },
+        {
+          "color": "rgb(248, 113, 113)",
+          "bg": "rgb(52,35,38)",
+          "fontSize": "14px",
+          "ratio": 5.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "button.btn",
+              "text": "清除草稿"
+            },
+            {
+              "el": "button.btn",
+              "text": "删除项目"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 5.8,
+          "pass": true,
+          "samples": [
+            {
+              "el": "dt.spec-key",
+              "text": "触发"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "时长"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "缓动"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 6.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.demo__index",
+              "text": "01"
+            },
+            {
+              "el": "span.demo__index",
+              "text": "02"
+            },
+            {
+              "el": "span.demo__index",
+              "text": "03"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "10px",
+          "ratio": 6.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.fp-req",
+              "text": "必填"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 6.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "legend.fp-legend",
+              "text": "账户信息"
+            },
+            {
+              "el": "legend.fp-legend",
+              "text": "偏好设置"
+            }
+          ]
+        },
+        {
+          "color": "rgb(248, 113, 113)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "16px",
+          "ratio": 6.55,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.fp-dangerbox__title",
+              "text": "删除项目 Atlas"
+            }
+          ]
+        },
+        {
+          "color": "rgb(154, 157, 162)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 6.66,
+          "pass": true,
+          "samples": [
+            {
+              "el": "li.chip",
+              "text": "15 个可交互 demo"
+            },
+            {
+              "el": "li.chip",
+              "text": "错误 role=\"alert\" 播报"
+            },
+            {
+              "el": "li.chip",
+              "text": "全部 keyboard-first"
+            }
+          ]
+        }
+      ]
+    },
+    "gestures": {
+      "theme": "dark",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "textNodes": 279,
+      "skipped": 10,
+      "groups": 27,
+      "failingCount": 0,
+      "failing": [],
+      "failingDisabled": [],
+      "bgImageGroups": 2,
+      "worst": [
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.demo__desc",
+              "text": "拖动时其它项用 FLIP 让位（记录矩形 → 重"
+            },
+            {
+              "el": "p.gp-hint",
+              "text": "拖动任意行，或聚焦某行后按 Alt + ↑ / "
+            },
+            {
+              "el": "p.demo__desc",
+              "text": "跟手位移，未过阈值松手用弹簧回弹；过阈值滑出并给"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.gp-sort__meta",
+              "text": "拖动 / Alt+↑↓"
+            },
+            {
+              "el": "span.gp-sort__meta",
+              "text": "拖动 / Alt+↑↓"
+            },
+            {
+              "el": "span.gp-sort__meta",
+              "text": "拖动 / Alt+↑↓"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "dt",
+              "text": "指针位移"
+            },
+            {
+              "el": "dt",
+              "text": "实际位移"
+            },
+            {
+              "el": "dt",
+              "text": "衰减系数"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "10px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.gp-conflict__hint",
+              "text": "此区域完全接管指针：纵向手势不会滚动页面。"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "18px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.lede",
+              "text": "手势是「没有按钮的按钮」，因此更需要死区、阈值与"
+            },
+            {
+              "el": "p.lede",
+              "text": "移动一条数据的位置或把它删掉，是列表里最危险的两"
+            },
+            {
+              "el": "p.lede",
+              "text": "拖文件、长按出菜单、下拉刷新：三者都必须区分「误"
+            }
+          ]
+        },
+        {
+          "color": "rgb(248, 113, 113)",
+          "bg": "rgb(52,35,38)",
+          "fontSize": "14px",
+          "ratio": 5.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "button.btn",
+              "text": "删除（键盘替代）"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 5.8,
+          "pass": true,
+          "samples": [
+            {
+              "el": "dt.spec-key",
+              "text": "触发"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "时长"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "缓动"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 6.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.demo__index",
+              "text": "01"
+            },
+            {
+              "el": "span.demo__index",
+              "text": "02"
+            },
+            {
+              "el": "span.demo__index",
+              "text": "03"
+            }
+          ]
+        },
+        {
+          "color": "rgb(154, 157, 162)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 6.66,
+          "pass": true,
+          "samples": [
+            {
+              "el": "li.chip",
+              "text": "12 个可交互 demo"
+            },
+            {
+              "el": "li.chip",
+              "text": "Pointer Events + 指针捕获"
+            },
+            {
+              "el": "li.chip",
+              "text": "每项手势均有键盘替代"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "11px",
+          "ratio": 6.93,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.eyebrow",
+              "text": "展厅 G · GESTURES"
+            },
+            {
+              "el": "p.eyebrow",
+              "text": "01"
+            },
+            {
+              "el": "p.eyebrow",
+              "text": "02"
+            }
+          ]
+        },
+        {
+          "color": "rgb(10, 11, 13)",
+          "bg": "rgb(255,107,44)",
+          "fontSize": "14px",
+          "ratio": 6.93,
+          "pass": true,
+          "samples": [
+            {
+              "el": "button.btn",
+              "text": "刷新（键盘替代）"
+            },
+            {
+              "el": "button.btn",
+              "text": "下一张"
+            }
+          ]
+        },
+        {
+          "color": "rgb(154, 157, 162)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "13px",
+          "ratio": 7.24,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.gp-refresh__idx",
+              "text": "01"
+            },
+            {
+              "el": "span.gp-refresh__idx",
+              "text": "02"
+            },
+            {
+              "el": "span.gp-refresh__idx",
+              "text": "03"
+            }
+          ]
+        }
+      ]
+    },
+    "motion-physics": {
+      "theme": "dark",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "textNodes": 355,
+      "skipped": 30,
+      "groups": 24,
+      "failingCount": 1,
+      "failing": [
+        {
+          "sig": "rgb(124, 127, 132)|52.900000000000006,33.9,28.52|10|400",
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(53,34,29)",
+          "bgFrom": "li.mp-stagger__cell",
+          "bgImage": "div.demo__stage",
+          "fontSize": "10px",
+          "fontWeight": 400,
+          "need": 4.5,
+          "ratio": 3.74,
+          "pass": false,
+          "disabled": false,
+          "samples": [
+            {
+              "el": "li.mp-stagger__cell",
+              "text": "01"
+            },
+            {
+              "el": "li.mp-stagger__cell",
+              "text": "02"
+            },
+            {
+              "el": "li.mp-stagger__cell",
+              "text": "03"
+            }
+          ],
+          "count": 12
+        }
+      ],
+      "failingDisabled": [],
+      "bgImageGroups": 4,
+      "worst": [
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(53,34,29)",
+          "fontSize": "10px",
+          "ratio": 3.74,
+          "pass": false,
+          "samples": [
+            {
+              "el": "li.mp-stagger__cell",
+              "text": "01"
+            },
+            {
+              "el": "li.mp-stagger__cell",
+              "text": "02"
+            },
+            {
+              "el": "li.mp-stagger__cell",
+              "text": "03"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.demo__desc",
+              "text": "k / c / m 三个滑杆与数字输入实时驱动真"
+            },
+            {
+              "el": "p.demo__desc",
+              "text": "同一目标、同一起点，左侧 standard（c "
+            },
+            {
+              "el": "p.demo__desc",
+              "text": "小球飞行途中改目标，句柄从当前速度继续积分，而不"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "dt",
+              "text": "阻尼比 ζ"
+            },
+            {
+              "el": "dt",
+              "text": "临界阻尼 2√(km)"
+            },
+            {
+              "el": "dt",
+              "text": "过冲"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.mp-status",
+              "text": "k=340 c=28 m=1 · 2√(km)="
+            },
+            {
+              "el": "p.mp-status",
+              "text": "等待开始"
+            },
+            {
+              "el": "span.mp-durs__tok",
+              "text": "--dur-instant"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "18px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.lede",
+              "text": "丝滑不是感觉，是可复现的参数。本页的小球、曲线与"
+            },
+            {
+              "el": "p.lede",
+              "text": "刚度决定快慢，阻尼决定收敛，质量决定惯性。参数一"
+            },
+            {
+              "el": "p.lede",
+              "text": "曲线是参数的另一种画法。缓动看形状，时长看节奏，"
+            }
+          ]
+        },
+        {
+          "color": "rgb(248, 113, 113)",
+          "bg": "rgb(52,35,38)",
+          "fontSize": "14px",
+          "ratio": 5.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "button.btn",
+              "text": "中途改目标"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 5.8,
+          "pass": true,
+          "samples": [
+            {
+              "el": "dt.spec-key",
+              "text": "触发"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "时长"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "缓动"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 6.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.demo__index",
+              "text": "01"
+            },
+            {
+              "el": "span.demo__index",
+              "text": "02"
+            },
+            {
+              "el": "span.demo__index",
+              "text": "03"
+            }
+          ]
+        },
+        {
+          "color": "rgb(154, 157, 162)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 6.66,
+          "pass": true,
+          "samples": [
+            {
+              "el": "li.chip",
+              "text": "12 个可交互 demo"
+            },
+            {
+              "el": "li.chip",
+              "text": "曲线为真实数值积分"
+            },
+            {
+              "el": "li.chip",
+              "text": "含 reduced-motion 降级演示"
+            }
+          ]
+        },
+        {
+          "color": "rgb(154, 157, 162)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "10px",
+          "ratio": 6.66,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.mp-track__cap",
+              "text": "起点"
+            },
+            {
+              "el": "span.mp-track__cap",
+              "text": "目标"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "11px",
+          "ratio": 6.93,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.eyebrow",
+              "text": "展厅 H · MOTION-PHYSICS"
+            },
+            {
+              "el": "p.eyebrow",
+              "text": "01"
+            },
+            {
+              "el": "p.eyebrow",
+              "text": "02"
+            }
+          ]
+        },
+        {
+          "color": "rgb(10, 11, 13)",
+          "bg": "rgb(255,107,44)",
+          "fontSize": "14px",
+          "ratio": 6.93,
+          "pass": true,
+          "samples": [
+            {
+              "el": "button.btn",
+              "text": "释放小球"
+            },
+            {
+              "el": "button.btn",
+              "text": "同步触发"
+            },
+            {
+              "el": "button.btn",
+              "text": "出发到 C"
+            }
+          ]
+        }
+      ]
+    },
+    "feedback": {
+      "theme": "dark",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "textNodes": 361,
+      "skipped": 14,
+      "groups": 31,
+      "failingCount": 0,
+      "failing": [],
+      "failingDisabled": [],
+      "bgImageGroups": 6,
+      "worst": [
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.demo__desc",
+              "text": "连续点击制造溢出。上限 4 条，超出进入队列；鼠"
+            },
+            {
+              "el": "span",
+              "text": "屏上条数"
+            },
+            {
+              "el": "span",
+              "text": "队列长度"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "strong",
+              "text": "没有"
+            },
+            {
+              "el": "strong",
+              "text": "真实未读条目数"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span",
+              "text": "tokens.css"
+            },
+            {
+              "el": "span",
+              "text": "进行中"
+            },
+            {
+              "el": "span",
+              "text": "motion.css"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(53,34,29)",
+          "fontSize": "13px",
+          "ratio": 4.82,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.fb-notify__desc",
+              "text": "main 分支 · 4 分 12 秒 · suc"
+            },
+            {
+              "el": "p.fb-notify__desc",
+              "text": "第 2 步类型检查 · 可重试 · danger"
+            },
+            {
+              "el": "p.fb-notify__desc",
+              "text": "发现 2 处低于 4.5:1 · warning"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "18px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.lede",
+              "text": "用户在等答案。这一页把\"系统发生了什么事\"拆成五"
+            },
+            {
+              "el": "p.lede",
+              "text": "Toast 是\"不重要但需要知道\"的通道。它的全"
+            },
+            {
+              "el": "p.lede",
+              "text": "浮层最容易犯的错是贴错边、挡内容、关不掉。三个 "
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "11px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.fb-caption__label",
+              "text": "屏幕阅读器会听到"
+            },
+            {
+              "el": "span.fb-caption__label",
+              "text": "最近 5 条（按时间倒序）"
+            },
+            {
+              "el": "span.fb-notify__state",
+              "text": "已读"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "13px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.fb-channel__desc",
+              "text": "不可关闭：界面文字与图标是唯一在静音、震动失效、"
+            },
+            {
+              "el": "span.fb-channel__desc",
+              "text": "默认关闭。开启后本页也不会播放任何音频文件（全站"
+            },
+            {
+              "el": "span.fb-channel__desc",
+              "text": "使用"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(53,34,29)",
+          "fontSize": "11px",
+          "ratio": 5.3,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.fb-notify__state",
+              "text": "未读"
+            },
+            {
+              "el": "span.fb-notify__state",
+              "text": "未读"
+            },
+            {
+              "el": "span.fb-notify__state",
+              "text": "未读"
+            }
+          ]
+        },
+        {
+          "color": "rgb(248, 113, 113)",
+          "bg": "rgb(52,35,38)",
+          "fontSize": "14px",
+          "ratio": 5.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "button.btn",
+              "text": "错误 · assertive"
+            },
+            {
+              "el": "button.btn",
+              "text": "删除项目 Atlas（危险确认）"
+            }
+          ]
+        },
+        {
+          "color": "rgb(154, 157, 162)",
+          "bg": "rgb(53,34,29)",
+          "fontSize": "11px",
+          "ratio": 5.53,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.fb-notify__time",
+              "text": "10:24"
+            },
+            {
+              "el": "span.fb-notify__time",
+              "text": "09:51"
+            },
+            {
+              "el": "span.fb-notify__time",
+              "text": "09:12"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 5.8,
+          "pass": true,
+          "samples": [
+            {
+              "el": "dt.spec-key",
+              "text": "触发"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "时长"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "缓动"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "13px",
+          "ratio": 6.31,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.fb-notify__desc",
+              "text": "「侧栏折叠后找不到设置项」 · info"
+            },
+            {
+              "el": "p.fb-notify__desc",
+              "text": "--dur-* / --ease-* 不再变更 "
+            }
+          ]
+        }
+      ]
+    },
+    "accessibility": {
+      "theme": "dark",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "textNodes": 455,
+      "skipped": 7,
+      "groups": 43,
+      "failingCount": 0,
+      "failing": [],
+      "failingDisabled": [],
+      "bgImageGroups": 5,
+      "worst": [
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.demo__desc",
+              "text": "两个取色器决定前景 / 背景，比值与 AA、AA"
+            },
+            {
+              "el": "span.a11y-ratio__unit",
+              "text": ": 1  ·  相对亮度公式 (L1+0.05)"
+            },
+            {
+              "el": "li.a11y-verdict",
+              "text": "正在计算…"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.a11y-formula",
+              "text": "等待脚本计算…"
+            },
+            {
+              "el": "p.a11y-formula",
+              "text": "—"
+            },
+            {
+              "el": "code.mono",
+              "text": "role=\"status\""
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "14px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "strong",
+              "text": "故意的反例"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "11px",
+          "ratio": 4.51,
+          "pass": true,
+          "samples": [
+            {
+              "el": "th",
+              "text": "键位"
+            },
+            {
+              "el": "th",
+              "text": "动作"
+            },
+            {
+              "el": "th",
+              "text": "作用范围"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "18px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.lede",
+              "text": "这一页不是说明书，是证据页：每个结论都由页面上的"
+            },
+            {
+              "el": "p.lede",
+              "text": "对比度是可以算出来的数字，不是主观印象。下面的比"
+            },
+            {
+              "el": "p.lede",
+              "text": "键盘用户唯一的\"鼠标指针\"就是焦点环。它必须看得"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "14px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "p.a11y-note",
+              "text": "这是一段把 Tab 卡死的代码：进入后按 Tab"
+            },
+            {
+              "el": "p.a11y-note",
+              "text": "或点下方\"解除陷阱\"可以逃出——WCAG 2.1"
+            },
+            {
+              "el": "p.a11y-note",
+              "text": "状态：未进入。"
+            }
+          ]
+        },
+        {
+          "color": "rgb(124, 127, 132)",
+          "bg": "rgb(10,11,13)",
+          "fontSize": "11px",
+          "ratio": 4.9,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.a11y-caption__label",
+              "text": "屏幕阅读器会听到"
+            },
+            {
+              "el": "span.a11y-caption__label",
+              "text": "真实 ARIA 区域"
+            }
+          ]
+        },
+        {
+          "color": "rgb(248, 113, 113)",
+          "bg": "rgb(52,35,38)",
+          "fontSize": "14px",
+          "ratio": 5.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "button.btn",
+              "text": "错误（assertive）"
+            }
+          ]
+        },
+        {
+          "color": "rgb(143, 146, 151)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 5.8,
+          "pass": true,
+          "samples": [
+            {
+              "el": "dt.spec-key",
+              "text": "触发"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "时长"
+            },
+            {
+              "el": "dt.spec-key",
+              "text": "缓动"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(44,24,17)",
+          "fontSize": "14px",
+          "ratio": 5.91,
+          "pass": true,
+          "samples": [
+            {
+              "el": "a.a11y-skipdemo",
+              "text": "跳到本演示的主内容"
+            }
+          ]
+        },
+        {
+          "color": "rgb(248, 113, 113)",
+          "bg": "rgb(43,25,27)",
+          "fontSize": "14px",
+          "ratio": 6.02,
+          "pass": true,
+          "samples": [
+            {
+              "el": "button.btn",
+              "text": "进入不良示例"
+            }
+          ]
+        },
+        {
+          "color": "rgb(255, 107, 44)",
+          "bg": "rgb(20,22,26)",
+          "fontSize": "13px",
+          "ratio": 6.38,
+          "pass": true,
+          "samples": [
+            {
+              "el": "span.demo__index",
+              "text": "01"
+            },
+            {
+              "el": "span.demo__index",
+              "text": "02"
+            },
+            {
+              "el": "span.demo__index",
+              "text": "03"
+            }
+          ]
+        }
+      ]
+    },
+    "data-viz": {
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_CONNECTION_REFUSED http://127.0.0.1:8912/assets/css/site.css",
+        "Failed to load resource: net::ERR_CONNECTION_REFUSED http://127.0.0.1:8912/assets/css/tokens.css",
+        "Failed to load resource: net::ERR_CONNECTION_REFUSED http://127.0.0.1:8912/assets/js/pages/data-viz.inline.js",
+        "Failed to load resource: net::ERR_CONNECTION_REFUSED http://127.0.0.1:8912/assets/js/pages/data-viz.js"
+      ],
+      "pageErrors": []
+    },
+    "design-system": {
+      "consoleErrors": [],
+      "pageErrors": []
+    }
+  }
+}

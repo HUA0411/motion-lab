@@ -1,0 +1,908 @@
+/* ==========================================================================
+   MOTION LAB · 首页（index.html）页面样式
+   仅使用 DESIGN-SYSTEM.md 定义的 token；不定义颜色字面量。
+   仅允许 transform / opacity / filter / CSS 变量参与动画。
+   ========================================================================== */
+
+/* ---------- 1. 动力学首屏 ---------- */
+
+.ix-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(var(--space-8), 13vh, var(--space-10)) var(--space-8);
+  border-bottom: var(--hairline-w) solid var(--line-soft);
+}
+
+.ix-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* 极细网格：1px 发丝线 + 64px 栅格，一次性缓慢漂移后静止（不做无限循环） */
+.ix-hero__grid {
+  position: absolute;
+  inset: -64px;
+  background-image:
+    repeating-linear-gradient(to right, color-mix(in srgb, var(--paper) 4%, transparent) 0 1px, transparent 1px 64px),
+    repeating-linear-gradient(to bottom, color-mix(in srgb, var(--paper) 4%, transparent) 0 1px, transparent 1px 64px);
+  -webkit-mask-image: radial-gradient(120% 85% at 50% 0%, var(--paper) 22%, transparent 76%);
+  mask-image: radial-gradient(120% 85% at 50% 0%, var(--paper) 22%, transparent 76%);
+  will-change: transform;
+}
+
+/* 暖色光晕：blur + radial-gradient，仅靠 transform 缓慢漂浮一次 */
+.ix-hero__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(64px);
+  will-change: transform;
+}
+
+.ix-hero__glow--a {
+  top: -22%;
+  left: -10%;
+  width: min(720px, 92vw);
+  aspect-ratio: 1;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 24%, transparent), transparent 68%);
+}
+
+.ix-hero__glow--b {
+  top: 18%;
+  right: -14%;
+  width: min(560px, 78vw);
+  aspect-ratio: 1;
+  background: radial-gradient(circle, color-mix(in srgb, var(--warning) 11%, transparent), transparent 70%);
+}
+
+/* 视差层：不参与 CSS 动画，把 transform 的所有权完整交给内核 data-parallax */
+.ix-hero__ring {
+  position: absolute;
+  top: 14%;
+  right: 6%;
+  width: min(520px, 62vw);
+  aspect-ratio: 1;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  opacity: 0.7;
+  will-change: transform;
+}
+
+.ix-hero__ring::before {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border: 1px solid var(--line-soft);
+  border-radius: 50%;
+}
+
+.ix-hero__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--space-5);
+}
+
+.ix-hero__eyebrow {
+  margin: 0;
+}
+
+.ix-hero__title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.26em;
+  margin: 0;
+}
+
+.ix-hw {
+  display: inline-block;
+}
+
+.ix-hw__in {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.ix-hw--accent .ix-hw__in {
+  color: var(--accent-ink);
+}
+
+.ix-hw__br {
+  flex-basis: 100%;
+  height: 0;
+}
+
+.ix-hero__lede {
+  max-width: var(--measure);
+  margin: 0;
+}
+
+.ix-hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.ix-hero__facts {
+  margin: 0;
+}
+
+.ix-hero__hint {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  margin-top: var(--space-4);
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out-quint), transform var(--dur-fast) var(--ease-out-quint);
+}
+
+.ix-hero__hint:hover {
+  color: var(--paper);
+  transform: translateY(2px);
+}
+
+/* 首屏文字逐词进入（仅在 inline 脚本标记 html.ix-boot 后生效，防无 JS 白屏） */
+@keyframes ix-word-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.55em, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes ix-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ix-grid-float {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-28px, -18px, 0); }
+  100% { transform: translate3d(-10px, -6px, 0); }
+}
+
+@keyframes ix-glow-a-float {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  60% { transform: translate3d(3%, 6%, 0) scale(1.08); }
+  100% { transform: translate3d(1%, 2%, 0) scale(1.02); }
+}
+
+@keyframes ix-glow-b-float {
+  0% { transform: translate3d(0, 0, 0) scale(1.04); }
+  70% { transform: translate3d(-5%, -4%, 0) scale(1); }
+  100% { transform: translate3d(-2%, -1%, 0) scale(1.01); }
+}
+
+html.ix-boot .ix-hero__title .ix-hw__in {
+  animation: ix-word-in var(--dur-slower) var(--ease-out-expo) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+html.ix-boot .ix-hero__grid {
+  animation: ix-grid-float 40s var(--ease-in-out-quart) both;
+}
+
+html.ix-boot .ix-hero__glow--a {
+  animation: ix-glow-a-float 46s var(--ease-in-out-quart) both;
+}
+
+html.ix-boot .ix-hero__glow--b {
+  animation: ix-glow-b-float 58s var(--ease-in-out-quart) both;
+}
+
+/* 动效档位：lite 仅保留不透明度；off 全部瞬时 */
+html[data-motion="lite"] .ix-hero__title .ix-hw__in {
+  animation-name: ix-fade-in;
+}
+
+html[data-motion="lite"] .ix-hero__grid,
+html[data-motion="lite"] .ix-hero__glow--a,
+html[data-motion="lite"] .ix-hero__glow--b,
+html[data-motion="off"] .ix-hero__title .ix-hw__in,
+html[data-motion="off"] .ix-hero__grid,
+html[data-motion="off"] .ix-hero__glow--a,
+html[data-motion="off"] .ix-hero__glow--b {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.ix-boot .ix-hero__title .ix-hw__in,
+  html.ix-boot .ix-hero__grid,
+  html.ix-boot .ix-hero__glow--a,
+  html.ix-boot .ix-hero__glow--b {
+    animation: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ix-hero__inner {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+    column-gap: var(--space-8);
+    align-items: start;
+  }
+
+  .ix-hero__eyebrow,
+  .ix-hero__title,
+  .ix-hero__hint {
+    grid-column: 1 / -1;
+  }
+
+  .ix-hero__lede,
+  .ix-hero__cta {
+    grid-column: 1;
+  }
+
+  .ix-hero__facts {
+    grid-column: 2;
+    grid-row: 3 / 5;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: var(--space-1);
+  }
+}
+
+/* ---------- 2. 丝滑宣言 · 数据条 ---------- */
+
+.ix-stats__list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-5) var(--space-6);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ix-stat {
+  padding-top: var(--space-4);
+  border-top: var(--hairline-w) solid var(--line);
+}
+
+.ix-stat__num {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+}
+
+.ix-stat__unit {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+
+.ix-stat__cap {
+  margin: var(--space-3) 0 0;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+
+@media (max-width: 1023px) {
+  .ix-stats__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 479px) {
+  .ix-stats__list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---------- 3. 展厅地图 ---------- */
+
+.ix-map {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ix-map__item {
+  display: flex;
+}
+
+.ix-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-5);
+  border: var(--hairline-w) solid var(--line);
+  border-radius: var(--r-lg);
+  background-color: var(--ink-800);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform var(--dur-base) var(--ease-out-quint),
+    border-color var(--dur-base) var(--ease-out-quint),
+    background-color var(--dur-base) var(--ease-out-quint);
+}
+
+.ix-card:hover {
+  transform: translate3d(0, -4px, 0);
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--ink-600));
+  background-color: var(--ink-700);
+}
+
+.ix-card__idx {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: var(--space-2);
+  border: var(--hairline-w) solid var(--line);
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--accent-ink);
+  transition: transform var(--dur-base) var(--ease-out-quint);
+}
+
+.ix-card:hover .ix-card__idx {
+  transform: translate3d(4px, 0, 0);
+}
+
+.ix-card__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+}
+
+.ix-card__desc {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+
+.ix-card__pts {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-sm);
+  color: var(--paper);
+}
+
+.ix-card__pts li {
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr);
+  gap: var(--space-2);
+  align-items: start;
+}
+
+/* 记号用 CSS 画，不用 emoji */
+.ix-card__pts li::before {
+  content: "";
+  width: 12px;
+  height: 1px;
+  margin-top: 0.72em;
+  background-color: var(--accent);
+}
+
+.ix-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: var(--hairline-w) solid var(--line-soft);
+  font-size: var(--fs-label);
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1023px) {
+  .ix-map {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 639px) {
+  .ix-map {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---------- 4. 横向滚动精选墙 ---------- */
+
+.ix-wall__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.ix-wall__head .section-head {
+  flex: 1 1 26rem;
+}
+
+.ix-wall__ctrl {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.ix-wall__pos {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.ix-wall__btns {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.ix-wall__viewport {
+  margin-top: var(--space-6);
+}
+
+.ix-wall__track {
+  --ix-wall-pad: calc(max(var(--gutter), (100% - var(--container)) / 2) + var(--gutter));
+  display: flex;
+  gap: var(--space-5);
+  margin: 0;
+  padding: var(--space-2) var(--ix-wall-pad) var(--space-5);
+  list-style: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline-start: var(--ix-wall-pad);
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ix-wall__track:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-md);
+}
+
+.ix-param {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 clamp(264px, 74vw, 360px);
+  scroll-snap-align: start;
+  padding: var(--space-5);
+  border: var(--hairline-w) solid var(--line);
+  border-radius: var(--r-lg);
+  background-color: var(--ink-800);
+}
+
+.ix-param__idx {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.18em;
+  color: var(--accent-ink);
+}
+
+.ix-param__title {
+  margin: var(--space-2) 0 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.ix-param__token {
+  margin: var(--space-2) 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.ix-plot {
+  margin: var(--space-4) 0 0;
+}
+
+.ix-plot svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ix-plot__axis {
+  fill: none;
+  stroke: var(--ink-600);
+  stroke-width: 1;
+}
+
+.ix-plot__ref,
+.ix-plot__target {
+  fill: none;
+  stroke: var(--faint);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+
+.ix-plot__target {
+  stroke-dasharray: 2 6;
+}
+
+.ix-plot__curve {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ix-plot__curve2 {
+  fill: none;
+  stroke: var(--info);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+  stroke-linecap: round;
+}
+
+.ix-plot__curve3 {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 2;
+  stroke-dasharray: 2 5;
+  stroke-linecap: round;
+}
+
+.ix-plot__step {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.ix-plot__dot {
+  fill: var(--accent);
+}
+
+.ix-param__legend {
+  margin: var(--space-2) 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.ix-param__legend-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.ix-param__legend-list li {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: var(--space-2);
+  align-items: baseline;
+}
+
+.ix-param__legend-list .tnum {
+  color: var(--paper);
+}
+
+.ix-param__desc {
+  margin: var(--space-4) 0 0;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+
+.ix-param .spec-table {
+  margin-top: var(--space-4);
+}
+
+.ix-param__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: var(--hairline-w) solid var(--line-soft);
+  color: var(--accent-ink);
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out-quint), transform var(--dur-fast) var(--ease-out-quint);
+}
+
+.ix-param__link:hover {
+  color: var(--paper);
+  transform: translate3d(3px, 0, 0);
+}
+
+.ix-wall__progress {
+  margin-top: var(--space-2);
+}
+
+.ix-wall__bar {
+  position: relative;
+  height: 2px;
+  border-radius: var(--r-pill);
+  background-color: var(--ink-600);
+  overflow: hidden;
+}
+
+.ix-wall__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--accent);
+  transform-origin: left center;
+  transform: scaleX(var(--ix-wall-p, 0.1667));
+  transition: transform var(--dur-base) var(--ease-out-quint);
+}
+
+html[data-motion="off"] .ix-wall__fill,
+html[data-motion="lite"] .ix-wall__fill {
+  transition-duration: var(--dur-instant);
+}
+
+/* ---------- 5. 交付流程五步 ---------- */
+
+.ix-flow {
+  position: relative;
+  margin-top: var(--space-6);
+}
+
+.ix-flow__rail {
+  position: absolute;
+  top: 24px;
+  bottom: 24px;
+  left: 21px;
+  width: 2px;
+  border-radius: var(--r-pill);
+  background-color: var(--ink-600);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ix-flow__rail-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--accent);
+  transform: scaleY(var(--ix-flow-p, 0));
+  transform-origin: top center;
+}
+
+.ix-flow__list {
+  display: grid;
+  gap: var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: ix-flow;
+}
+
+.ix-flow__step {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.ix-flow__marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: var(--hairline-w) solid var(--line);
+  border-radius: var(--r-pill);
+  background-color: var(--surface-sunken);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--accent-ink);
+}
+
+.ix-flow__body {
+  padding: var(--space-5);
+}
+
+.ix-flow__body .h3 {
+  margin: 0;
+}
+
+.ix-flow__body p {
+  margin: var(--space-3) 0 0;
+  max-width: var(--measure);
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+.ix-flow__out {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ix-flow__out li {
+  padding: 6px var(--space-3);
+  border: var(--hairline-w) solid var(--line);
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 1024px) {
+  .ix-flow__step {
+    grid-template-columns: 44px minmax(0, 1fr) minmax(0, 0.6fr);
+    align-items: center;
+  }
+
+  .ix-flow__body {
+    grid-column: 2 / 4;
+    max-width: 46rem;
+  }
+
+  .ix-flow__step:nth-child(even) .ix-flow__body {
+    grid-column: 2 / 4;
+    margin-left: auto;
+    width: 100%;
+    max-width: 34rem;
+  }
+}
+
+/* ---------- 6. 结尾 CTA ---------- */
+
+.ix-final__box {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(var(--space-6), 5vw, var(--space-9));
+  border: var(--hairline-w) solid var(--line);
+  border-radius: var(--r-xl);
+  background-color: var(--ink-800);
+}
+
+.ix-final__box > *:not(.ix-final__deco) {
+  position: relative;
+  z-index: 1;
+}
+
+.ix-final__deco {
+  position: absolute;
+  top: -40%;
+  right: -12%;
+  width: min(520px, 72%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 16%, transparent), transparent 66%);
+  filter: blur(48px);
+  pointer-events: none;
+}
+
+.ix-final__box .h2 {
+  margin: var(--space-3) 0 0;
+}
+
+.ix-final__box .lede {
+  margin: var(--space-3) 0 0;
+  max-width: var(--measure);
+}
+
+.ix-final__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.ix-final__note {
+  margin: var(--space-5) 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------- 通用：焦点与触控目标兜底 ---------- */
+
+/* tokens.css 的全局 :focus-visible 会把圆角改成 --r-xs，这里按组件本来的圆角抵消 */
+.ix-hero__hint:focus-visible,
+.ix-card:focus-visible,
+.ix-param__link:focus-visible,
+.ix-wall__track:focus-visible,
+.ix-wall__btns .btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.ix-card:focus-visible {
+  border-radius: var(--r-lg);
+}
+
+.ix-param__link:focus-visible,
+.ix-wall__track:focus-visible {
+  border-radius: var(--r-md);
+}
+
+.ix-hero__hint:focus-visible,
+.ix-wall__btns .btn:focus-visible {
+  border-radius: var(--r-pill);
+}
+
+.ix-wall__btns .btn {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-card,
+  .ix-card__idx,
+  .ix-param__link,
+  .ix-hero__hint,
+  .ix-wall__fill {
+    transition-duration: 1ms;
+  }
+
+  .ix-card:hover,
+  .ix-hero__hint:hover,
+  .ix-param__link:hover {
+    transform: none;
+  }
+}
+
+html[data-motion="off"] .ix-card,
+html[data-motion="off"] .ix-card__idx,
+html[data-motion="off"] .ix-param__link,
+html[data-motion="off"] .ix-hero__hint,
+html[data-motion="off"] .ix-wall__fill {
+  transition: none;
+}
+
+html[data-motion="off"] .ix-card:hover,
+html[data-motion="off"] .ix-hero__hint:hover,
+html[data-motion="off"] .ix-param__link:hover {
+  transform: none;
+}

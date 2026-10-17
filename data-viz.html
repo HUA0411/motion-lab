@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-motion="on" data-theme="dark" data-page="data-viz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>数据可视化 · MOTION LAB</title>
+  <meta name="description" content="展厅 K：九种手写 SVG 图表——折线、面积、柱状、环形、sparkline、热力图、进度环、仪表盘、堆叠柱。全部零图表库、零位图，含弹簧绘制、真实粒度重算、键盘可达 tooltip、可交互图例、数据表替代、空/加载/错误三态与大数据聚合策略。">
+  <meta name="theme-color" content="#0A0B0D">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/pages/data-viz.css">
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/pages/data-viz.inline.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主内容</a>
+<div id="site-header"></div>
+
+<main id="main" class="page">
+
+  <header class="page-head shell">
+    <p class="eyebrow">展厅 K · DATA-VIZ</p>
+    <h1 class="h1">数据可视化动态</h1>
+    <p class="lede">九个图表，没有一行来自图表库。每个 <code class="mono">&lt;path&gt;</code> 都是手写的，每个比值都是当场算的。</p>
+    <ul class="meta-chips">
+      <li class="chip">11 个可交互 demo</li>
+      <li class="chip">9 种手写 SVG 图表</li>
+      <li class="chip">键盘可达 tooltip</li>
+      <li class="chip">每图都有数据表替代</li>
+    </ul>
+  </header>
+
+  <!-- ===================== 01 时间序列 ===================== -->
+  <section class="section shell" id="time-series">
+    <div class="section-head">
+      <p class="eyebrow">01 · 随时间变化</p>
+      <h2 class="h2">趋势：折线、面积、Sparkline</h2>
+      <p class="lede">有时间轴就用折线。下面的粒度切换是真实重算：365 天的原始数据按日 / 周 / 月重新聚合，点数、坐标轴与数据表全部跟着变。</p>
+      <div class="dv-grain" id="dv-grain" role="radiogroup" aria-label="时间粒度（驱动本区块的折线与面积图）">
+        <button class="dv-grain__btn" type="button" role="radio" aria-checked="true" data-grain="day">日 · 365 点</button>
+        <button class="dv-grain__btn" type="button" role="radio" aria-checked="false" data-grain="week">周 · 53 点</button>
+        <button class="dv-grain__btn" type="button" role="radio" aria-checked="false" data-grain="month">月 · 12 点</button>
+      </div>
+      <p class="dv-note" id="dv-grain-note" role="status">当前粒度：日。聚合方式为桶内日均值（合计值见各图数据表），因此坐标轴量级在切换时保持可比。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-01">
+        <header class="demo__label">
+          <span class="demo__index">01</span>
+          <h3 class="demo__title">折线图 · 三渠道请求量</h3>
+          <p class="demo__desc">三个系列用「线型 + 标记形状」区分，不只靠颜色。Tab 聚焦图表后用 ← → 移动数据点，Esc 关闭 tooltip。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="dv-chart" data-chart="line" id="chart-line">
+            <div class="dv-chart__head">
+              <p class="dv-chart__stat"><span class="dv-chart__statnum tnum" data-stat="latest">—</span><span class="dv-chart__statlabel" data-stat-label>最新日均（千次请求）</span></p>
+              <p class="dv-chart__hint" id="hint-line">键盘：Tab 进入图表 → ← → 移动 → ↑ ↓ 换系列 → Esc 关闭 → Home / End 跳到首尾</p>
+            </div>
+            <div class="dv-legend" data-legend role="group" aria-label="切换数据系列"></div>
+            <div class="dv-plot" data-plot>
+              <svg class="dv-svg" data-svg viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" role="img" tabindex="0"
+                   aria-label="折线图：三渠道每日请求量趋势" aria-describedby="hint-line"></svg>
+              <div class="dv-tip" data-tip hidden></div>
+            </div>
+            <div class="dv-foot">
+              <button class="btn btn--ghost dv-foot__btn" type="button" data-table-toggle aria-expanded="false">查看数据表</button>
+              <span class="chip" data-chart-note>—</span>
+            </div>
+            <div class="dv-tablewrap" data-tablewrap hidden></div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">IntersectionObserver 阈值 0.25 进入视口；粒度切换 click；键盘 ← → ↑ ↓ Esc</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-slower 560ms 基准（弹簧实际约 620ms）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.spring preset <b>standard</b>（340 / 28 / 1，临界阻尼不过冲）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">clipPath 内 rect 的 width 属性插值（0 → 全宽）+ opacity；不写动画帧到每个数据点</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时跳过弹簧，直接把 --dv-draw 置 1（显示最终折线）</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-02">
+        <header class="demo__label">
+          <span class="demo__index">02</span>
+          <h3 class="demo__title">面积图 · 两组构成对比</h3>
+          <p class="demo__desc">填充只用 20% 不透明度，上沿仍是实线。面积从基线用 scaleY 展开，同时与上一个 demo 共享粒度。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="dv-chart" data-chart="area" id="chart-area">
+            <div class="dv-chart__head">
+              <p class="dv-chart__stat"><span class="dv-chart__statnum tnum" data-stat="latest">—</span><span class="dv-chart__statlabel" data-stat-label>最新日均（千次请求）</span></p>
+              <p class="dv-chart__hint" id="hint-area">键盘：Tab 进入 → ← → 上 ↓ 换系列 → Esc 关闭</p>
+            </div>
+            <div class="dv-legend" data-legend role="group" aria-label="切换数据系列"></div>
+            <div class="dv-plot" data-plot>
+              <svg class="dv-svg" data-svg viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" role="img" tabindex="0"
+                   aria-label="面积图：搜索与推荐渠道对比" aria-describedby="hint-area"></svg>
+              <div class="dv-tip" data-tip hidden></div>
+            </div>
+            <div class="dv-foot">
+              <button class="btn btn--ghost dv-foot__btn" type="button" data-table-toggle aria-expanded="false">查看数据表</button>
+              <span class="chip" data-chart-note>—</span>
+            </div>
+            <div class="dv-tablewrap" data-tablewrap hidden></div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">进入视口（阈值 0.25）/ 粒度切换 / 图例 click</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-slower 560ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.spring preset <b>soft</b>（170 / 24 / 1.2，大面板渐进展开）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">clipPath rect 属性插值（横向揭示）+ fill-opacity 0 → 0.2（两个系列错开 45ms）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时 fill-opacity 直接 0.2、stroke 直接完整</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-03">
+        <header class="demo__label">
+          <span class="demo__index">03</span>
+          <h3 class="demo__title">Sparkline · 指标卡里的迷你趋势</h3>
+          <p class="demo__desc">没有坐标轴、没有 tooltip，只回答"在涨还是在跌"。末值直接标注，涨跌用符号 + 文字 + 颜色三重编码。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="dv-sparks" data-chart="sparkline" id="chart-spark"></div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">进入视口后按 90ms 错开依次绘制（--stagger 45ms 的密集变体）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-slow 360ms / 条</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（无弹簧，避免指标卡抢注意力）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">stroke-dashoffset、opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时线直接画完，涨跌箭头改为纯文字「上升 / 下降」</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 02 构成与比较 ===================== -->
+  <section class="section shell" id="composition">
+    <div class="section-head">
+      <p class="eyebrow">02 · 构成与比较</p>
+      <h2 class="h2">比例与分类</h2>
+      <p class="lede">环形图在无障碍评级里只有 C 级，所以这一页的环形图必须自带堆叠柱替代视图与百分比数据表——按钮就在图下面。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-04">
+        <header class="demo__label">
+          <span class="demo__index">04</span>
+          <h3 class="demo__title">环形图 · 流量构成</h3>
+          <p class="demo__desc">最大扇区从 12 点方向开始，每片都直接标注百分比。切换"替代视图"把它变成 100% 堆叠柱——这不是可选项，是环形图的强制兜底。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="dv-chart" data-chart="donut" id="chart-donut">
+            <div class="dv-legend" data-legend role="group" aria-label="切换数据系列"></div>
+            <div class="dv-plot" data-plot>
+              <svg class="dv-svg dv-svg--square" data-svg viewBox="0 0 360 300" preserveAspectRatio="xMidYMid meet" role="img" tabindex="0"
+                   aria-label="环形图：五个渠道的流量构成占比" aria-describedby="hint-donut"></svg>
+              <div class="dv-tip" data-tip hidden></div>
+            </div>
+            <p class="dv-chart__hint" id="hint-donut">键盘：Tab 进入 → ← → 在扇区间移动 → Esc 关闭 tooltip</p>
+            <div class="dv-foot">
+              <button class="btn" type="button" data-donut-alt aria-pressed="false">替代视图：100% 堆叠柱</button>
+              <button class="btn btn--ghost dv-foot__btn" type="button" data-table-toggle aria-expanded="false">查看数据表</button>
+              <span class="chip" data-chart-note>—</span>
+            </div>
+            <div class="dv-tablewrap" data-tablewrap hidden></div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">进入视口 / 图例 click / 扇区键盘移动 / 替代视图切换</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-slower 560ms</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.spring preset <b>playful</b>（420 / 17 / 1，~6% 过冲，用于占比强调）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">stroke-dasharray / stroke-dashoffset（圆环用描边绘制，不是多个 path）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时扇形直接到位；替代视图按钮始终可用</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-05">
+        <header class="demo__label">
+          <span class="demo__index">05</span>
+          <h3 class="demo__title">堆叠柱 · 100% 构成随时间变化</h3>
+          <p class="demo__desc">六个季度、四个构成项。段高动画用 scaleY，数值 ≥10% 时直接标注在段内，避免只靠颜色认段。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="dv-chart" data-chart="stacked" id="chart-stacked">
+            <div class="dv-legend" data-legend role="group" aria-label="切换数据系列"></div>
+            <div class="dv-plot" data-plot>
+              <svg class="dv-svg" data-svg viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" role="img" tabindex="0"
+                   aria-label="百分比堆叠柱：四个构成项在六个季度的占比" aria-describedby="hint-stacked"></svg>
+              <div class="dv-tip" data-tip hidden></div>
+            </div>
+            <p class="dv-chart__hint" id="hint-stacked">键盘：Tab 进入 → ← → 换季度 → ↑ ↓ 换构成项 → Esc 关闭</p>
+            <div class="dv-foot">
+              <button class="btn btn--ghost dv-foot__btn" type="button" data-table-toggle aria-expanded="false">查看数据表</button>
+              <span class="chip" data-chart-note>—</span>
+            </div>
+            <div class="dv-tablewrap" data-tablewrap hidden></div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">进入视口 / 图例 click / 方向键</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-slower 560ms，段落间 45ms 错开（--stagger）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.spring preset <b>standard</b>（340 / 28 / 1）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: scaleY（transform-box: fill-box; transform-origin: bottom）+ opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时 --dv-draw 直接为 1，段高与标注同时出现</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-06">
+        <header class="demo__label">
+          <span class="demo__index">06</span>
+          <h3 class="demo__title">柱状图 · 渠道对比（降序）</h3>
+          <p class="demo__desc">分类比较默认降序排列，每根柱子都直接标注数值——柱状图的可访问性评级是 AAA，前提是别把数值藏进 hover。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="dv-chart" data-chart="bar" id="chart-bar">
+            <div class="dv-plot" data-plot>
+              <svg class="dv-svg" data-svg viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" role="img" tabindex="0"
+                   aria-label="柱状图：七个渠道的请求量降序对比" aria-describedby="hint-bar"></svg>
+              <div class="dv-tip" data-tip hidden></div>
+            </div>
+            <p class="dv-chart__hint" id="hint-bar">键盘：Tab 进入 → ← → 在柱子间移动 → Esc 关闭</p>
+            <div class="dv-foot">
+              <button class="btn" type="button" data-bar-sort aria-pressed="true">按数值降序</button>
+              <button class="btn btn--ghost dv-foot__btn" type="button" data-table-toggle aria-expanded="false">查看数据表</button>
+              <span class="chip" data-chart-note>—</span>
+            </div>
+            <div class="dv-tablewrap" data-tablewrap hidden></div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">进入视口 / 排序按钮 click / 方向键</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-slow 360ms，柱子间 45ms 错开</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.spring preset <b>snap</b>（520 / 30 / 0.7，快速吸附、无过冲）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">transform: scaleY（transform-origin: bottom）+ opacity</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时柱子直接满高；排序仍可点击（重排不播动画）</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 03 密度与单值 ===================== -->
+  <section class="section shell" id="density">
+    <div class="section-head">
+      <p class="eyebrow">03 · 密度与单值</p>
+      <h2 class="h2">热力图、进度环、仪表盘</h2>
+      <p class="lede">热力图靠亮度编码，必须给极值直接标注并让每个格子可被读出；进度环与仪表盘则要把"区间含义"写成文字，不能只靠颜色分段。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-07">
+        <header class="demo__label">
+          <span class="demo__index">07</span>
+          <h3 class="demo__title">热力图 · 星期 × 小时</h3>
+          <p class="demo__desc">7 × 24 = 168 个格子。方向键两维移动，最高/最低值直接标注，格子亮度之外还有数值读数。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="dv-chart" data-chart="heatmap" id="chart-heat">
+            <div class="dv-plot" data-plot>
+              <svg class="dv-svg dv-svg--tall" data-svg viewBox="0 0 760 360" preserveAspectRatio="xMidYMid meet" role="img" tabindex="0"
+                   aria-label="热力图：一周七天各小时的请求密度" aria-describedby="hint-heat"></svg>
+              <div class="dv-tip" data-tip hidden></div>
+            </div>
+            <p class="dv-chart__hint" id="hint-heat">键盘：Tab 进入 → ← → ↑ ↓ 两维移动 → Esc 关闭；极值已直接标注在图上</p>
+            <div class="dv-foot">
+              <button class="btn btn--ghost dv-foot__btn" type="button" data-table-toggle aria-expanded="false">查看数据表</button>
+              <span class="chip" data-chart-note>—</span>
+            </div>
+            <div class="dv-tablewrap" data-tablewrap hidden></div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">进入视口 / 方向键两维移动</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms / 格，按行列错开 8ms（168 格总计约 400ms）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">fill-opacity（每格独立）；无位移、无滤镜</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时全部格子一次显示；极值文字标注始终存在</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-08">
+        <header class="demo__label">
+          <span class="demo__index">08</span>
+          <h3 class="demo__title">进度环 · 单一完成度</h3>
+          <p class="demo__desc">一个值、一个环。用 stroke-dasharray 绘制，中心读数用 tabular-nums 保证数字不抖，最下方给出 text 版进度条作为替代。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="dv-chart dv-chart--split" data-chart="ring" id="chart-ring">
+            <div class="dv-plot" data-plot>
+              <svg class="dv-svg dv-svg--square" data-svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet" role="img" tabindex="0"
+                   aria-label="进度环：本季度交付完成度" aria-describedby="hint-ring"></svg>
+              <div class="dv-tip" data-tip hidden></div>
+            </div>
+            <div class="dv-side">
+              <p class="dv-chart__hint" id="hint-ring">滑块调节完成度，环与文字同步；环形是视觉强化，进度值本身以 <code class="mono">role="progressbar"</code> 暴露。</p>
+              <div class="dv-field">
+                <label class="label" for="ring-input">完成度</label>
+                <input class="dv-range" type="range" id="ring-input" min="0" max="100" value="73" step="1"
+                       aria-describedby="ring-value">
+                <span class="dv-value mono tnum" id="ring-value">73%</span>
+              </div>
+              <div class="dv-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="73" aria-label="本季度交付完成度">
+                <span class="dv-progress__fill" id="ring-bar"></span>
+              </div>
+              <p class="dv-note" id="ring-status" role="status">73 / 100 · 剩余 27 项。</p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">进入视口（0 → 当前值）/ range input（拖动时即时跟随）</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-slower 560ms（入场）/ 80ms 跟随（--dur-instant）</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.spring preset <b>snap</b>（520 / 30 / 0.7）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">stroke-dashoffset（环）、transform: scaleX（文字进度条）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时环直接到位；拖动仍实时更新，只去掉补间</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-09">
+        <header class="demo__label">
+          <span class="demo__index">09</span>
+          <h3 class="demo__title">仪表盘 · 带区间的单值</h3>
+          <p class="demo__desc">低于 40 为低、40–75 为中、高于 75 为高。三段区间同时用文字与刻度标注，指针位置之外还有精确读数。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="dv-chart dv-chart--split" data-chart="gauge" id="chart-gauge">
+            <div class="dv-plot" data-plot>
+              <svg class="dv-svg dv-svg--square" data-svg viewBox="0 0 320 220" preserveAspectRatio="xMidYMid meet" role="img" tabindex="0"
+                   aria-label="仪表盘：服务健康度评分" aria-describedby="hint-gauge"></svg>
+              <div class="dv-tip" data-tip hidden></div>
+            </div>
+            <div class="dv-side">
+              <p class="dv-chart__hint" id="hint-gauge">仪表盘只用于"有明确好/坏区间"的单值；没有区间含义时应改用数字或进度环。</p>
+              <div class="dv-field">
+                <label class="label" for="gauge-input">健康度评分</label>
+                <input class="dv-range" type="range" id="gauge-input" min="0" max="100" value="82" step="1" aria-describedby="gauge-status">
+                <span class="dv-value mono tnum" id="gauge-value">82</span>
+              </div>
+              <ul class="dv-zones">
+                <li class="dv-zone dv-zone--low"><span class="dv-zone__swatch" aria-hidden="true"></span>0–39 · 低（需要干预）</li>
+                <li class="dv-zone dv-zone--mid"><span class="dv-zone__swatch" aria-hidden="true"></span>40–74 · 中（观察）</li>
+                <li class="dv-zone dv-zone--high"><span class="dv-zone__swatch" aria-hidden="true"></span>75–100 · 高（健康）</li>
+              </ul>
+              <p class="dv-note" id="gauge-status" role="status">当前 82：高区间（健康）。</p>
+            </div>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">进入视口（0 → 当前值）/ range input</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-slower 560ms 入场 / --dur-instant 80ms 跟随</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">ML.spring preset <b>standard</b>（340 / 28 / 1）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">stroke-dashoffset（弧长）、transform: rotate（指针）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时弧与指针直接到目标值；区间文字说明不变</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 04 三态与规模 ===================== -->
+  <section class="section shell" id="states">
+    <div class="section-head">
+      <p class="eyebrow">04 · 状态与规模</p>
+      <h2 class="h2">三态与大数据策略</h2>
+      <p class="lede">图表最容易翻车的不是画法，是"没有数据""还没加载""加载失败"这三件事，以及点数超过一千之后该怎么办。</p>
+    </div>
+
+    <div class="demo-grid">
+      <article class="demo reveal" id="demo-10">
+        <header class="demo__label">
+          <span class="demo__index">10</span>
+          <h3 class="demo__title">空 / 加载 / 错误三态</h3>
+          <p class="demo__desc">三种状态各自有独立的容器尺寸（避免状态切换时布局跳动）、独立的可访问语义，以及明确的下一步动作。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="dv-row">
+            <div class="dv-grain" id="dv-statedemo" role="radiogroup" aria-label="切换图表状态">
+              <button class="dv-grain__btn" type="button" role="radio" aria-checked="false" data-state="empty">空状态</button>
+              <button class="dv-grain__btn" type="button" role="radio" aria-checked="false" data-state="loading">加载中</button>
+              <button class="dv-grain__btn" type="button" role="radio" aria-checked="true" data-state="error">错误</button>
+              <button class="dv-grain__btn" type="button" role="radio" aria-checked="false" data-state="ready">正常</button>
+            </div>
+            <button class="btn btn--ghost" type="button" id="dv-state-replay">重播当前状态</button>
+          </div>
+
+          <div class="dv-statebox" id="dv-statebox" aria-live="polite" aria-busy="false">
+            <div class="dv-state" data-state-panel="ready" hidden>
+              <div class="dv-state__body" id="dv-state-ready-chart"></div>
+              <p class="dv-state__meta">正常态：图表已渲染，同时提供数据表入口。容器高度 220px，切换状态时不改变占位高度。</p>
+            </div>
+
+            <div class="dv-state" data-state-panel="empty" hidden>
+              <div class="dv-state__art" aria-hidden="true">
+                <svg viewBox="0 0 120 80" class="dv-state__svg" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 68V28M36 68V12M60 68V38M84 68V20M108 68V48"/>
+                  <path d="M6 68h108" stroke-dasharray="4 4"/>
+                </svg>
+              </div>
+              <p class="dv-state__title">这段时间没有数据</p>
+              <p class="dv-state__desc">已确认不是加载失败——该区间的采集任务尚未开始。可以扩大时间范围，或直接开启采集。</p>
+              <div class="dv-state__actions">
+                <button class="btn btn--primary" type="button" data-empty-action="range">扩大时间范围到 12 个月</button>
+                <button class="btn btn--ghost" type="button" data-empty-action="start">开启采集</button>
+              </div>
+            </div>
+
+            <div class="dv-state" data-state-panel="loading" hidden>
+              <div class="dv-skeleton" aria-hidden="true">
+                <span class="dv-skeleton__bar" style="--w: 100%"></span>
+                <span class="dv-skeleton__bar" style="--w: 82%"></span>
+                <span class="dv-skeleton__bar" style="--w: 91%"></span>
+                <span class="dv-skeleton__bar" style="--w: 64%"></span>
+              </div>
+              <p class="dv-state__title">正在读取 365 天数据…</p>
+              <p class="dv-state__desc" role="status">骨架尺寸与最终图表一致，因此加载完成时不会发生布局位移。</p>
+            </div>
+
+            <div class="dv-state" data-state-panel="error" hidden>
+              <div class="dv-state__art dv-state__art--error" aria-hidden="true">
+                <svg viewBox="0 0 120 80" class="dv-state__svg" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="60" cy="40" r="28"/>
+                  <path d="M60 26v18M60 54h.01"/>
+                </svg>
+              </div>
+              <p class="dv-state__title" role="alert">数据源返回 503</p>
+              <p class="dv-state__desc">查询标识 q-2024-11-08-01 · 已重试 2 次（退避 400ms / 800ms）。图表容器保留上一份成功的数据快照，而不是清空。</p>
+              <div class="dv-state__actions">
+                <button class="btn btn--primary" type="button" data-error-action="retry">重试第 3 次</button>
+                <button class="btn btn--ghost" type="button" data-error-action="snapshot">查看上次成功快照</button>
+                <button class="btn btn--ghost" type="button" data-error-action="help">为什么是 503</button>
+              </div>
+            </div>
+          </div>
+          <p class="dv-note" id="dv-state-status" role="status">当前状态：错误。</p>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">状态切换按钮（radiogroup）/ 状态内的恢复动作 click</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms（状态切换）/ 1200ms 模拟加载</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity / transform: translate3d(0,8px,0)；容器高度固定，不参与动画</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时状态瞬时切换；骨架的 shimmer 改为静态底色</dd></div>
+          </dl>
+        </footer>
+      </article>
+
+      <article class="demo reveal" id="demo-11">
+        <header class="demo__label">
+          <span class="demo__index">11</span>
+          <h3 class="demo__title">大数聚合：超过 1000 个点怎么办</h3>
+          <p class="demo__desc">点"生成 1200 点"看真实降采样：原始 1200 点被聚合成 60 个桶（每桶 20 点求均值），并给出与原始序列的最大偏差。</p>
+        </header>
+        <div class="demo__stage demo__stage--column">
+          <div class="dv-chart" data-chart="aggregate" id="chart-agg">
+            <div class="dv-row">
+              <button class="btn" type="button" id="dv-agg-gen">生成 1200 点</button>
+              <button class="btn btn--ghost" type="button" id="dv-agg-toggle" aria-pressed="false">切换原始 / 聚合视图</button>
+              <span class="chip" id="dv-agg-note">尚未生成</span>
+            </div>
+            <div class="dv-plot" data-plot>
+              <svg class="dv-svg" data-svg viewBox="0 0 760 260" preserveAspectRatio="xMidYMid meet" role="img" tabindex="0"
+                   aria-label="折线图：1200 点原始序列与其 60 桶聚合视图对比" aria-describedby="hint-agg"></svg>
+              <div class="dv-tip" data-tip hidden></div>
+            </div>
+            <p class="dv-chart__hint" id="hint-agg">键盘：Tab 进入 → ← → 移动 → Esc 关闭</p>
+            <div class="dv-tablewrap" data-tablewrap hidden></div>
+          </div>
+
+          <div class="dv-policy">
+            <table class="dv-table">
+              <caption>本项目采用的图表规模策略（来自 ui-ux-pro-max 图表库的 data volume threshold）</caption>
+              <thead>
+                <tr><th scope="col">点数</th><th scope="col">渲染方式</th><th scope="col">交互</th><th scope="col">本页的做法</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">&lt; 1000</th><td>SVG，全量绘制</td><td>逐点 tooltip（键盘可达）</td><td>折线图 365 点，正是这一档</td></tr>
+                <tr><th scope="row">≥ 1000</th><td>降采样后再画，或换 Canvas</td><td>悬停最近邻，不做逐点</td><td>1200 点 → 60 桶，tooltip 读的是桶值</td></tr>
+                <tr><th scope="row">&gt; 10000</th><td>聚合到固定区间数</td><td>只在区间层交互，下钻看明细</td><td>不渲染原始数据，数据表给出聚合公式</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <footer class="demo__spec">
+          <dl class="spec-table">
+            <div class="spec-row"><dt class="spec-key">触发</dt><dd class="spec-val">生成按钮 click（同步生成 1200 点）/ 视图切换按钮 click</dd></div>
+            <div class="spec-row"><dt class="spec-key">时长</dt><dd class="spec-val">--dur-base 240ms（视图切换）；生成本身为 0ms 同步计算</dd></div>
+            <div class="spec-row"><dt class="spec-key">缓动</dt><dd class="spec-val">--ease-out-quint（切换时只做不透明度交叉淡入）</dd></div>
+            <div class="spec-row"><dt class="spec-key">属性</dt><dd class="spec-val">opacity + stroke-dashoffset（不做逐点位移，避免 1200 个动画帧写入）</dd></div>
+            <div class="spec-row"><dt class="spec-key">降级</dt><dd class="spec-val">ML.reduced 时两视图直接切换；聚合计算与偏差统计照常执行</dd></div>
+          </dl>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <nav class="page-nav shell" aria-label="展厅导航">
+    <a class="page-nav__link" href="accessibility.html">
+      <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4M11 5l-7 7 7 7"/></svg>
+      上一站：无障碍交互
+    </a>
+    <a class="page-nav__link" href="design-system.html">
+      下一站：设计系统
+      <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7"/></svg>
+    </a>
+  </nav>
+
+</main>
+
+<div id="site-footer"></div>
+<div id="site-overlays"></div>
+
+<script src="assets/js/site.js"></script>
+<script src="assets/js/pages/data-viz.js"></script>
+</body>
+</html>
