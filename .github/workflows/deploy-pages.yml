@@ -1,5 +1,8 @@
 # 零依赖静态站：直接发布仓库根目录到 GitHub Pages
-# 使用方式：仓库 Settings → Pages → Source 选择 "GitHub Actions"，之后每次 push main 自动部署。
+#
+# 首次运行会通过 configure-pages 的 enablement 参数自动启用 Pages，
+# 不需要先去 Settings 手工点选（前提：仓库允许 GITHUB_TOKEN 管理 Pages）。
+# 若组织策略禁止，则在 Settings → Pages → Source 手动选 "GitHub Actions" 后重跑本工作流。
 name: Deploy static site to Pages
 
 on:
@@ -26,8 +29,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Pages
+      - name: Setup Pages（首次运行自动启用 Pages）
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Upload artifact（站点即仓库根目录，无构建步骤）
         uses: actions/upload-pages-artifact@v3
